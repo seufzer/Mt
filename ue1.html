@@ -33,18 +33,15 @@ Valid Bits: 16  -<i>  Anzahl der gültigen Bits</i> <br>
 Bytes per sample : 2 
 </p>
 
-<p>Wie hoch ist die Bitrate für die beiden Dateien?</p>
+<p>Wie hoch ist die Bitrate für die Dateien 'Datei Musik', 'Datei Sprache'?</p>
 
-<p>Datei Musik</p>
-<p>223921 x 16 = 352800 Bit/s </p>
+<p>Sample Rate * Valid Bits 22050×16 = 352800 Bit/s </p>
 
-<p>Datei Sprache</p>
-<p>130015 x 16 = 2080240 Bit/s </p>
 
 <!-- Aufgabe 2 -->
 <br><h3>Aufgabe 2 - Aliasing</h3>
 <h3>Aufgabe 2.1</h3>
-<p>Anhand von <b>sine_hi06.wav</b> Werten ändert sich die Frequenz der Sinus-Schwingungen um etwa 2.1. Unsere Einschätzung liefert deshalb f<small>0</small> = 16000 / 2.1 = 7619</p>
+<p>Anhand von <b>sine_hi06.wav</b> Werten ändert sich die Frequenz der Sinus-Schwingungen um etwa 2.1. Unsere Einschätzung liefert deshalb f<small>0</small> = 16000 / 2.1 = 7619Hz</p>
 <p>Werte sine_hi06.wav:
 16305,
 -15679,
@@ -75,7 +72,7 @@ Bytes per sample : 2
 <p><img src="./pics/plot_sineh106.png" alt="Plo1" width="380" height="300"></p>
 
 <br>
-<p>Anhand von <b>sine_lo06.wav</b> Werten ändert sich die Frequenz der Sinus-Schwingungen um 8, mit "klaren" maxima und minima an denen zwei aufeinanderfolgende Abtastpunkte gleiche Werte haben. Unsere Einschätzung liefert deshalb f<small>0</small> = 16000 / 8 = 2000</p>
+<p>Anhand von <b>sine_lo06.wav</b> Werten ändert sich die Frequenz der Sinus-Schwingungen um 8, mit "klaren" maxima und minima an denen zwei aufeinanderfolgende Abtastpunkte gleiche Werte haben. Unsere Einschätzung liefert deshalb f<small>0</small> = 16000 / 32 = 500 Hz</p>
 <p>Werte sine_lo06.wav:
  1606,
 4756,
@@ -217,17 +214,6 @@ Sampling (Spektrogramm und WAVs ins Protokoll !)? Was würde passieren, wenn man
 <br><p>sine_lo.wav</p>
 <audio controls><source src="./audio/sine_lo06_downsampled.wav" type="audio/wav"></audio>
 <p><img src="./pics/sinlodown.png" alt="Plot 5" width="380" height="300"></p>
-
-
-<!-- <p>L&ouml;sung</p>
-
-<br><h3>Aufgabe 2 - 2.1</h3>
-<br><p>Rauschen</p>
-<audio controls><source src="./audio/rauschen.wav" type="audio/wav"></audio>
-<p>Beschreibung</p>
-<p>L&ouml;sung</p> -->
-
-
 
 
 <br>
