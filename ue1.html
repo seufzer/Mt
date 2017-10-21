@@ -1,0 +1,262 @@
+<html>
+<head lang="de">
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet"> 
+<title></title>
+<link rel="stylesheet" type="text/css" href="format.css">
+<style type="text/css">
+        <!--
+                 a:link {font-family:'Roboto', sans-serif;        font-size:10pt;        text-decoration:none;}
+                a:visited {font-family:'Roboto', sans-serif; font-size:10pt; text-decoration:none;}
+                a:hover {color:#FF3333; text-decoration:none; font-weight:normal; font-size:10pt;}
+        //-->
+</style>
+</head>
+
+<body>
+
+<iframe src="oben.html" width="800" height="120" name="IFrame3" id="IFrame3" scrolling="no" frameborder="0">
+         <p>Ihr Browser kann leider keine eingebe5tteten Frames anzeigen:Sie k&ouml;nnen die eingebettete Seite &uuml;ber den
+         folgenden.</p>
+</iframe>
+
+<h2>&Uuml;bung 1</h2>
+
+<!-- Aufgabe 1 -->
+
+<br><h3>Aufgabe 1</h3>
+<p>Erklärung der Angaben im Header, hier Musik Datei</p>
+<p>Channels: 2 -<i> Anzahl der Kanäle: 1 = mono, 2 = stereo</i><br>
+Frames: 223921 - <i> Anzahl der Frames in der Datei</i> <br>
+Sample Rate: 44100 -<i>  Samples pro Sekunde je Kanal, Abtastrate in Hz</i> <br>
+Valid Bits: 16  -<i>  Anzahl der gültigen Bits</i> <br>
+Bytes per sample : 2 
+</p>
+
+<p>Wie hoch ist die Bitrate für die beiden Dateien?</p>
+
+<p>Datei Musik</p>
+<p>223921 x 16 = 352800 Bit/s </p>
+
+<p>Datei Sprache</p>
+<p>130015 x 16 = 2080240 Bit/s </p>
+
+<!-- Aufgabe 2 -->
+<br><h3>Aufgabe 2 - Aliasing</h3>
+<h3>Aufgabe 2.1</h3>
+<p>Anhand von <b>sine_hi06.wav</b> Werten ändert sich die Frequenz der Sinus-Schwingungen um etwa 2.1. Unsere Einschätzung liefert deshalb f<small>0</small> = 16000 / 2.1 = 7619</p>
+<p>Werte sine_hi06.wav:
+16305,
+-15679,
+ 14449,
+-12665,
+10394,
+-7723,
+4756,
+-1606,
+-1606,
+ 4756,
+ -7723,
+ 10394,
+ -12665,
+ 14449,
+ -15679,
+16305,
+ -16305,
+15679,
+-14449,
+12665,
+-10394,
+7723,
+-4756,
+1606,
+1606...
+</p>
+<p><img src="./pics/plot_sineh106.png" alt="Plo1" width="380" height="300"></p>
+
+<br>
+<p>Anhand von <b>sine_lo06.wav</b> Werten ändert sich die Frequenz der Sinus-Schwingungen um 8, mit "klaren" maxima und minima an denen zwei aufeinanderfolgende Abtastpunkte gleiche Werte haben. Unsere Einschätzung liefert deshalb f<small>0</small> = 16000 / 8 = 2000</p>
+<p>Werte sine_lo06.wav:
+ 1606,
+4756,
+7723,
+10394,
+12665,
+14449,
+15679,
+ 16305,
+16305,
+15679,
+14449,
+12665,
+10394,
+7723,
+4756,
+1606,
+-1606,
+-4756,
+-7723,
+-10394,
+-12665,
+-14449,
+-15679,
+-16305,
+-16305...</p>
+
+<p><img src="./pics/plot_sinel106.png" alt="Plot 2" width="380" height="300"></p>
+
+<br><h3>Aufgabe 2.2</h3>
+<p><b>Abtasttheorem</b> besagt, dass bei der Analog/Digital-Wandlung die Abtastfrequenz mehr als doppelt so hoch sein muss wie die höchste Frequenz des zu digitalisierenden analogen Signals. Die Abtastfrequenz eines Audiosignals muss demnach größer als 40 kHz, die Abtastfrequenz eines Videosignals in SD größer als 10 MHz und in HD größer als 60 MHz sein. 
+
+<p><img src="./pics/formel.jpg" alt="Plot 3" width="480" height="110"></p>
+
+<p>Wie
+lautet es und wie läßt sich der Grenzfall, für den es gerade noch gilt, illustrieren (Zeichnung !)?</p>
+
+<br><h3>Aufgabe 2.3</h3>
+<p>Die Abtastefrequenz der herkömmlichen Soundkarten ist immer größer als die höchste Frequenz des zu digitalisierenden analogen Signals, somit wird das Abtastheorem erfüllt und muss kein Aliasing auftreten.</p>
+
+
+<br><h3>Aufgabe 2.4</h3>
+<p>Modifiziere wave_io dahingehend, dass vom eingelesenen Signal jeder zweite Abtastwert verworfen wird und das
+resultierende Signal abgespeichert wird. Der Header muß natürlich entsprechend verändert werden! Wende das
+resultierende Programm zunächst auf 'sine_lo.wav' und 'sine_hi.wav' an. Welche Frequenzen erscheinen nach dem Down-
+Sampling (Spektrogramm und WAVs ins Protokoll !)? Was würde passieren, wenn man geeignet bandbegrenzen würde?</p>
+
+<p>Nach dem Downsampling von <b>sine_hi06.wav</b> werden die Frequenzen in tiefere Frequenzbereiche verschoben. Laut dem Spektogram hat sich die Frequenz von 7986 Hz auf 500 Hz verringert. Somit entsteht ein Aliasing-Effekt.</p>
+<p>Werte sine_hi06.wav:
+16305,
+-15679,
+14449,
+-12665,
+10394,
+-7723,
+4756,
+-1606,
+-1606,
+4756,
+-7723,
+10394,
+-12665,
+14449,
+-15679,
+16305,
+-16305,
+15679,
+-14449,
+12665,
+-10394,
+7723,
+-4756,
+1606,
+1606,
+-4756,
+7723,
+-10394,
+12665,
+-14449...
+</p>
+
+<br><p>sine_hi.wav</p>
+<audio controls><source src="./audio/sine_hi06_downsampled.wav" type="audio/wav"></audio>
+<p><img src="./pics/sinehidown.png" alt="Plot 6" width="380" height="300"></p>
+
+<br>
+<p>Laut dem Spektogram nach dem Downsampling von <b>sine_lo06.wav</b> haben die Frequenzen den selben Wert.</p>
+
+<p>Werte sine_lo06.wav:
+1606,
+4756,
+7723,
+10394,
+12665,
+14449,
+15679,
+16305,
+16305,
+15679,
+14449,
+12665,
+10394,
+7723,
+4756,
+1606,
+-1606,
+-4756,
+-7723,
+-10394,
+-12665,
+-14449,
+-15679,
+-16305,
+-16305,
+-15679,
+-14449,
+-12665,
+-10394,
+-7723,
+-4756,
+-1606,
+1606,
+4756,
+7723,
+10394,
+12665,
+14449,
+15679,
+16305,
+16305,
+15679,
+14449,
+12665,
+10394,
+7723,
+4756.
+1606</p>
+
+<br><p>sine_lo.wav</p>
+<audio controls><source src="./audio/sine_lo06_downsampled.wav" type="audio/wav"></audio>
+<p><img src="./pics/sinlodown.png" alt="Plot 5" width="380" height="300"></p>
+
+
+<!-- <p>L&ouml;sung</p>
+
+<br><h3>Aufgabe 2 - 2.1</h3>
+<br><p>Rauschen</p>
+<audio controls><source src="./audio/rauschen.wav" type="audio/wav"></audio>
+<p>Beschreibung</p>
+<p>L&ouml;sung</p> -->
+
+
+
+
+<br>
+<!-- Aufgabe 3 -->
+<br><h3>Aufgabe 3 - Bitreduzierung</h3>
+<br><h3>Aufgabe 3.1</h3> 
+<p>
+Bei der 16-bit Auflösung können die Amplitudenwerten 2<sup>16</sup> sein.
+Bei der 8-bit Auflösung können die Amplitudenwerten 2<sup>8</sup> sein.
+</p>
+
+
+<br>
+<br><h3>Aufgabe 3.2</h3>
+
+<p>Wir wollen nun wave_io so modifizieren, dass wir die Bitzahl reduzieren können. Dazu können wir z.B. alle Samples
+durch eine Potenz von 2 teilen (Integer-Division ohne Rest). Damit das resultierende Signal nicht leiser wird als das
+Original, kompensieren wir die Operation durch Multiplikation mit derselben Zweierpotenz. Zu beachten: Der Datentyp hat
+nach wie vor 16 bit!
+(Denselben Effekt erreicht man auch durch einfaches logisches 'Verunden' mit einem entsprechenden HEX-Wert, indem
+man mit dem LSB beginnend Bits 'ausblendet'.)
+<br><h3>Aufgabe 3.3</h3>Mit dem entstandenen Programm verändern wir die in Aufgabe 1 erzeugten Wave-Dateien. Ab welcher Bitzahl tritt bei
+Musik/Sprache eine hörbare/deutliche Verschlechterung der Qualität ein? Bei wieviel Bit ist das Sprachsignal noch
+verständlich ? (Waves für all diese Fälle ins Protokoll, Ausschnitte als Plots)
+Was charakterisiert das entstehende Quantisierungsgeräusch und macht es besonders störend?
+<br><h3>Aufgabe 3.4</h3> Modifiziere Dein Programm noch einmal so, dass auch das Differenzsignal zwischen Original und bitreduziertem
+Signal, das heißt, das Quantisierungsrauschen ausgegeben werden kann. Welchen Charakter hat das Rauschen bei einer
+Reduktion um 1 bit, wie verändert es sich bei zunehmender Bit-Reduktion? (Waves für all diese Fälle ins Protokoll,
+Ausschnitte als Plots)</p>
+
+</body>
+</html>
