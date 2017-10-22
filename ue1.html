@@ -105,14 +105,14 @@ Bytes per sample : 2
 <br><h3>Aufgabe 2.2</h3>
 <p><b>Abtasttheorem</b> besagt, dass bei der Analog/Digital-Wandlung die Abtastfrequenz mehr als doppelt so hoch sein muss wie die höchste Frequenz des zu digitalisierenden analogen Signals. Die Abtastfrequenz eines Audiosignals muss demnach größer als 40 kHz, die Abtastfrequenz eines Videosignals in SD größer als 10 MHz und in HD größer als 60 MHz sein. 
 
-<p><img src="./pics/formel.jpg" alt="Plot 3" width="480" height="110"></p>
+<!-- <p><img src="./pics/formel.jpg" alt="Plot 3" width="480" height="110"></p> -->
 
 <p>Wie
 lautet es und wie läßt sich der Grenzfall, für den es gerade noch gilt, illustrieren (Zeichnung !)?</p>
 
 <br><h3>Aufgabe 2.3</h3>
-<p>Die Abtastefrequenz der herkömmlichen Soundkarten ist immer größer als die höchste Frequenz des zu digitalisierenden analogen Signals, somit wird das Abtastheorem erfüllt und muss kein Aliasing auftreten.</p>
-
+<p>	Aliasing wird bei herkömlichen Soundkarten durch den Einsatz von Tiefpassfiltern verhindert.
+	Das Abtasttheorem wird eingehalten in dem Frequenzen größer als fa/2 herausgefiltert werden.</p>        
 
 <br><h3>Aufgabe 2.4</h3>
 
@@ -155,7 +155,7 @@ lautet es und wie läßt sich der Grenzfall, für den es gerade noch gilt, illus
 <p><img src="./pics/sinehidown.png" alt="Plot 6" width="380" height="300"></p>
 
 <br>
-<p>Laut dem Spektogram nach dem Downsampling von <b>sine_lo06.wav</b> haben die Frequenzen den selben Wert.</p>
+<p>Laut dem Spektogram nach dem Downsampling von <b>sine_lo06.wav</b> hat sich die Frequenz nicht verändert.</p>
 
 <p>Werte sine_lo06.wav:
 1606,
@@ -212,13 +212,7 @@ lautet es und wie läßt sich der Grenzfall, für den es gerade noch gilt, illus
 <p><img src="./pics/sinlodown.png" alt="Plot 5" width="380" height="300"></p>
 
 
-<!-- <p>L&ouml;sung</p>
 
-<br><h3>Aufgabe 2 - 2.1</h3>
-<br><p>Rauschen</p>
-<audio controls><source src="./audio/rauschen.wav" type="audio/wav"></audio>
-<p>Beschreibung</p>
-<p>L&ouml;sung</p> -->
 
 
 
@@ -228,8 +222,8 @@ lautet es und wie läßt sich der Grenzfall, für den es gerade noch gilt, illus
 <br><h3>Aufgabe 3 - Bitreduzierung</h3>
 <br><h3>Aufgabe 3.1</h3> 
 <p>
-Bei der 16-bit Auflösung können die Amplitudenwerten 2<sup>16</sup> sein.
-Bei der 8-bit Auflösung können die Amplitudenwerten 2<sup>8</sup> sein.
+Bei der 16-bit Auflösung können die Amplitudenwerte 2<sup>16</sup> = 65536 sein.
+Bei der 8-bit Auflösung können die Amplitudenwerte 2<sup>8</sup> = 256 sein.
 </p>
 
 
