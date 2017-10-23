@@ -79,54 +79,34 @@
 <!-- Aufgabe 3 -->
 <br><h3>Aufgabe 3 - Bitreduzierung</h3>
 <br><h3>Aufgabe 3.1</h3> 
-<p>
-Bei der 16-bit Auflösung können die Amplitudenwerte 2<sup>16</sup> = 65536 sein.
-Bei der 8-bit Auflösung können die Amplitudenwerte 2<sup>8</sup> = 256 sein.
-</p>
-
-
+<p> Die herkömmlichen PC-Soundkarten arbeiten meist entweder mit 16 oder 8 bit-Auflösung. Wie groß ist die Anzahl der bei diesen beiden Werten darstellbaren Amplitudenwerten ?</p>
+<p>Lösung: Bei der 16-bit Auflösung können die Amplitudenwerte 2<sup>16</sup> = 65536 sein. Bei der 8-bit Auflösung können die Amplitudenwerte 2<sup>8</sup> = 256 sein.</p>
 <br>
-3.10.Sprache_Atom.wav<br><h3>Aufgabe 3.2</h3>
-<p>Bitreduzierung von <b>sine_hi06.wav</b></p>
-<p>Wir wollen nun wave_io so modifizieren, dass wir die Bitzahl reduzieren können. Dazu können wir z.B. alle Samples
-durch eine Potenz von 2 teilen (Integer-Division ohne Rest). Damit das resultierende Signal nicht leiser wird als das
-Original, kompensieren wir die Operation durch Multiplikation mit derselben Zweierpotenz. Zu beachten: Der Datentyp hat
-nach wie vor 16 bit!
-(Denselben Effekt erreicht man auch durch einfaches logisches 'Verunden' mit einem entsprechenden HEX-Wert, indem
-man mit dem LSB beginnend Bits 'ausblendet'.)</p>
-	
-Nach der Bitreduzierung ergibt sich beispielsweie für <b>sine_hi06.wav</b> folgendes:<br>	
+<h3>Aufgabe 3.2</h3>
+<p> Wir wollen nun wave_io so modifizieren, dass wir die Bitzahl reduzieren können. Dazu können wir z.B. alle Samples durch eine Potenz von 2 teilen (Integer-Division ohne Rest). Damit das resultierende Signal nicht leiser wird als das Original, kompensieren wir die Operation durch Multiplikation mit derselben Zweierpotenz. Zu beachten: Der Datentyp hatnach wie vor 16 bit! (Denselben Effekt erreicht man auch durch einfaches logisches 'Verunden' mit einem entsprechenden HEX-Wert, indem man mit dem LSB beginnend Bits 'ausblendet'.)</p>
+
+<p>Lösung: Nach der Bitreduzierung ergibt sich beispielsweie für <b>sine_hi06.wav</b> folgendes:</p>
+<br>
 <audio controls><source src="./audio/sine_hi06.3.2.wav" type="audio/wav"></audio>
 <p><img src="./pics/bitred.png" alt="Plot 6" width="380" height="300"></p>
-
-
-
-
-
-<p>
-<br><h3>Aufgabe 3.3</h3>
+<br>
+<h3>Aufgabe 3.3</h3>
 <p>Mit dem entstandenen Programm verändern wir die in Aufgabe 1 erzeugten Wave-Dateien. Ab welcher Bitzahl tritt bei
 Musik/Sprache eine hörbare/deutliche Verschlechterung der Qualität ein? Bei wieviel Bit ist das Sprachsignal noch
 verständlich ? (Waves für all diese Fälle ins Protokoll, Ausschnitte als Plots)
 Was charakterisiert das entstehende Quantisierungsgeräusch und macht es besonders störend?</p>
 
-	
+<p>Lösung: Bei der Musik Datei stellten wir eine hörbare Verschelchterung bei einer Reduzierung um 8 Bit fest.</p>
 <p>Musik Datei 8 Bit</p>
 <audio controls><source src="./audio/3.88.Musik_Atom.wav" type="audio/wav"></audio>
 <p><img src="./pics/388plot.png" alt="Plo1" width="380" height="300"></p>
 <br>
-	310plot.png
-
-<p>Sprache Datei 10 Bit</p>
+<p>Bei der Sprachdatei erst bei 10 Bit</p>
 <audio controls><source src="./audio/3.10.Sprache_Atom.wav" type="audio/wav"></audio>
-<p><img src="./pics/310plot.png" alt="Plo1" width="380" height="300"></p>	
-<p>Sprache Datei 12 Bit</p>
+<p><img src="./pics/310plot.png" alt="Plo1" width="380" height="300"></p>
+<p>Verständlich war die Sprache Datei noch bis zu einer Reduzierung um 12 Bit.</p>
 <audio controls><source src="./audio/3.12.Sprache_Atom.wav" type="audio/wav"></audio>
 <p><img src="./pics/312plot.png" alt="Plo1" width="380" height="300"></p>	
-
-
-
-
 
 <br><h3>Aufgabe 3.4</h3>
 <p> Modifiziere Dein Programm noch einmal so, dass auch das Differenzsignal zwischen Original und bitreduziertem
