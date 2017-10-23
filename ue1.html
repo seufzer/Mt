@@ -25,6 +25,17 @@
 <!-- Aufgabe 1 -->
 
 <br><h3>Aufgabe 1</h3>
+<p>Erzeuge zwei kurze Audio-Files (max. 5 s), davon eines mit Musik deiner Wahl aus dem Internet (wobei sich Musik mit einer relativ hohen Dynamik, d.h. Wechsel zwischen relativ leisen und lauten Abschnitten empfiehlt). Wähle eine geeignete Abtastfrequenz (begründen !) und achte auf gute Aussteuerung. Das zweite Audio-File soll eine Sprachaufnahme (mit dem Headset aufgesprochen) enthalten (Übersteuerung vermeiden !). Wähle hier eine Abtastfrequenz von 22 kHz, 16 bit Auflösung, mono. Die Einstellungen wie Abtastrate, Bitzahl und Kanalzahl können im<p>
+
+    Wavestudio Samplitude
+
+vorgenommen werden. Die Eingangsquelle (wahlweise Audio-CD oder Mikrofon) kann im
+
+    Windows-Mixer 'Aufnahme'
+
+eingestellt werden. Benenne die Dateien "Musik_NameArbeitsgruppe.wav" und Sprache_NameArbeitsgruppe.wav". Schick mir die beiden WAV-Dateien unter Nennung deiner Arbeitsgruppe per Mail. In den folgenden Übungen wirst du diese Dateien oft als Ursprungssignale verwenden. Sollten sie verloren gehen, kannst du sie notfalls wieder von mir erhalten. Darauf werde ich dir zwei WAV-Dateien mit Testsignalen zusenden, die du bei den folgenden Aufgabenpunkten benötigst, sine_hiXX.wav und sine_loXX.wav. Nun lies die Musik- und die Sprachdatei mit wave_io ein und erkläre die Angaben im Header ! Wie hoch ist die Bitrate für die beiden Dateien?	
+	
+	
 <p>Erklärung der Angaben im Header, hier Musik Datei</p>
 <p>Channels: 2 -<i> Anzahl der Kanäle: 1 = mono, 2 = stereo</i><br>
 Frames: 223921 - <i> Anzahl der Frames in der Datei</i> <br>
@@ -230,16 +241,16 @@ Bei der 8-bit Auflösung können die Amplitudenwerte 2<sup>8</sup> = 256 sein.
 <br>
 <br><h3>Aufgabe 3.2</h3>
 <p>Bitreduzierung von <b>sine_hi06.wav</b></p>
-<audio controls><source src="./audio/sine_hi06.3.2.wav" type="audio/wav"></audio>
-<p><img src="./pics/bitred.png" alt="Plot 6" width="380" height="300"></p>
-
-
 <p>Wir wollen nun wave_io so modifizieren, dass wir die Bitzahl reduzieren können. Dazu können wir z.B. alle Samples
 durch eine Potenz von 2 teilen (Integer-Division ohne Rest). Damit das resultierende Signal nicht leiser wird als das
 Original, kompensieren wir die Operation durch Multiplikation mit derselben Zweierpotenz. Zu beachten: Der Datentyp hat
 nach wie vor 16 bit!
 (Denselben Effekt erreicht man auch durch einfaches logisches 'Verunden' mit einem entsprechenden HEX-Wert, indem
 man mit dem LSB beginnend Bits 'ausblendet'.)</p>
+	
+Nach der Bitreduzierung ergibt sich beispielsweie für <b>sine_hi06.wav</b> folgendes:	
+<audio controls><source src="./audio/sine_hi06.3.2.wav" type="audio/wav"></audio>
+<p><img src="./pics/bitred.png" alt="Plot 6" width="380" height="300"></p>
 
 
 
@@ -247,7 +258,12 @@ man mit dem LSB beginnend Bits 'ausblendet'.)</p>
 
 <p>
 <br><h3>Aufgabe 3.3</h3>
+<p>Mit dem entstandenen Programm verändern wir die in Aufgabe 1 erzeugten Wave-Dateien. Ab welcher Bitzahl tritt bei
+Musik/Sprache eine hörbare/deutliche Verschlechterung der Qualität ein? Bei wieviel Bit ist das Sprachsignal noch
+verständlich ? (Waves für all diese Fälle ins Protokoll, Ausschnitte als Plots)
+Was charakterisiert das entstehende Quantisierungsgeräusch und macht es besonders störend?</p>
 
+	
 <p>Musik Datei</p>
 <audio controls><source src="./audio/3.2.Musik_Atom.wav" type="audio/wav"></audio>
 <br>
@@ -266,7 +282,10 @@ Was charakterisiert das entstehende Quantisierungsgeräusch und macht es besonde
 
 
 <br><h3>Aufgabe 3.4</h3>
-
+<p> Modifiziere Dein Programm noch einmal so, dass auch das Differenzsignal zwischen Original und bitreduziertem
+Signal, das heißt, das Quantisierungsrauschen ausgegeben werden kann. Welchen Charakter hat das Rauschen bei einer
+Reduktion um 1 bit, wie verändert es sich bei zunehmender Bit-Reduktion? (Waves für all diese Fälle ins Protokoll,
+Ausschnitte als Plots)</p>
 <p>Musik Datei</p>
 <audio controls><source src="./audio/3.4.Musik_Atom.wav" type="audio/wav"></audio>
 <br>
@@ -276,10 +295,7 @@ Was charakterisiert das entstehende Quantisierungsgeräusch und macht es besonde
 
 
 
-<p> Modifiziere Dein Programm noch einmal so, dass auch das Differenzsignal zwischen Original und bitreduziertem
-Signal, das heißt, das Quantisierungsrauschen ausgegeben werden kann. Welchen Charakter hat das Rauschen bei einer
-Reduktion um 1 bit, wie verändert es sich bei zunehmender Bit-Reduktion? (Waves für all diese Fälle ins Protokoll,
-Ausschnitte als Plots)</p>
+
 
 </body>
 </html>
