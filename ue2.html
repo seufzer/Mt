@@ -21,9 +21,60 @@
 </iframe>
 <br>
 <h2>&Uuml;bung 2</h2>
-        
 
-<br>
+<h3>1. Aufgabe</h3>
+<p>Erzeuge zwei Bilder im Format 16x9 mit deiner Kamera oder deinem Handy (960x540 Pixel, 24Bit), davon eines mit eher flächigen Inhalten (Gang/Decke/Wand/Schrank) und eines mit feineren Strukturen (Natur) und achte auf gute Belichtung. Typischerweise werden diese Bilder im komprimiert en JPG-Format abgespeichert sein. Damit wir sie für unsere Experimente benutzen können, müssen sie zunächst z.B. in Paint in Bitmaps konvertiert werden. Es kann auch sein, dass die Kamera ein anderes Format und eine andere Pixelzahl hat, so dass man die Dimensionen noch verändern muss. Speichere deine Bilder aus Paint also im BMP-Format mit 24Bit ab. Benenne die Dateien "Flaechen_Na meArbeitsgruppe.bmp" und Detail s_NameArbeitsgruppe.bmp". Schick mir die beiden BMP-Dateien unt er Nennung deiner Arbeitsgruppe per Mail. In den folgenden Übungen wirst du diese Dateien oft als Ursprungsbilder verwenden. Sollt en sie verloren gehen, kannst du sie notfalls wieder von mir erhalten. Darauf werde ich dir zwei BMP-Dateien mit Testbildern zusenden, die du bei den folgenden Aufgabenpunkten benötigst, gratingHXX.bmp und grat ingVXX.bmp. Nun lies die Bilder mit bmp_io ein und erkläre die Angaben im Header, die auf der Konsole ausgegeben werden! Wie erklärt sich die Dateigröße für die beiden Dateien?</p>
+<p>Lösung:</p>
+<p>Header gratingV8.bmp &amp; gratingH8.bmp:
+<br>fileSize 921654 - Dateigröße in Bytes
+<br>bitsPerPixel 24 - ?
+<br>Breite 640 - Pixel
+<br>Höhe 480 - Pixel</p>
+
+<p>Dateigröße: Erklären ?</p>
+
+<h3>2. Aufgabe - Aliasing</h3>
+<p>2.1 Modifiziere bmp_io dahingehend, dass die RGB Werte der einzelnen Pixel in der BMP-Datei in eine (lesbare) ASCII-Datei geschrieben werden. Es reichen dabei jeweils eine Zeile und eine Spalte! Lies die von mir geschickten Testdateien ein und schätze aus den resultierenden Zahlenfolgen die Periodendauer in Pixeln in horizontaler und vertikaler Richtung. (Ortsfrequenz berechnen und jeweils eine Periode horizontal und eine vertikal für das Übungsprotokoll abspeichern).</p>
+<p>Horizontale RGB Werte von grating_H8.bmp:
+R:	173, G:	173, B:	173<br>
+R:	34, G:	34, B:	34<br>
+R:	13, G:	13, B:	13<br>
+R:	136, G:	136, B:	136<br>
+R:	248, G:	248, B:	248<br>
+R:	206, G:	206, B:	206<br>
+R:	64, G:	64, B:	64<br>
+R:	1, G:	1, B:	1<br>
+R:	99, G:	99, B:	99<br>
+R:	232, G:	232, B:	232<br>
+R:	232, G:	232, B:	232<br>
+R:	99, G:	99, B:	99<br>
+R:	1, G:	1, B:	1<br>
+R:	63, G:	63, B:	63<br>
+R:	206, G:	206, B:	206<br>
+R:	248, G:	248, B:	248<br>
+R:	136, G:	136, B:	136<br>
+R:	13, G:	13, B:	13<br>
+R:	34, G:	34, B:	34<br>
+R:	173, G:	173, B:	173<br>
+R:	254, G:	254, B:	254<br>
+R:	173, G:	173, B:	173<br>
+R:	34, G:	34, B:	34<br>
+R:	13, G:	13, B:	13<br>
+R:	136, G:	136, B:	136<br>
+R:	248, G:	248, B:	248<br>
+R:	206, G:	206, B:	206<br>
+R:	64, G:	64, B:	64<br>
+R:	1, G:	1, B:	1<br>
+R:	99, G:	99, B:	99<br>
+</p>
+
+<p>2.2 Auch bei der Bildabtastung muss das sogenannte Abtasttheorem eingehalten werden. Wie lautet es und wie läßt sich der Grenzfall, für den es gerade noch gilt, illustrieren (Zeichnung !)?</p>
+
+<p>2.3 Erzeuge aus deinen eigenen Farbbildern Graustufen-Bilder. Dazu muss der Helligkeitswert Y aus den RGB-Werten errechnet werden (wie und woher kommt die Formel?). Mit diesem Y-Wert wird dann die R, G und B-Information überschrieben. Speichere die Graustufenbilder</p>
+        
+<p>2.4 Erkläre, wie bei Bild- und Videoaufnahmen Aliasing entstehen kann. Ähnlich wie bei der 1. Übung am Audiosignal wollen wir auf das Bild ein Down-Sampling anwenden und sehen, wann dabei Aliasing auftritt. Beim Audiosignal haben wir jedes zweite Sample verworfen und damit die Abtastfrequenz halbiert. Beim Bild verringern wir die räumliche Auflösung, indem wir die Zahl der Bildzeilen bzw. Bildspalten verringern. Dabei wollen wir das Bild allerdings nicht verkleinern - was normalerweise die Folge wäre - sondern einfach die ungeradzahligen Spalten durch den Inhalt der geradzahligen Spalten ersetzen, d.h. Spalte 1 wird durch Spalte 0 ersetzt, Spalte 3 durch Spalte 2 etc. und analog für die Zeilen. Wenn das Ursprungsbild nun sehr feine Strukturen aufweist, wie in machen Testdateien, können Aliasing-Verzerrungen sichtbar werden. Achte darauf, dass stets Rot, Grün und Blau getrennt manipuliert werden müssen.</p>
+
+        <p>2.5 Modifiziere bmp_io dahingehend, dass zunächst in jeder Zeile des eingelesenen Bilds jedes ungeradzahlige Pixel durch das davor liegende geradzahlige Pixel ersetzt wird (horizontales Down-Sampling). Diese Veränderung hat natürlich nur bei einem der bei den Testbilder Sinn (warum?). Speichere das resultierende Bild ab. Da sich die Bildgröße bei dieser Operation nicht ändert, muss der Bild-Header auch nicht verändert werden. Falls du im Ergebnis keine Veränderung sehen kannst, ersetze mehr Spalten, also Spalte 1 und 2 durch Spalte 0, dann Spalte 1, 2 und 3 durch Spalte 0 usw. Wende diese Manipulation auf die Testbilder an, bis du eine Veränderung in Form eines Moiré-Musters siehst. Notiere, bei welcher Verringerung du die Veränderungen beobachtest und beschreibe die Veränderungen! Erkläre das Ergebnis an Hand der von dir bestimmten Periodendauer in Pixeln. Nun wende die Zeilenverringerung vertikal an, d.h. ersetze die Pixel jeder ungeradzahligen Zeile durch die der Zeile davor (vertikales Down-Sampling). Auch hier hat die Manipulation nur bei einer der Testdateien Sinn! Abschließend wendest du noch das horizontale Downsampling auf deine eigenen Bilder an, bis du eine sichtbare Verschlechterung beobachtest. Notiere auch hier, wann dies bei deinen beiden Bildern der Fall ist.</p>
 
 </body>
 </html>
