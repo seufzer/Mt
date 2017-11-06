@@ -121,3 +121,8 @@
     font: normal 100% 'Roboto', sans-serif;
     color:#F5F6CE;
   }
+
+ .task {
+color: #CCCCCC;
+  font-weight: 10px;
+}
