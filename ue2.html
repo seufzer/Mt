@@ -135,7 +135,9 @@ Bei Videos tritt der Wagon-Wheel-Effekt auf.</p>
 <h3>Aufgabe 2.5</h3> 
 <p class = "task">Modifiziere bmp_io dahingehend, dass zunächst in jeder Zeile des eingelesenen Bilds jedes ungeradzahlige Pixel durch das davor liegende geradzahlige Pixel ersetzt wird (horizontales Down-Sampling). Diese Veränderung hat natürlich nur bei einem der bei den Testbilder Sinn (warum?). Speichere das resultierende Bild ab. Da sich die Bildgröße bei dieser Operation nicht ändert, muss der Bild-Header auch nicht verändert werden. Falls du im Ergebnis keine Veränderung sehen kannst, ersetze mehr Spalten, also Spalte 1 und 2 durch Spalte 0, dann Spalte 1, 2 und 3 durch Spalte 0 usw. Wende diese Manipulation auf die Testbilder an, bis du eine Veränderung in Form eines Moiré-Musters siehst.<br> Notiere, bei welcher Verringerung du die Veränderungen beobachtest und beschreibe die Veränderungen! Erkläre das Ergebnis an Hand der von dir bestimmten Periodendauer in Pixeln. Nun wende die Zeilenverringerung vertikal an, d.h. ersetze die Pixel jeder ungeradzahligen Zeile durch die der Zeile davor (vertikales Down-Sampling). Auch hier hat die Manipulation nur bei einer der Testdateien Sinn! Abschließend wendest du noch das horizontale Downsampling auf deine eigenen Bilder an, bis du eine sichtbare Verschlechterung beobachtest. Notiere auch hier, wann dies bei deinen beiden Bildern der Fall ist.</p>
 
-<p><b>Lösung:</b></p>        
+<p><b>Lösung:</b></p>  
+        
+<p>Diese Veränderung hat natürlich nur bei einem der bei den Testbilder Sinn (warum?).</p>        
 <br>        
  <table><tr>
 <td><p><img src="./pics/grating_H8_Horizontal_Downsampling_3Columns.bmp" alt="Details" width="380" height="300"></p></td>      
@@ -162,7 +164,8 @@ hat nach wie vor eine Bittiefe von 24Bit (8bit pro Farbe!)
 <h3>Aufgabe 3.2</h3> <p class = "task">Mit dem entstandenen Programm verändern wir die in Aufgabe 1 erzeugten BMP-Dateien. Ab welcher Bitzahl tritt beim Detail-Bild und beim Flächen-Bild eine sichtbare
 Verschlechterung der Qualität ein? Wie kann man diese Verschlechterung am besten beschreiben? (Alle Ergebnisbilder ins Übungsprotokoll)</p>
 <br>
-<p>Datei Details</p>        
+<p>Datei Details</p> 
+<p>Beim Bild Details tritt eine sichtbare Verschlechterung der Qualität bei der Verringerung um 4 Bit auf. Die Verschlechterung ist ein Resultat des Aliasings.</p>        
  <table><tr>
 <td><p><img src="./pics/img_1_bit.bmp" alt="Details" width="280" height="200"></p></td>      
 <td><p><img src="./pics/img_2_bit.bmp" alt="Details" width="280" height="200"></p></td>
@@ -177,7 +180,8 @@ Verschlechterung der Qualität ein? Wie kann man diese Verschlechterung am beste
 <td><p><img src="./pics/img_8_bit.bmp" alt="Flaeche" width="280" height="200"></p></td>
 </tr></table> 
 <br>
-<p>Datei Flaeche</p>         
+<p>Datei Flaeche</p>
+<p>Beim Bild Flaeche tritt eine sichtbare Verschlechterung der Qualität bei der Verringerung bereits um 3 Bit. Die Verschlechterung ist ein Resultat des Aliasings.</p> 
 <table><tr>
 <td><p><img src="./pics/diff_img_1_bit.bmp" alt="Details" width="280" height="200"></p></td>      
 <td><p><img src="./pics/diff_img_2_bit.bmp" alt="Flaeche" width="280" height="200"></p></td>
