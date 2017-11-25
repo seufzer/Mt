@@ -251,9 +251,19 @@ Amplitude größer 0 ist).</p>
 </table>
         
 <br>
-<h3>2. Aufgabe - Schwebung</h3>
+<h3>2. Aufgabe - Schwebung</h3><p class = "task"> Nun bringen wir einen zweiten Oszillator zum Einsatz. Um die Ausgänge der beiden Oszillatoren anschließen und in der Lautstärke regeln zu können,
+benötigen wir eine Mixing Matrix 2x2, von der wir allerdings den zweiten Ausgang löschen können. Zunächst stellen wir beide Oszillatoren auf exakt dieselbe Frequenz und
+Dreiecksschwingung. Dann verstimmen wir den zweiten gegen den ersten und zeichnen den Klang auf, wenn wir gerade eine Amplitudenmodulation feststellen (Fall A), d.h.
+einen in der Lautstärke schwankenden Ton. Wir verstimmen die Oszillatoren weiter gegeneinander, bis wir den Eindruck einer Dissonanz haben (Fall B), d.h. es entsteht ein
+rauher, unangenehmer Klang.
+<br>Beachte, dass der Regler 'Pitch' den betreffenden Oszillator in etwa um Halbtöne verstimmt, während 'Fine' dies um Bruchteile von Halbtöne tut. Am besten experimentiert man zunächst mit dem 'Fine'-Regler und erst,
+wenn z.B. bei Fall B sich der gewünschte Effekt nicht einstellt, mit dem 'Pitch'-Regler.
+Nun stellen wir mit GRAM für die beiden Fälle die Mittel- und Differenzfrequenzen der Schwingungen fest. Es kann sein, dass die Genauigkeit von GRAM beim Fall A zur Bestimmung der Differenzfrequenz nicht
+ausreicht. Man kann die Differenzfrequenz aber auch aus dem Oszillogramm der amplitudenmodulierten Schwingung berechnen (z.B. in Samplitude anschauen). Die Periodendauer entspricht nämlich exakt dem
+Abstand zwischen zwei Punkten maximaler (oder minimaler) Amplitude. Ins Ergebnisprotokoll für beide Fälle: Mittenfrequenz und Differenzfrequenz, Spektrogramm und wav.
+</p>
 <br>
-<p>Aufgabentext</p>
+
 <p><b>Lösung:</b></p>
         <h4>Amplitudenmodulation (Fall A)</h4>
         <img src="" alt="amplitudenmodulation">
@@ -273,6 +283,13 @@ Amplitude größer 0 ist).</p>
         <p>Differenzfrequenz: 52,6 Hz</p>
         <p>Mittenzfrequenz: 333,3 Hz</p>
         
-
+<h3>2. Aufgabe - Klangnachbildung:</h3><p class = "task"> Wir wollen nun versuchen, selber einen coolen Klang zu kreieren. Die einzigen Anforderungen sind, dass die Grundfrequenz bei 220 Hz liegen soll, was
+einem A entspricht, und dass es ein monophoner Klang ist, d.h. dass nur eine Taste gedrückt wird und eine Note erklingt. Zunächst wählen wir die Grundwellenform
+(Rechteck, Sägezahn, etc.), die klanglich am besten zu unserem Instrument paßt (auch mit dem Filter experimentieren ! ).
+Um die Hüllkurve entsprechend manipulieren zu können, brauchen wir ein ADSR-Makro, das wir zwischen dem Pitch-Gate und den Oszillatoren, allerdings nur in der Gate-Weg einbauen. Damit versuchen wir zunächst
+den zeitlichen Verlauf einzustellen. Vibrato-Effekte lassen sich mit LFOs erzielen. Auch Rauschgeneratoren (Anblasgeräusche !) lassen sich in unseren Synthesizer integrieren. Ins Ergebnisprotokoll: Beschreibung zum
+Charakter des Klangs (Ähnlichkeit mit welchem Instrument?), Aufbau bzgl. des verwendeten Oszillators, ADSR-Einstellungen und Filtertyp. Endgültige Struktur des Synthesizers Ensemble-Datei, Klangprobe als wav,
+Hüllkurve als Bild, z.B. aus Samplitude.
+ </p>
 </body>
 </html>
