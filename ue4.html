@@ -43,10 +43,51 @@ Nenne den physiologischen Grund dafür!</p>
 <p class="task">Ins Übungsprotokoll: Sourcecode, Bilder R, G, B bzw. Y, Cb und Cr, Rekonstruiertes Bild (YCbCr -> RGB)
 Lösung:
 <<physiologischer Grund>>
-<<Sourcecode>>
-<<R-Bild>>
-<<G-Bild>>
-<<B-Bild>>
+
+<h4>Sourcecode:</h4>
+<code>
+private static void singleColorChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
+      InputStream in = new FileInputStream(inFilename);
+      BmpImage bmpNewImage = BmpReader.read_bmp(in);
+      OutputStream out = new FileOutputStream(outputFileName);
+
+      for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
+         for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
+            PixelColor color = null;
+            int red = bmpNewImage.image.getRgbPixel(x, y).r;
+            int green = bmpNewImage.image.getRgbPixel(x, y).g;
+            int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+
+            switch(channel) {
+               case "red":
+                  color = new PixelColor(0, 0, red);
+                  break;
+               case "green":
+                  color = new PixelColor(0, green, 0);
+                  break;
+               case "blue":
+                  color = new PixelColor(blue, 0, 0);
+                  break;
+               default:
+                  color = new PixelColor(blue, green, red);
+                  break;
+            }
+
+            bmpNewImage.image.setRgbPixel(x, y, color);
+         }
+      }
+      try {
+         BmpWriter.write_bmp(out, bmpNewImage);
+      } finally {
+         out.close();
+      }
+   }	
+</code>
+<h4>Bilder der isolierten Farbkanäle</h4>
+<img src="./pics/ue4/Details_Atom_Red-Channel" alt="Details_Atom_Red-Channel" width="380" height="250">
+<img src="./pics/ue4/Details_Atom_Green-Channel" alt="Details_Atom_Green-Channel" width="380" height="250">
+<img src="./pics/ue4/Details_Atom_Blue-Channel" alt="Details_Atom_Blue-Channel" width="380" height="250">
+	
 <<Y-Bild>>
 <<Cb-Bild>>
 <<Cr-Bild>>
