@@ -32,10 +32,9 @@
 	<iframe src="oben.html" width="800" height="120" name="IFrame3" id="IFrame3" scrolling="no" frameborder="0">
          <p>Ihr Browser kann leider keine eingebe5tteten Frames anzeigen:Sie k&ouml;nnen die eingebettete Seite &uuml;ber den
          folgenden.</p>
-</iframe>
+	</iframe>
 	<br>
 	<h1>Ü4: Manipulation von Bildparametern, Farbsysteme</h1>
-
 	<h2>Aufgabe 1</h2>
 	<h3>a.</h3>
 	<p class="task">RGB ist der gebräuchlichste Farbraum bei der Aufzeichnung und Darstellung von Bildern. Hier wird das Lichtspektrum in seine Rot-, Grün- und Blauanteile aufgespalten. Der YCbCr Farbraum hingegen besteht aus der Luminanz Y (Helligkeit) und den Farbanteilen (Chrominanz) Cb und Cr. Die RGB Farben eines Bildes lassen sich also in den YCbCr Farbraum transformieren. Für viele Anwendungen, z.B. die Bildkompression, ist es günstig, Helligkeits- und Farbinformation getrennt zu verarbeiten. Nenne den physiologischen Grund dafür!</p>
@@ -51,59 +50,67 @@
 
 	<p class="task">Ins Übungsprotokoll: Sourcecode, Bilder R, G, B bzw. Y, Cb und Cr, Rekonstruiertes Bild (YCbCr -> RGB)
 
-		<h3>Lösung:</h3>
-		<<physiologischer Grund>>
+	<h3>Lösung:</h3>
+	<<physiologischer Grund>>
 
-			<h4>b.</h4>
-			<h5>Sourcecode:</h5>
-			<code>
-				private static void singleColorChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
-				  InputStream in = new FileInputStream(inFilename);
-				  BmpImage bmpNewImage = BmpReader.read_bmp(in);
-				  OutputStream out = new FileOutputStream(outputFileName);
+	<h4>b.</h4>
+	<h5>Sourcecode:</h5>
+	<code>
+		private static void singleColorChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
+		  InputStream in = new FileInputStream(inFilename);
+		  BmpImage bmpNewImage = BmpReader.read_bmp(in);
+		  OutputStream out = new FileOutputStream(outputFileName);
 
-				  for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
-					 for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
-						PixelColor color = null;
-						int red = bmpNewImage.image.getRgbPixel(x, y).r;
-						int green = bmpNewImage.image.getRgbPixel(x, y).g;
-						int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+		  for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
+			 for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
+				PixelColor color = null;
+				int red = bmpNewImage.image.getRgbPixel(x, y).r;
+				int green = bmpNewImage.image.getRgbPixel(x, y).g;
+				int blue = bmpNewImage.image.getRgbPixel(x, y).b;
 
-						switch(channel) {
-						   case "red":
-							  color = new PixelColor(0, 0, red);
-							  break;
-						   case "green":
-							  color = new PixelColor(0, green, 0);
-							  break;
-						   case "blue":
-							  color = new PixelColor(blue, 0, 0);
-							  break;
-						   default:
-							  color = new PixelColor(blue, green, red);
-							  break;
-						}
+				switch(channel) {
+				   case "red":
+					  color = new PixelColor(0, 0, red);
+					  break;
+				   case "green":
+					  color = new PixelColor(0, green, 0);
+					  break;
+				   case "blue":
+					  color = new PixelColor(blue, 0, 0);
+					  break;
+				   default:
+					  color = new PixelColor(blue, green, red);
+					  break;
+				}
 
-						bmpNewImage.image.setRgbPixel(x, y, color);
-					 }
-				  }
-				  try {
-					 BmpWriter.write_bmp(out, bmpNewImage);
-				  } finally {
-					 out.close();
-				  }
-			   }	
-			</code>
-			<h5>Bilder der isolierten Farbkanäle</h5>
-			<img src="./pics/ue4/Details_Atom_Red-Channel" alt="Details_Atom_Red-Channel" width="380" height="250">
-			<img src="./pics/ue4/Details_Atom_Green-Channel" alt="Details_Atom_Green-Channel" width="380" height="250">
-			<img src="./pics/ue4/Details_Atom_Blue-Channel" alt="Details_Atom_Blue-Channel" width="380" height="250">
+				bmpNewImage.image.setRgbPixel(x, y, color);
+			 }
+		  }
+		  try {
+			 BmpWriter.write_bmp(out, bmpNewImage);
+		  } finally {
+			 out.close();
+		  }
+	   }	
+	</code>
+	<h5>Bilder der isolierten Farbkanäle</h5>
+	<img src="./pics/ue4/Details_Atom_Red-Channel" alt="Details_Atom_Red-Channel" width="380" height="250">
+	<img src="./pics/ue4/Details_Atom_Green-Channel" alt="Details_Atom_Green-Channel" width="380" height="250">
+	<img src="./pics/ue4/Details_Atom_Blue-Channel" alt="Details_Atom_Blue-Channel" width="380" height="250">
 
-			<h4>c.</h4>
-			<<Y-Bild>>
-			<<Cb-Bild>>
-			<<Cr-Bild>>
-			<<Rekonstruiertes Bild>></p>
+	<h4>c.</h4>
+	<h5>Sourcecode:</h5>
+	<code></code>
+	<h5></h5>
+	<<Y-Bild>>
+	<<Cb-Bild>>
+	<<Cr-Bild>>
+	
+	<h4>d.</h4>
+	<h5>Sourcecode:</h5>
+	<code></code>
+	<h5></h5>
+	<<Rekonstruiertes Bild>></p>
 	<br>
 
 </body>
