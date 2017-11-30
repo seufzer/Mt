@@ -241,6 +241,47 @@
 		<h3>Lösung:</h3>
 		<h5>Sourcecode:</h5>
 		<code>
+			  private static void histogramm(String inFilename, String outputTextFileName, String outputImageFileName) throws IOException {
+			  InputStream in = new FileInputStream(inFilename);
+			  BmpImage bmpNewImage = BmpReader.read_bmp(in);
+			  PrintWriter outText = new PrintWriter(outputTextFileName);
+			  OutputStream outImage = new FileOutputStream(outputImageFileName);
+			  List&lt;Integer&gt; histogramm = new ArrayList&lt;&gt;();
+
+			  // Initialise Histogramm
+			  for (int i = 0; i &lt; 256; i++) {
+				 histogramm.add(0);
+			  }
+
+			  for (int y = 0; y &lt; bmpNewImage.image.getHeight(); y++) {
+				 for (int x = 0; x &lt; bmpNewImage.image.getWidth(); x++) {
+					int red = bmpNewImage.image.getRgbPixel(x, y).r;
+					int green = bmpNewImage.image.getRgbPixel(x, y).g;
+					int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+
+					int averageValue = (red+green+blue)/3;
+					int Y = averageValue; // Helligkeitswert
+
+					if (valueIsInInclusiveIntervall(Y, 0, 255)) {
+					   histogramm.set(Y, histogramm.get(Y)+1);
+					} else {
+					   throw new RuntimeException(&quot;Value is out of the Intervall: [0..255]&quot;);
+					}
+				 }
+			  }
+
+			  try {
+				 for (int value: histogramm) outText.println(value+&quot;,&quot;);
+				 BmpWriter.write_bmp(outImage, bmpNewImage);
+			  } finally {
+				 outText.close();
+				 outImage.close();
+			  }
+		   }
+
+		   private static boolean valueIsInInclusiveIntervall(int value, int min, int max) {
+			  return (min &lt;= value &amp;&amp; value &lt;= max);
+		   }
 		</code>
 		<h5>Histogramm</h5>
 		<img src="./pics/ue4/Details_Atom_Histogramm.bmp" alt="Details_Atom_Histogramm" width="380" height="250">
