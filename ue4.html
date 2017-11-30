@@ -35,201 +35,203 @@
 	</iframe>
 	<br>
 	<h1>Ü4: Manipulation von Bildparametern, Farbsysteme</h1>
-	<h2>Aufgabe 1</h2>
-	<h3>a.</h3>
-	<p class="task">RGB ist der gebräuchlichste Farbraum bei der Aufzeichnung und Darstellung von Bildern. Hier wird das Lichtspektrum in seine Rot-, Grün- und Blauanteile aufgespalten. Der YCbCr Farbraum hingegen besteht aus der Luminanz Y (Helligkeit) und den Farbanteilen (Chrominanz) Cb und Cr. Die RGB Farben eines Bildes lassen sich also in den YCbCr Farbraum transformieren. Für viele Anwendungen, z.B. die Bildkompression, ist es günstig, Helligkeits- und Farbinformation getrennt zu verarbeiten. Nenne den physiologischen Grund dafür!</p>
+	<div>
+		<h2>Aufgabe 1</h2>
+		<h3>a.</h3>
+		<p class="task">RGB ist der gebräuchlichste Farbraum bei der Aufzeichnung und Darstellung von Bildern. Hier wird das Lichtspektrum in seine Rot-, Grün- und Blauanteile aufgespalten. Der YCbCr Farbraum hingegen besteht aus der Luminanz Y (Helligkeit) und den Farbanteilen (Chrominanz) Cb und Cr. Die RGB Farben eines Bildes lassen sich also in den YCbCr Farbraum transformieren. Für viele Anwendungen, z.B. die Bildkompression, ist es günstig, Helligkeits- und Farbinformation getrennt zu verarbeiten. Nenne den physiologischen Grund dafür!</p>
 
-	<h3>b.</h3>
-	<p class="task">Erstelle aus deinem eigenen Bild Versionen, die nur jeweils den Rot- , Grün- und Blauanteil zeigen. (Hinweis: Dazu müssen einfach die jeweils anderen Farbwerte auf null gesetzt werden).</p>
+		<h3>b.</h3>
+		<p class="task">Erstelle aus deinem eigenen Bild Versionen, die nur jeweils den Rot- , Grün- und Blauanteil zeigen. (Hinweis: Dazu müssen einfach die jeweils anderen Farbwerte auf null gesetzt werden).</p>
 
-	<h3>c.</h3>
-	<p class="task">Nun erzeuge jeweils ein Bild für Y, Cb und Cr. Lese dafür jedes Pixel ein und berechne die Helligkeit Y (Luminanzformel!) sowie die Chrominanzen Cb und Cr (Chrominanzformeln!) aus den RGB Werten.</p>
+		<h3>c.</h3>
+		<p class="task">Nun erzeuge jeweils ein Bild für Y, Cb und Cr. Lese dafür jedes Pixel ein und berechne die Helligkeit Y (Luminanzformel!) sowie die Chrominanzen Cb und Cr (Chrominanzformeln!) aus den RGB Werten.</p>
 
-	<h3>d.</h3>
-	<p class="task">Wandle zur Rekonstruktion deines Bildes die YCbCr Werte zurück in RGB. </p>
+		<h3>d.</h3>
+		<p class="task">Wandle zur Rekonstruktion deines Bildes die YCbCr Werte zurück in RGB. </p>
 
-	<p class="task">Ins Übungsprotokoll: Sourcecode, Bilder R, G, B bzw. Y, Cb und Cr, Rekonstruiertes Bild (YCbCr -> RGB)
+		<p class="task">Ins Übungsprotokoll: Sourcecode, Bilder R, G, B bzw. Y, Cb und Cr, Rekonstruiertes Bild (YCbCr -> RGB)
 
-	<h3>Lösung:</h3>
-	<<physiologischer Grund>>
+		<h3>Lösung:</h3>
+		<<physiologischer Grund>>
 
-	<h4>b.</h4>
-	<h5>Sourcecode:</h5>
-	<code>
-		private static void singleColorChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
+		<h4>b.</h4>
+		<h5>Sourcecode:</h5>
+		<code>
+			private static void singleColorChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
+			  InputStream in = new FileInputStream(inFilename);
+			  BmpImage bmpNewImage = BmpReader.read_bmp(in);
+			  OutputStream out = new FileOutputStream(outputFileName);
+
+			  for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
+				 for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
+					PixelColor color = null;
+					int red = bmpNewImage.image.getRgbPixel(x, y).r;
+					int green = bmpNewImage.image.getRgbPixel(x, y).g;
+					int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+
+					switch(channel) {
+					   case "red":
+						  color = new PixelColor(0, 0, red);
+						  break;
+					   case "green":
+						  color = new PixelColor(0, green, 0);
+						  break;
+					   case "blue":
+						  color = new PixelColor(blue, 0, 0);
+						  break;
+					   default:
+						  color = new PixelColor(blue, green, red);
+						  break;
+					}
+
+					bmpNewImage.image.setRgbPixel(x, y, color);
+				 }
+			  }
+			  try {
+				 BmpWriter.write_bmp(out, bmpNewImage);
+			  } finally {
+				 out.close();
+			  }
+		   }	
+		</code>
+		<h5>Bilder der isolierten Farbkanäle</h5>
+		<h6>Roter Kanal</h6>
+		<img src="./pics/ue4/Details_Atom_Red-Channel.bmp" alt="Details_Atom_Red-Channel" width="380" height="250">
+		<h6>Grüner Kanal</h6>
+		<img src="./pics/ue4/Details_Atom_Green-Channel.bmp" alt="Details_Atom_Green-Channel" width="380" height="250">
+		<h6>Blauer Kanal</h6>
+		<img src="./pics/ue4/Details_Atom_Blue-Channel.bmp" alt="Details_Atom_Blue-Channel" width="380" height="250">
+
+		<h4>c.</h4>
+		<h5>Sourcecode:</h5>
+		<code>
+			private static List&lt;List&lt;Double&gt;&gt; singleYCbCrChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
+			  InputStream in = new FileInputStream(inFilename);
+			  BmpImage bmpNewImage = BmpReader.read_bmp(in);
+			  OutputStream out = new FileOutputStream(outputFileName);
+			  List&lt;List&lt;Double&gt;&gt; YCbCrValuesOfEveryPixel = new ArrayList&lt;&gt;();
+
+			  for (int y = 0; y &lt; bmpNewImage.image.getHeight(); y++) {
+				 for (int x = 0; x &lt; bmpNewImage.image.getWidth(); x++) {
+					PixelColor color = null;
+
+					int red = bmpNewImage.image.getRgbPixel(x, y).r;
+					int green = bmpNewImage.image.getRgbPixel(x, y).g;
+					int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+					List&lt;Integer&gt; rgb = new ArrayList&lt;&gt;(Arrays.asList(red, green, blue));
+					List&lt;Double&gt; YCbCr = rgbToYCbCr(rgb);
+					YCbCrValuesOfEveryPixel.add(YCbCr);
+					int Y = (int)roundValue(YCbCr.get(0), 0);
+					int Cb = (int)roundValue(YCbCr.get(1), 0);
+					int Cr = (int)roundValue(YCbCr.get(2), 0);
+
+					switch(channel) {
+					   case &quot;Y&quot;:
+						  color = new PixelColor(Y, 0, 0);
+						  break;
+					   case &quot;Cb&quot;:
+						  color = new PixelColor(0, Cb, 0);
+						  break;
+					   case &quot;Cr&quot;:
+						  color = new PixelColor(0, 0, Cr);
+						  break;
+					   default:
+						  color = new PixelColor(Y, Cb, Cr);
+						  break;
+					}
+
+					bmpNewImage.image.setRgbPixel(x, y, color);
+				 }
+			  }
+
+			  try {
+				 BmpWriter.write_bmp(out, bmpNewImage);
+			  } finally {
+				 out.close();
+			  }
+
+			  return YCbCrValuesOfEveryPixel;
+		   }
+
+		   private static List&lt;Double&gt; rgbToYCbCr(List&lt;Integer&gt; rgb) {
+			  int red = rgb.get(0);
+			  int green = rgb.get(1);
+			  int blue = rgb.get(2);
+
+			  double Y = ((0.299*red) + (0.587*green) + (0.114*blue)) + 0;
+			  double Cb = ((-0.169*red) + (-0.331*green) + (0.5*blue)) + 128;
+			  double Cr = ((0.5*red) + (-0.419*green) + (-0.081*blue)) + 128;
+
+			  Y = roundValue(Y, 2);
+			  Cb = roundValue(Cb, 2);
+			  Cr = roundValue(Cr, 2);
+
+			  return new ArrayList&lt;&gt;(Arrays.asList(Y, Cb, Cr));
+		   }
+
+		   private static double roundValue(double value, int decimals) {
+			  return Math.round(value * Math.pow(10, decimals))/ Math.pow(10, decimals);
+		   }
+		</code>
+		<h5>Luminaz- und Chromanz-Bilder</h5>
+		<h6>YCbCr</h6>
+		<img src="./pics/ue4/Details_Atom_Reconstructed-From-YCbCr.bmp" alt="Details_Atom_Reconstructed-From-YCbCr" width="380" height="250">
+		<h6>Y</h6>
+		<img src="./pics/ue4/Details_Atom_Y-Channel.bmp" alt="Details_Atom_Y-Channel" width="380" height="250">
+		<h6>Cb</h6>
+		<img src="./pics/ue4/Details_Atom_Cb-Channel.bmp" alt="Details_Atom_Cb-Channel" width="380" height="250">
+		<h6>Cr</h6>
+		<img src="./pics/ue4/Details_Atom_Cr-Channel.bmp" alt="Details_Atom_Cr-Channel" width="380" height="250">
+
+		<h4>d.</h4>
+		<h5>Sourcecode:</h5>
+		<code>
+		   private static void reconstructRGBImageFromYCbCr(String inFilename, List&lt;List&lt;Double&gt;&gt; YCbCr, String outputFileName) throws IOException {
 		  InputStream in = new FileInputStream(inFilename);
 		  BmpImage bmpNewImage = BmpReader.read_bmp(in);
 		  OutputStream out = new FileOutputStream(outputFileName);
-
-		  for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
-			 for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
-				PixelColor color = null;
-				int red = bmpNewImage.image.getRgbPixel(x, y).r;
-				int green = bmpNewImage.image.getRgbPixel(x, y).g;
-				int blue = bmpNewImage.image.getRgbPixel(x, y).b;
-
-				switch(channel) {
-				   case "red":
-					  color = new PixelColor(0, 0, red);
-					  break;
-				   case "green":
-					  color = new PixelColor(0, green, 0);
-					  break;
-				   case "blue":
-					  color = new PixelColor(blue, 0, 0);
-					  break;
-				   default:
-					  color = new PixelColor(blue, green, red);
-					  break;
-				}
-
-				bmpNewImage.image.setRgbPixel(x, y, color);
-			 }
-		  }
-		  try {
-			 BmpWriter.write_bmp(out, bmpNewImage);
-		  } finally {
-			 out.close();
-		  }
-	   }	
-	</code>
-	<h5>Bilder der isolierten Farbkanäle</h5>
-	<h6>Roter Kanal</h6>
-	<img src="./pics/ue4/Details_Atom_Red-Channel.bmp" alt="Details_Atom_Red-Channel" width="380" height="250">
-	<h6>Grüner Kanal</h6>
-	<img src="./pics/ue4/Details_Atom_Green-Channel.bmp" alt="Details_Atom_Green-Channel" width="380" height="250">
-	<h6>Blauer Kanal</h6>
-	<img src="./pics/ue4/Details_Atom_Blue-Channel.bmp" alt="Details_Atom_Blue-Channel" width="380" height="250">
-
-	<h4>c.</h4>
-	<h5>Sourcecode:</h5>
-	<code>
-		private static List&lt;List&lt;Double&gt;&gt; singleYCbCrChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
-		  InputStream in = new FileInputStream(inFilename);
-		  BmpImage bmpNewImage = BmpReader.read_bmp(in);
-		  OutputStream out = new FileOutputStream(outputFileName);
-		  List&lt;List&lt;Double&gt;&gt; YCbCrValuesOfEveryPixel = new ArrayList&lt;&gt;();
+		  int pixelCounter = 0;
 
 		  for (int y = 0; y &lt; bmpNewImage.image.getHeight(); y++) {
 			 for (int x = 0; x &lt; bmpNewImage.image.getWidth(); x++) {
 				PixelColor color = null;
+				List&lt;Double&gt; rgb = YCbCrToRGB(YCbCr.get(pixelCounter));
+				int red = (int)roundValue(rgb.get(0), 0);
+				int green = (int)roundValue(rgb.get(1), 0);
+				int blue = (int)roundValue(rgb.get(2), 0);
 
-				int red = bmpNewImage.image.getRgbPixel(x, y).r;
-				int green = bmpNewImage.image.getRgbPixel(x, y).g;
-				int blue = bmpNewImage.image.getRgbPixel(x, y).b;
-				List&lt;Integer&gt; rgb = new ArrayList&lt;&gt;(Arrays.asList(red, green, blue));
-				List&lt;Double&gt; YCbCr = rgbToYCbCr(rgb);
-				YCbCrValuesOfEveryPixel.add(YCbCr);
-				int Y = (int)roundValue(YCbCr.get(0), 0);
-				int Cb = (int)roundValue(YCbCr.get(1), 0);
-				int Cr = (int)roundValue(YCbCr.get(2), 0);
-
-				switch(channel) {
-				   case &quot;Y&quot;:
-					  color = new PixelColor(Y, 0, 0);
-					  break;
-				   case &quot;Cb&quot;:
-					  color = new PixelColor(0, Cb, 0);
-					  break;
-				   case &quot;Cr&quot;:
-					  color = new PixelColor(0, 0, Cr);
-					  break;
-				   default:
-					  color = new PixelColor(Y, Cb, Cr);
-					  break;
-				}
+				color = new PixelColor(blue, green, red);
 
 				bmpNewImage.image.setRgbPixel(x, y, color);
+				pixelCounter++;
 			 }
 		  }
-
 		  try {
 			 BmpWriter.write_bmp(out, bmpNewImage);
 		  } finally {
 			 out.close();
 		  }
-
-		  return YCbCrValuesOfEveryPixel;
-	   }
-		
-	   private static List&lt;Double&gt; rgbToYCbCr(List&lt;Integer&gt; rgb) {
-		  int red = rgb.get(0);
-		  int green = rgb.get(1);
-		  int blue = rgb.get(2);
-
-		  double Y = ((0.299*red) + (0.587*green) + (0.114*blue)) + 0;
-		  double Cb = ((-0.169*red) + (-0.331*green) + (0.5*blue)) + 128;
-		  double Cr = ((0.5*red) + (-0.419*green) + (-0.081*blue)) + 128;
-
-		  Y = roundValue(Y, 2);
-		  Cb = roundValue(Cb, 2);
-		  Cr = roundValue(Cr, 2);
-
-		  return new ArrayList&lt;&gt;(Arrays.asList(Y, Cb, Cr));
 	   }
 
-	   private static double roundValue(double value, int decimals) {
-		  return Math.round(value * Math.pow(10, decimals))/ Math.pow(10, decimals);
+	   private static List&lt;Double&gt; YCbCrToRGB(List&lt;Double&gt; YCbCr) {
+		  double Y = YCbCr.get(0);
+		  double Cb = YCbCr.get(1);
+		  double Cr = YCbCr.get(2);
+
+		  double red = (1*Y) + (0*(Cb-128)) + (1.403*(Cr-128));
+		  double green = (1*Y) + (-0.344*(Cb-128)) + (-0.714*(Cr-128));
+		  double blue = (1*Y) + (1.773*(Cb-128)) + (0*(Cr-128));
+
+		  red = roundValue(red, 2);
+		  green = roundValue(green, 2);
+		  blue = roundValue(blue, 2);
+
+		  return new ArrayList&lt;&gt;(Arrays.asList(red, green, blue));
 	   }
-	</code>
-	<h5>Luminaz- und Chromanz-Bilder</h5>
-	<h6>YCbCr</h6>
-	<img src="./pics/ue4/Details_Atom_Reconstructed-From-YCbCr.bmp" alt="Details_Atom_Reconstructed-From-YCbCr" width="380" height="250">
-	<h6>Y</h6>
-	<img src="./pics/ue4/Details_Atom_Y-Channel.bmp" alt="Details_Atom_Y-Channel" width="380" height="250">
-	<h6>Cb</h6>
-	<img src="./pics/ue4/Details_Atom_Cb-Channel.bmp" alt="Details_Atom_Cb-Channel" width="380" height="250">
-	<h6>Cr</h6>
-	<img src="./pics/ue4/Details_Atom_Cr-Channel.bmp" alt="Details_Atom_Cr-Channel" width="380" height="250">
-	
-	<h4>d.</h4>
-	<h5>Sourcecode:</h5>
-	<code>
-	   private static void reconstructRGBImageFromYCbCr(String inFilename, List&lt;List&lt;Double&gt;&gt; YCbCr, String outputFileName) throws IOException {
-      InputStream in = new FileInputStream(inFilename);
-      BmpImage bmpNewImage = BmpReader.read_bmp(in);
-      OutputStream out = new FileOutputStream(outputFileName);
-      int pixelCounter = 0;
-
-      for (int y = 0; y &lt; bmpNewImage.image.getHeight(); y++) {
-         for (int x = 0; x &lt; bmpNewImage.image.getWidth(); x++) {
-            PixelColor color = null;
-            List&lt;Double&gt; rgb = YCbCrToRGB(YCbCr.get(pixelCounter));
-            int red = (int)roundValue(rgb.get(0), 0);
-            int green = (int)roundValue(rgb.get(1), 0);
-            int blue = (int)roundValue(rgb.get(2), 0);
-
-            color = new PixelColor(blue, green, red);
-
-            bmpNewImage.image.setRgbPixel(x, y, color);
-            pixelCounter++;
-         }
-      }
-      try {
-         BmpWriter.write_bmp(out, bmpNewImage);
-      } finally {
-         out.close();
-      }
-   }
-
-   private static List&lt;Double&gt; YCbCrToRGB(List&lt;Double&gt; YCbCr) {
-      double Y = YCbCr.get(0);
-      double Cb = YCbCr.get(1);
-      double Cr = YCbCr.get(2);
-
-      double red = (1*Y) + (0*(Cb-128)) + (1.403*(Cr-128));
-      double green = (1*Y) + (-0.344*(Cb-128)) + (-0.714*(Cr-128));
-      double blue = (1*Y) + (1.773*(Cb-128)) + (0*(Cr-128));
-
-      red = roundValue(red, 2);
-      green = roundValue(green, 2);
-      blue = roundValue(blue, 2);
-
-      return new ArrayList&lt;&gt;(Arrays.asList(red, green, blue));
-   }
-	</code>
-	<h5>Rekonstruiertes RGB Bild aus YCbCr-Werten</h5>
-	<img src="./pics/ue4/Details_Atom_Reconstructed-From-YCbCr.bmp" alt="Details_Atom_Reconstructed-From-YCbCr" width="380" height="250">
+		</code>
+		<h5>Rekonstruiertes RGB Bild aus YCbCr-Werten</h5>
+		<img src="./pics/ue4/Details_Atom_Reconstructed-From-YCbCr.bmp" alt="Details_Atom_Reconstructed-From-YCbCr" width="380" height="250">
+	</div>
 	<br>
 
 </body>
