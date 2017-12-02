@@ -56,7 +56,8 @@
 
 		<h4>b.</h4>
 		<h5>Sourcecode:</h5>
-		<code>
+		
+			<xpm>
 			private static void singleColorChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
 			  InputStream in = new FileInputStream(inFilename);
 			  BmpImage bmpNewImage = BmpReader.read_bmp(in);
@@ -92,8 +93,9 @@
 			  } finally {
 				 out.close();
 			  }
-		   }	
-		</code>
+		   }
+		</xmp>	
+		
 		<h5>Bilder der isolierten Farbkanäle</h5>
 		<h6>Roter Kanal</h6>
 		<img src="./pics/ue4/Details_Atom_Red-Channel.bmp" alt="Details_Atom_Red-Channel" width="380" height="250">
