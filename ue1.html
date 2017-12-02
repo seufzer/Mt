@@ -22,7 +22,7 @@
     <!-- Aufgabe 1 -->
     <br>
     <h3>Aufgabe 1</h3>
-    <p>Erzeuge zwei kurze Audio-Files (max. 5 s), davon eines mit Musik deiner Wahl aus dem Internet (wobei sich Musik mit einer relativ hohen Dynamik, d.h. Wechsel zwischen relativ leisen und lauten Abschnitten empfiehlt). Wähle eine geeignete Abtastfrequenz (begründen !) und achte auf gute Aussteuerung. Das zweite Audio-File soll eine Sprachaufnahme (mit dem Headset aufgesprochen) enthalten (Übersteuerung vermeiden !). Wähle hier eine Abtastfrequenz von 22 kHz, 16 bit Auflösung, mono. Die Einstellungen wie Abtastrate, Bitzahl und Kanalzahl können im Wavestudio Samplitude vorgenommen werden. Die Eingangsquelle (wahlweise Audio-CD oder Mikrofon) kann im Windows-Mixer 'Aufnahme' eingestellt werden. Benenne die Dateien "Musik_NameArbeitsgruppe.wav" und Sprache_NameArbeitsgruppe.wav". Schick mir die beiden WAV-Dateien unter Nennung deiner Arbeitsgruppe per Mail. In den folgenden Übungen wirst du diese Dateien oft als Ursprungssignale verwenden. Sollten sie verloren gehen, kannst du sie notfalls wieder von mir erhalten. Darauf werde ich dir zwei WAV-Dateien mit Testsignalen zusenden, die du bei den folgenden Aufgabenpunkten benötigst, sine_hiXX.wav und sine_loXX.wav. Nun lies die Musik- und die Sprachdatei mit wave_io ein und erkläre die Angaben im Header ! Wie hoch ist die Bitrate für die beiden Dateien?</p>
+    <p class="task">Erzeuge zwei kurze Audio-Files (max. 5 s), davon eines mit Musik deiner Wahl aus dem Internet (wobei sich Musik mit einer relativ hohen Dynamik, d.h. Wechsel zwischen relativ leisen und lauten Abschnitten empfiehlt). Wähle eine geeignete Abtastfrequenz (begründen !) und achte auf gute Aussteuerung. Das zweite Audio-File soll eine Sprachaufnahme (mit dem Headset aufgesprochen) enthalten (Übersteuerung vermeiden !). Wähle hier eine Abtastfrequenz von 22 kHz, 16 bit Auflösung, mono. Die Einstellungen wie Abtastrate, Bitzahl und Kanalzahl können im Wavestudio Samplitude vorgenommen werden. Die Eingangsquelle (wahlweise Audio-CD oder Mikrofon) kann im Windows-Mixer 'Aufnahme' eingestellt werden. Benenne die Dateien "Musik_NameArbeitsgruppe.wav" und Sprache_NameArbeitsgruppe.wav". Schick mir die beiden WAV-Dateien unter Nennung deiner Arbeitsgruppe per Mail. In den folgenden Übungen wirst du diese Dateien oft als Ursprungssignale verwenden. Sollten sie verloren gehen, kannst du sie notfalls wieder von mir erhalten. Darauf werde ich dir zwei WAV-Dateien mit Testsignalen zusenden, die du bei den folgenden Aufgabenpunkten benötigst, sine_hiXX.wav und sine_loXX.wav. Nun lies die Musik- und die Sprachdatei mit wave_io ein und erkläre die Angaben im Header ! Wie hoch ist die Bitrate für die beiden Dateien?</p>
 
     <p>Lösung: Aufschlüsselung der Header-Angaben</p>
     <p>Channels: 2 -<i> Anzahl der Kanäle: 1 = mono, 2 = stereo</i><br> Frames: 223921 - <i> Anzahl der Frames in der Datei</i> <br> Sample Rate: 44100 -<i>  Samples pro Sekunde je Kanal, Abtastrate in Hz</i> <br> Valid Bits: 16 -<i>  Anzahl der gültigen Bits</i> <br> Bytes per sample : 2
@@ -34,7 +34,7 @@
     <br>
     <h3>Aufgabe 2 - Aliasing</h3>
     <h3>Aufgabe 2.1</h3>
-    <p> Modifiziere wave_io dahingehend, dass die Samples in der WAV-Datei in eine (lesbare) ASCII-Datei geschrieben werden. Lies die von mir geschickten Dateien (Sampling-Frequenz : 16 kHz) ein und bestimme aus den resultierenden Zahlenfolgen in der ASCII-Datei die Frequenz der Sinus-Schwingungen (Begründen und jeweils eine Periode für das Protokoll abspeichern). Überprüfe Deine Schätzung mit dem Spektralanalyse-Tool GRAM</p>
+    <p class="task">Modifiziere wave_io dahingehend, dass die Samples in der WAV-Datei in eine (lesbare) ASCII-Datei geschrieben werden. Lies die von mir geschickten Dateien (Sampling-Frequenz : 16 kHz) ein und bestimme aus den resultierenden Zahlenfolgen in der ASCII-Datei die Frequenz der Sinus-Schwingungen (Begründen und jeweils eine Periode für das Protokoll abspeichern). Überprüfe Deine Schätzung mit dem Spektralanalyse-Tool GRAM</p>
 
     <p>Lösung: Die Frequenz der Sinus-Schwingung von <b>sine_hi06</b> beträgt unserer Einschätzung nach f<small>0</small> = 16000 / 2.1 = 500 Hz da sich alle 2.1 Abtastpunkte Maxima und Minima abwechseln.</p>
     </p>
@@ -48,18 +48,18 @@
     <br>
 
     <h3>Aufgabe 2.2</h3>
-    <p> Bei der zeitlichen Diskretisierung eines Analogsignals muß das sogenannte Abtasttheorem eingehalten werden. Wie lautet es und wie läßt sich der Grenzfall, für den es gerade noh gilt, illustrieren (Zeichnung !)?</p>
+   <p class="task"> Bei der zeitlichen Diskretisierung eines Analogsignals muß das sogenannte Abtasttheorem eingehalten werden. Wie lautet es und wie läßt sich der Grenzfall, für den es gerade noh gilt, illustrieren (Zeichnung !)?</p>
     <p>Lösung: Das <b>Abtasttheorem</b> besagt, dass bei der Analog/Digital-Wandlung die Abtastfrequenz mehr als doppelt so hoch sein muss wie die höchste Frequenz des zu digitalisierenden analogen Signals.</p>
     <p><img src="./pics/abtast.jpg" alt="Plo9" width="380" height="300"></p>
     <br>
 
     <h3>Aufgabe 2.3</h3>
-    <p> Bei herkömmlichen Soundkarten tritt system bedingt kein Aliasing auf, weil das Audiosignal stets geeignet vorbehandelt wird (wie ?). Mit einem kleinen Trick läßt sich Aliasing jedoch nachweisen. Diese auch als Down-Sampling bekannte Methode besteht darin, dass man bei einer WAV-Datei z.B. jeden zweiten Abtastwert wegwirft. Man erhält so eine Wellenform, die genau die Hälfte der ursprünglichen Abtastfrequenz aufweist. Wenn man das Signal nicht vorher bandbegrenzt hat, können Aliasing- Verzerrungen hörbar werden.</p>
+    <p class="task"> Bei herkömmlichen Soundkarten tritt system bedingt kein Aliasing auf, weil das Audiosignal stets geeignet vorbehandelt wird (wie ?). Mit einem kleinen Trick läßt sich Aliasing jedoch nachweisen. Diese auch als Down-Sampling bekannte Methode besteht darin, dass man bei einer WAV-Datei z.B. jeden zweiten Abtastwert wegwirft. Man erhält so eine Wellenform, die genau die Hälfte der ursprünglichen Abtastfrequenz aufweist. Wenn man das Signal nicht vorher bandbegrenzt hat, können Aliasing- Verzerrungen hörbar werden.</p>
     <p>Lösung: Aliasing wird bei herkömlichen Soundkarten durch den Einsatz von Tiefpassfiltern verhindert. Das Abtasttheorem wird eingehalten in dem Frequenzen größer als f<small>a</small>/2 herausgefiltert werden.</p>
     <br>
 
     <h3>Aufgabe 2.4</h3>
-    <p>Modifiziere wave_io dahingehend, dass vom eingelesenen Signal jeder zweite Abtastwert verworfen wird und das resultierende Signal abgespeichert wird. Der Header muß natürlich entsprechend verändert werden! Wende das resultierende Programm zunächst auf 'sine_lo.wav' und 'sine_hi.wav' an. Welche Frequenzen erscheinen nach dem Down-Sampling (Spektrogramm und WAVs ins Protokoll !)? Was würde passieren, wenn man geeignet bandbegrenzen würde?</p>
+    <p class="task">Modifiziere wave_io dahingehend, dass vom eingelesenen Signal jeder zweite Abtastwert verworfen wird und das resultierende Signal abgespeichert wird. Der Header muß natürlich entsprechend verändert werden! Wende das resultierende Programm zunächst auf 'sine_lo.wav' und 'sine_hi.wav' an. Welche Frequenzen erscheinen nach dem Down-Sampling (Spektrogramm und WAVs ins Protokoll !)? Was würde passieren, wenn man geeignet bandbegrenzen würde?</p>
     <p>Lösung: Nach dem Downsampling von <b>sine_hi06.wav</b> werden die Frequenzen in tiefere Frequenzbereiche verschoben. Laut dem Spektogram hat sich die Frequenz von 7986 Hz auf 500 Hz verringert. Somit entsteht ein Aliasing-Effekt.</p>
     <p>Werte (sine_hi06.wav): 16305, -15679, 14449, -12665, 10394, -7723, 4756, -1606, -1606, 4756, -7723, 10394, -12665, 14449, -15679, 16305, -16305, 15679, -14449, 12665, -10394, 7723, -4756, 1606, 1606, -4756, 7723, -10394, 12665, -14449</p>
     <br>
@@ -79,11 +79,11 @@
 <!-- Aufgabe 3 -->
 <br><h3>Aufgabe 3 - Bitreduzierung</h3>
 <br><h3>Aufgabe 3.1</h3> 
-<p> Die herkömmlichen PC-Soundkarten arbeiten meist entweder mit 16 oder 8 bit-Auflösung. Wie groß ist die Anzahl der bei diesen beiden Werten darstellbaren Amplitudenwerten ?</p>
+<p class="task"> Die herkömmlichen PC-Soundkarten arbeiten meist entweder mit 16 oder 8 bit-Auflösung. Wie groß ist die Anzahl der bei diesen beiden Werten darstellbaren Amplitudenwerten ?</p>
 <p>Lösung: Bei der 16-bit Auflösung können die Amplitudenwerte 2<sup>16</sup> = 65536 sein. Bei der 8-bit Auflösung können die Amplitudenwerte 2<sup>8</sup> = 256 sein.</p>
 <br>
 <h3>Aufgabe 3.2</h3>
-<p> Wir wollen nun wave_io so modifizieren, dass wir die Bitzahl reduzieren können. Dazu können wir z.B. alle Samples durch eine Potenz von 2 teilen (Integer-Division ohne Rest). Damit das resultierende Signal nicht leiser wird als das Original, kompensieren wir die Operation durch Multiplikation mit derselben Zweierpotenz. Zu beachten: Der Datentyp hatnach wie vor 16 bit! (Denselben Effekt erreicht man auch durch einfaches logisches 'Verunden' mit einem entsprechenden HEX-Wert, indem man mit dem LSB beginnend Bits 'ausblendet'.)</p>
+<p class="task">Wir wollen nun wave_io so modifizieren, dass wir die Bitzahl reduzieren können. Dazu können wir z.B. alle Samples durch eine Potenz von 2 teilen (Integer-Division ohne Rest). Damit das resultierende Signal nicht leiser wird als das Original, kompensieren wir die Operation durch Multiplikation mit derselben Zweierpotenz. Zu beachten: Der Datentyp hatnach wie vor 16 bit! (Denselben Effekt erreicht man auch durch einfaches logisches 'Verunden' mit einem entsprechenden HEX-Wert, indem man mit dem LSB beginnend Bits 'ausblendet'.)</p>
 
 <p>Lösung: Nach der Bitreduzierung ergibt sich beispielsweie für <b>sine_hi06.wav</b> folgendes:</p>
 <br>
@@ -91,7 +91,7 @@
 <p><img src="./pics/bitred.png" alt="Plot 6" width="380" height="300"></p>
 <br>
 <h3>Aufgabe 3.3</h3>
-<p>Mit dem entstandenen Programm verändern wir die in Aufgabe 1 erzeugten Wave-Dateien. Ab welcher Bitzahl tritt bei
+<p class="task">Mit dem entstandenen Programm verändern wir die in Aufgabe 1 erzeugten Wave-Dateien. Ab welcher Bitzahl tritt bei
 Musik/Sprache eine hörbare/deutliche Verschlechterung der Qualität ein? Bei wieviel Bit ist das Sprachsignal noch
 verständlich ? (Waves für all diese Fälle ins Protokoll, Ausschnitte als Plots)
 Was charakterisiert das entstehende Quantisierungsgeräusch und macht es besonders störend?</p>
@@ -109,7 +109,7 @@ Was charakterisiert das entstehende Quantisierungsgeräusch und macht es besonde
 <p><img src="./pics/312plot.png" alt="Plo1" width="380" height="300"></p>	
 
 <br><h3>Aufgabe 3.4</h3>
-<p> Modifiziere Dein Programm noch einmal so, dass auch das Differenzsignal zwischen Original und bitreduziertem
+<p class="task"> Modifiziere Dein Programm noch einmal so, dass auch das Differenzsignal zwischen Original und bitreduziertem
 Signal, das heißt, das Quantisierungsrauschen ausgegeben werden kann. Welchen Charakter hat das Rauschen bei einer
 Reduktion um 1 bit, wie verändert es sich bei zunehmender Bit-Reduktion? (Waves für all diese Fälle ins Protokoll,
 Ausschnitte als Plots)</p>

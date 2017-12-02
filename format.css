@@ -131,3 +131,16 @@
     color:#4b4f53;
   }
 
+p {
+  font-size: 95%;
+  color: #424242;
+}
+
+.cont_pics {
+
+  border: 1px solid #C6C6C6;
+}
+
+th {
+  border: 1px solid #4DB6AC;
+}
