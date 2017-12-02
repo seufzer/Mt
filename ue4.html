@@ -34,9 +34,9 @@
          folgenden.</p>
 	</iframe>
 	<br>
-	<h1>Ü4: Manipulation von Bildparametern, Farbsysteme</h1>
+	<h3>Ü4: Manipulation von Bildparametern, Farbsysteme</h3>
 	<div>
-		<h2>Aufgabe 1: RGB und YCbCr</h2>
+		<h3>1. Aufgabe RGB und YCbCr</h3>
 		<h3>a.</h3>
 		<p class="task">RGB ist der gebräuchlichste Farbraum bei der Aufzeichnung und Darstellung von Bildern. Hier wird das Lichtspektrum in seine Rot-, Grün- und Blauanteile aufgespalten. Der YCbCr Farbraum hingegen besteht aus der Luminanz Y (Helligkeit) und den Farbanteilen (Chrominanz) Cb und Cr. Die RGB Farben eines Bildes lassen sich also in den YCbCr Farbraum transformieren. Für viele Anwendungen, z.B. die Bildkompression, ist es günstig, Helligkeits- und Farbinformation getrennt zu verarbeiten. Nenne den physiologischen Grund dafür!</p>
 
@@ -52,7 +52,7 @@
 		<p class="task">Ins Übungsprotokoll: Sourcecode, Bilder R, G, B bzw. Y, Cb und Cr, Rekonstruiertes Bild (YCbCr -> RGB)
 
 		<h3>Lösung:</h3>
-		<<physiologischer Grund>>
+		<h4>a.</h4>
 
 		<h4>b.</h4>
 		<h5>Sourcecode:</h5>
@@ -236,7 +236,7 @@
 	</div>
 	<br>
 	<div>
-		<h2>Aufgabe 2: Histogramm</h2>
+		<h3>Aufgabe 2: Histogramm</h3>
 		<p class="task">Mithilfe eines Histogramms kann die Verteilung (Häufigkeit) der Helligkeiten eines Bildes dargestellt werden. Erstelle ein Histogramm für das monochrome Detailbild aus Aufgabe 1 (Y - Bild). Lese dafür den Helligkeitswert der Pixel ein und bestimme die Helligkeitshäufigkeiten (Anzahl gleicher Helligkeiten). Diese sollen in eine Textdatei geschrieben und als Histogramm dargestellt werden (z.B. in Excel, Java).</p>
 		<p class="task">Ins Übungsprotokoll: Sourcecode, Histogramm des Bildes</p>
 
@@ -289,6 +289,24 @@
 		<img src="./pics/ue4/Details_Atom_Y-Histogramm.png" alt="Details_Atom_Y-Histogramm" width="800">
 	</div>
 
+<h3>Aufgabe 2: Helligkeit und Kontrast</h3>	
+	<p class = "task">a. Berechne die mittlere Helligkeit des monochromen Detailbildes aus Aufgabe 1 (Y - Bild). Lese dafür den
+Helligkeitswert der Pixel ein. Die mittlere Helligkeit ist die Summe aller Helligkeitswerte geteilt durch die
+Anzahl der Bildpunkte. Berechne auch den Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit.
+b. Verändere das monochrome Bild in der Helligkeit durch Subtrahieren bzw. Addieren eines konstanten
+Werts (20 +/- Schrittweite) bis zur minimalen (dunkel) und maximalen (hell) Helligkeit, d.h. so dass das
+jeweilige Motiv gerade noch zu erkennen ist. Beachte dabei, dass ihr beim Ergebnis der
+Pixelwertberechnung im 8-Bit-Bereich bleibt. Berechne die Histogramme des hellsten und dunkelsten
+Bildes.
+c. Erhöhe bzw. verringere den Kontrast durch Multiplikation mit den Faktoren k=(0.2, 0.4, 0.8, 1.0) sowie
+k=(1.5, 2.5, 5.0, 10.0). Ab welcher Verstärkung bleibt nur noch ein s/w Bild? Was würde bei einer
+Kontraständerung mit k < 0 passieren (Einfach ausprobieren und Bild speichern!)?
+Berechne auch hier das Histogramm des kontrastärmsten und kontrastreichsten Bildes und vergleiche mit
+denen der Helligkeitsänderung. Was haben Helligkeits- und Kontraständerung für eine Auswirkung auf das
+Histogramm (Vergleiche auch mit dem Histogramm aus Aufgabe 2)?
+Ins Übungsprotokoll: Sourcecode, Ergebnisse für mittlere Helligkeit und Kontrast, Ergebnisse
+Minimum/Maximum für Helligkeit und Kontrast mit dazugehörigen Histogrammen, Alle Bilder
+</p>	
 </body>
 
 </html>
