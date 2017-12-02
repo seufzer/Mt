@@ -56,8 +56,7 @@
 
 		<h4>b.</h4>
 		<h5>Sourcecode:</h5>
-		
-			<xpm>
+		<pre><xpm>
 			private static void singleColorChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
 			  InputStream in = new FileInputStream(inFilename);
 			  BmpImage bmpNewImage = BmpReader.read_bmp(in);
@@ -94,7 +93,7 @@
 				 out.close();
 			  }
 		   }
-		</xmp>	
+		</xmp></pre>
 		
 		<h5>Bilder der isolierten Farbkanäle</h5>
 		<h6>Roter Kanal</h6>
@@ -106,7 +105,7 @@
 
 		<h4>c.</h4>
 		<h5>Sourcecode:</h5>
-		<code>
+		<pre><xpm>
 			private static List&lt;List&lt;Double&gt;&gt; singleYCbCrChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
 			  InputStream in = new FileInputStream(inFilename);
 			  BmpImage bmpNewImage = BmpReader.read_bmp(in);
@@ -174,7 +173,7 @@
 		   private static double roundValue(double value, int decimals) {
 			  return Math.round(value * Math.pow(10, decimals))/ Math.pow(10, decimals);
 		   }
-		</code>
+		</pre></xpm>
 		<h5>Luminaz- und Chromanz-Bilder</h5>
 		<h6>YCbCr</h6>
 		<img src="./pics/ue4/Details_Atom_Reconstructed-From-YCbCr.bmp" alt="Details_Atom_Reconstructed-From-YCbCr" width="380" height="250">
@@ -187,7 +186,7 @@
 
 		<h4>d.</h4>
 		<h5>Sourcecode:</h5>
-		<code>
+		<pre><xpm>
 		   private static void reconstructRGBImageFromYCbCr(String inFilename, List&lt;List&lt;Double&gt;&gt; YCbCr, String outputFileName) throws IOException {
 		  InputStream in = new FileInputStream(inFilename);
 		  BmpImage bmpNewImage = BmpReader.read_bmp(in);
@@ -230,7 +229,7 @@
 
 		  return new ArrayList&lt;&gt;(Arrays.asList(red, green, blue));
 	   }
-		</code>
+		</pre></xpm>
 		<h5>Rekonstruiertes RGB Bild aus YCbCr-Werten</h5>
 		<img src="./pics/ue4/Details_Atom_Reconstructed-From-YCbCr.bmp" alt="Details_Atom_Reconstructed-From-YCbCr" width="380" height="250">
 	</div>
@@ -242,7 +241,7 @@
 
 		<h3>Lösung:</h3>
 		<h5>Sourcecode:</h5>
-		<code>
+		<pre><xpm>
 			  private static void histogramm(String inFilename, String outputTextFileName, String outputImageFileName) throws IOException {
 			  InputStream in = new FileInputStream(inFilename);
 			  BmpImage bmpNewImage = BmpReader.read_bmp(in);
@@ -284,7 +283,7 @@
 		   private static boolean valueIsInInclusiveIntervall(int value, int min, int max) {
 			  return (min &lt;= value &amp;&amp; value &lt;= max);
 		   }
-		</code>
+		</pre></xpm>
 		<h5>Histogramm</h5>
 		<img src="./pics/ue4/Details_Atom_Y-Histogramm.png" alt="Details_Atom_Y-Histogramm" width="800">
 	</div>
