@@ -57,7 +57,7 @@
 		<h4>a.</h4>
 		<p>
 		Das Farbmodell YCbCr nutzt Informationen, dass das menschliche Auge empfindlicher für die Informationen
-		über die Helligkeit (Luminanz, Y) als für Farben(Chrominanz, Cb und Cr)des Bildes ist. Somit kann das menschliche Auge kleine Helligkeitsunterschiede besser als Farbunterschiede wahrnehmen.<br> Diese Eigenschaft hat einen großen Vorteil in der Farbunterabtastung. Dabei wird die Abtastrate und damit die Datenmenge der Chrominanz-Kanäle Cb und Cr gegenüber der Abtastrate des Luminanz-Kanals Y reduziert, ohne dass es zu einer spürbaren Qualitätsverringerung kommt. So kann man z. B. mit der JPEG-Komprimierung 50 % der Datenmenge einsparen.
+		über die Helligkeit (Luminanz, Y) als über Farben(Chrominanz, Cb und Cr)des Bildes ist. Somit kann das menschliche Auge kleine Helligkeitsunterschiede besser als Farbunterschiede wahrnehmen.<br> Diese Eigenschaft hat einen großen Vorteil in der Farbunterabtastung. Dabei wird die Abtastrate und damit die Datenmenge der Chrominanz-Kanäle Cb und Cr gegenüber der Abtastrate des Luminanz-Kanals Y reduziert, ohne dass es zu einer spürbaren Qualitätsverringerung kommt. So kann man z. B. mit der JPEG-Komprimierung 50 % der Datenmenge einsparen.
 
 
 		<!-- Deshalb sind die Daten über Iluminanz in hoher Auflösung aufbewahrt oder versandt und die Chrominanzdaten(Cb, Cr) sind kompressiert und können versandt werden mit niedriger Bandbegrenzung. --> 
@@ -371,20 +371,90 @@ Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit:
 <p></p>
 
 
-<h6>minimale Helligkeit(dunkel)</h6>
+<h6>minimale Helligkeit(dunkel) erzielt durch -50</h6>
  <img src="./pics/ue4/Details_Atom_Y-Histogramm-b-50.bmp" alt="Details_Y-Histogramm-b-50" width="380" height="250"> 
 
  <br> <br>
 <img src="./pics/ue4/Y-Histogramm-50.png" alt="Details_Y-Histogramm-b-50" width="680" height="400">
 
-<th><h6>maximale Helligkeit(hell)</h6></th>
-
+<h6>maximale Helligkeit(hell) erzielt durch +210</h6>
 <img src="./pics/ue4/Details_Atom_Y-Histogramm-b210.bmp" alt="Details_Y-Histogramm-b210.bmp" width="380" height="250">
  <br> <br>
 <img src="./pics/ue4/Helligkeit210.png" alt="Details_Y-Histogramm-b210.bmp" width="680" height="400">
+<br>
+
+<h5>Sourcecode:</h5>
+<pre class="code_form">
+private static void histogramm_2(String inFilename, String outputTextFileName, String outputImageFileName, int step) throws IOException {
+	   	  int diff = step;  
+	   	  InputStream in = new FileInputStream(inFilename);
+	      BmpImage bmpNewImage = BmpReader.read_bmp(in);
+	      String name = outputImageFileName.substring(0, outputImageFileName.length()-4);
+	      PrintWriter outText = new PrintWriter(outputTextFileName + diff);
+	      OutputStream outImage = new FileOutputStream(name + diff + ".bmp");
+	      List<Integer> histogramm = new ArrayList<>();
+	      
+	      // Initialise Histogramm
+	      for (int i = 0; i < 256; i++) {
+	         histogramm.add(0);
+	      }
+	      
+	      int min = 0, max = 0;
+	      for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
+	         for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
+	        	 int red = bmpNewImage.image.getRgbPixel(x, y).r;
+		         int green = bmpNewImage.image.getRgbPixel(x, y).g;
+		         int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+		         
+	        	 int curr_y = (red+green+blue)/3;
+	        	 
+	        	 if (curr_y < min) {
+	        		 min = curr_y;
+	        	 }
+	        	 
+	        	 if (curr_y > max) {
+	        		 max = curr_y;
+	        	 }
+	         }
+	      }
+	      
+	      System.out.println("max: " + max + ", min: " + min);
+	      
+	      for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
+	         for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
+	            int red = bmpNewImage.image.getRgbPixel(x, y).r;
+	            int green = bmpNewImage.image.getRgbPixel(x, y).g;
+	            int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+
+	            int averageValue = (red+green+blue)/3;
+	               
+	            int Y = averageValue + diff;
+	            
+	            // to 1 byte limits
+	            if (Y < 0) Y = 0;
+	            if (Y > 255) Y = 255;
+	            histogramm.set(Y, histogramm.get(Y)+1);            
+	            // B/W
+	            // PixelColor color = new PixelColor(Y, Y, Y);
+	            
+	            PixelColor color = new PixelColor(Y, 0, 0);
+	            bmpNewImage.image.setRgbPixel(x, y, color);
+	         }
+	      }
+
+	      try {
+	         for (int value: histogramm) outText.println(value+",");
+	         BmpWriter.write_bmp(outImage, bmpNewImage);
+	      } finally {
+	         outText.close();
+	         outImage.close();
+	      }
+	   }
+</pre>
 
 
 
+<br>
 <h4>c.</h4>
 
 
