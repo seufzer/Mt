@@ -127,12 +127,16 @@
   font-size: 80%;
 }
   .code_form {
-    font: normal 75% 'Monaco', sans-serif;
-    color:#4b4f53;
+    font-size: 78%;
+  
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Source Code Pro', monospace;
+
+
   }
 
 p {
-  font-size: 95%;
+  font-size: 92%;
   color: #424242;
 }
 

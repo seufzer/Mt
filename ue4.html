@@ -25,6 +25,7 @@
 		} //-->
 
 	</style>
+<!--  -->
 </head>
 
 <body>
@@ -58,42 +59,43 @@
 		<h4>b.</h4>
 		<h5>Sourcecode:</h5>
 		<pre class="code_form">
-			private static void singleColorChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
-			  InputStream in = new FileInputStream(inFilename);
-			  BmpImage bmpNewImage = BmpReader.read_bmp(in);
-			  OutputStream out = new FileOutputStream(outputFileName);
+	private static void singleColorChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
+	  InputStream in = new FileInputStream(inFilename);
+	  BmpImage bmpNewImage = BmpReader.read_bmp( in );
+	  OutputStream out = new FileOutputStream(outputFileName);
 
-			  for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
-				 for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
-					PixelColor color = null;
-					int red = bmpNewImage.image.getRgbPixel(x, y).r;
-					int green = bmpNewImage.image.getRgbPixel(x, y).g;
-					int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+	  for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
+	    for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
+	      PixelColor color = null;
+	      int red = bmpNewImage.image.getRgbPixel(x, y).r;
+	      int green = bmpNewImage.image.getRgbPixel(x, y).g;
+	      int blue = bmpNewImage.image.getRgbPixel(x, y).b;
 
-					switch(channel) {
-					   case "red":
-						  color = new PixelColor(0, 0, red);
-						  break;
-					   case "green":
-						  color = new PixelColor(0, green, 0);
-						  break;
-					   case "blue":
-						  color = new PixelColor(blue, 0, 0);
-						  break;
-					   default:
-						  color = new PixelColor(blue, green, red);
-						  break;
-					}
+	      switch (channel) {
+	        case "red":
+	          color = new PixelColor(0, 0, red);
+	          break;
+	        case "green":
+	          color = new PixelColor(0, green, 0);
+	          break;
+	        case "blue":
+	          color = new PixelColor(blue, 0, 0);
+	          break;
+	        default:
+	          color = new PixelColor(blue, green, red);
+	          break;
+	      }
 
-					bmpNewImage.image.setRgbPixel(x, y, color);
-				 }
-			  }
-			  try {
-				 BmpWriter.write_bmp(out, bmpNewImage);
-			  } finally {
-				 out.close();
-			  }
-		   }
+	      bmpNewImage.image.setRgbPixel(x, y, color);
+	    }
+	  }
+	  try {
+	    BmpWriter.write_bmp(out, bmpNewImage);
+	  } finally {
+	    out.close();
+	  }
+	}
+		
 		</pre>
 		
 		<h5>Bilder der isolierten Farbkanäle</h5>
@@ -121,26 +123,26 @@
 
 		<h4>c.</h4>
 		<h5>Sourcecode:</h5>
-		<pre class="code_form"><xpm>
-			private static List&lt;List&lt;Double&gt;&gt; singleYCbCrChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
-			  InputStream in = new FileInputStream(inFilename);
-			  BmpImage bmpNewImage = BmpReader.read_bmp(in);
-			  OutputStream out = new FileOutputStream(outputFileName);
-			  List&lt;List&lt;Double&gt;&gt; YCbCrValuesOfEveryPixel = new ArrayList&lt;&gt;();
+		<pre class="code_form">
+	private static List&lt;List&lt;Double&gt;&gt; singleYCbCrChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
+		InputStream in = new FileInputStream(inFilename);
+		BmpImage bmpNewImage = BmpReader.read_bmp(in);
+		OutputStream out = new FileOutputStream(outputFileName);
+		List&lt;List&lt;Double&gt;&gt; YCbCrValuesOfEveryPixel = new ArrayList&lt;&gt;();
 
-			  for (int y = 0; y &lt; bmpNewImage.image.getHeight(); y++) {
-				 for (int x = 0; x &lt; bmpNewImage.image.getWidth(); x++) {
-					PixelColor color = null;
+		for (int y = 0; y &lt; bmpNewImage.image.getHeight(); y++) {
+			for (int x = 0; x &lt; bmpNewImage.image.getWidth(); x++) {
+				PixelColor color = null;
 
-					int red = bmpNewImage.image.getRgbPixel(x, y).r;
-					int green = bmpNewImage.image.getRgbPixel(x, y).g;
-					int blue = bmpNewImage.image.getRgbPixel(x, y).b;
-					List&lt;Integer&gt; rgb = new ArrayList&lt;&gt;(Arrays.asList(red, green, blue));
-					List&lt;Double&gt; YCbCr = rgbToYCbCr(rgb);
-					YCbCrValuesOfEveryPixel.add(YCbCr);
-					int Y = (int)roundValue(YCbCr.get(0), 0);
-					int Cb = (int)roundValue(YCbCr.get(1), 0);
-					int Cr = (int)roundValue(YCbCr.get(2), 0);
+				int red = bmpNewImage.image.getRgbPixel(x, y).r;
+				int green = bmpNewImage.image.getRgbPixel(x, y).g;
+				int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+				List&lt;Integer&gt; rgb = new ArrayList&lt;&gt;(Arrays.asList(red, green, blue));
+				List&lt;Double&gt; YCbCr = rgbToYCbCr(rgb);
+				YCbCrValuesOfEveryPixel.add(YCbCr);
+				int Y = (int)roundValue(YCbCr.get(0), 0);
+				int Cb = (int)roundValue(YCbCr.get(1), 0);
+				int Cr = (int)roundValue(YCbCr.get(2), 0);
 
 					switch(channel) {
 					   case &quot;Y&quot;:
@@ -170,26 +172,26 @@
 			  return YCbCrValuesOfEveryPixel;
 		   }
 
-		   private static List&lt;Double&gt; rgbToYCbCr(List&lt;Integer&gt; rgb) {
-			  int red = rgb.get(0);
-			  int green = rgb.get(1);
-			  int blue = rgb.get(2);
+	private static List&lt;Double&gt; rgbToYCbCr(List&lt;Integer&gt; rgb) {
+		int red = rgb.get(0);
+		int green = rgb.get(1);
+		int blue = rgb.get(2);
 
-			  double Y = ((0.299*red) + (0.587*green) + (0.114*blue)) + 0;
-			  double Cb = ((-0.169*red) + (-0.331*green) + (0.5*blue)) + 128;
-			  double Cr = ((0.5*red) + (-0.419*green) + (-0.081*blue)) + 128;
+		double Y = ((0.299*red) + (0.587*green) + (0.114*blue)) + 0;
+		double Cb = ((-0.169*red) + (-0.331*green) + (0.5*blue)) + 128;
+		double Cr = ((0.5*red) + (-0.419*green) + (-0.081*blue)) + 128;
 
 			  Y = roundValue(Y, 2);
 			  Cb = roundValue(Cb, 2);
 			  Cr = roundValue(Cr, 2);
 
 			  return new ArrayList&lt;&gt;(Arrays.asList(Y, Cb, Cr));
-		   }
+    	}
 
-		   private static double roundValue(double value, int decimals) {
+	private static double roundValue(double value, int decimals) {
 			  return Math.round(value * Math.pow(10, decimals))/ Math.pow(10, decimals);
 		   }
-		</pre></xpm>
+		</pre>
 		<h5>Luminaz- und Chromanz-Bilder</h5>
 <!-- 		<h6>YCbCr</h6>
 		<img src="./pics/ue4/Details_Atom_Reconstructed-From-YCbCr.bmp" alt="Details_Atom_Reconstructed-From-YCbCr" width="380" height="250">
@@ -225,12 +227,12 @@
 
 		<h4>d.</h4>
 		<h5>Sourcecode:</h5>
-		<pre class="code_form"><xpm>
-		   private static void reconstructRGBImageFromYCbCr(String inFilename, List&lt;List&lt;Double&gt;&gt; YCbCr, String outputFileName) throws IOException {
-		  InputStream in = new FileInputStream(inFilename);
-		  BmpImage bmpNewImage = BmpReader.read_bmp(in);
-		  OutputStream out = new FileOutputStream(outputFileName);
-		  int pixelCounter = 0;
+		<pre class="code_form">
+	private static void reconstructRGBImageFromYCbCr(String inFilename, List&lt;List&lt;Double&gt;&gt; YCbCr, String outputFileName) throws IOException {
+		InputStream in = new FileInputStream(inFilename);
+		BmpImage bmpNewImage = BmpReader.read_bmp(in);
+		OutputStream out = new FileOutputStream(outputFileName);
+		 int pixelCounter = 0;
 
 		  for (int y = 0; y &lt; bmpNewImage.image.getHeight(); y++) {
 			 for (int x = 0; x &lt; bmpNewImage.image.getWidth(); x++) {
@@ -253,7 +255,7 @@
 		  }
 	   }
 
-	   private static List&lt;Double&gt; YCbCrToRGB(List&lt;Double&gt; YCbCr) {
+	private static List&lt;Double&gt; YCbCrToRGB(List&lt;Double&gt; YCbCr) {
 		  double Y = YCbCr.get(0);
 		  double Cb = YCbCr.get(1);
 		  double Cr = YCbCr.get(2);
@@ -267,8 +269,8 @@
 		  blue = roundValue(blue, 2);
 
 		  return new ArrayList&lt;&gt;(Arrays.asList(red, green, blue));
-	   }
-		</pre></xpm>
+	 }
+		</pre>
 		<h5>Rekonstruiertes RGB Bild aus YCbCr-Werten</h5>
 		<img src="./pics/ue4/Details_Atom_Reconstructed-From-YCbCr.bmp" alt="Details_Atom_Reconstructed-From-YCbCr" width="380" height="250">
 	</div>
@@ -280,13 +282,13 @@
 
 		<h3>Lösung:</h3>
 		<h5>Sourcecode:</h5>
-		<pre class="code_form"><xpm>
-			  private static void histogramm(String inFilename, String outputTextFileName, String outputImageFileName) throws IOException {
-			  InputStream in = new FileInputStream(inFilename);
-			  BmpImage bmpNewImage = BmpReader.read_bmp(in);
-			  PrintWriter outText = new PrintWriter(outputTextFileName);
-			  OutputStream outImage = new FileOutputStream(outputImageFileName);
-			  List&lt;Integer&gt; histogramm = new ArrayList&lt;&gt;();
+		<pre class="code_form">
+	private static void histogramm(String inFilename, String outputTextFileName, String outputImageFileName) throws IOException {
+		InputStream in = new FileInputStream(inFilename);
+		BmpImage bmpNewImage = BmpReader.read_bmp(in);
+		PrintWriter outText = new PrintWriter(outputTextFileName);
+		OutputStream outImage = new FileOutputStream(outputImageFileName);
+		List&lt;Integer&gt; histogramm = new ArrayList&lt;&gt;();
 
 			  // Initialise Histogramm
 			  for (int i = 0; i &lt; 256; i++) {
@@ -319,12 +321,13 @@
 			  }
 		   }
 
-		   private static boolean valueIsInInclusiveIntervall(int value, int min, int max) {
+	private static boolean valueIsInInclusiveIntervall(int value, int min, int max) {
 			  return (min &lt;= value &amp;&amp; value &lt;= max);
 		   }
-		</pre></xpm>
+		</pre>
 		<h5>Histogramm</h5>
-		<img src="./pics/ue4/Details_Atom_Y-Histogramm.png" alt="Details_Atom_Y-Histogramm" width="800">
+		<img id="zoom" src="./pics/ue4/Details_Atom_Y-Histogramm.png" alt="Details_Atom_Y-Histogramm" width="800">
+
 	</div>
 <br>
 <h3>Aufgabe 3: Helligkeit und Kontrast</h3>	
@@ -350,11 +353,17 @@ Minimum/Maximum für Helligkeit und Kontrast mit dazugehörigen Histogrammen, Al
 <h3>Lösung:</h3>
 	
 <h4>a.</h4>
-<p>mittlere Helligkeit des monochromen Detailsbild(Y - Bild):</p>
-<p>54.3443479938</p>
+<p>mittlere Helligkeit des monochromen Detailsbildes(Y - Bild):
+54.3443479938
+<br>
+Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit:
+14.3129513272</p>
 
-<p>Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit:</p>
-<p>14.3129513272</p>
+<h4>b.</h4>
+
+
+<h4>c.</h4>
+
 
 
 <br>	
