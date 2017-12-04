@@ -39,16 +39,16 @@
 	<br>
 	<div>
 		<h3>1. Aufgabe RGB und YCbCr</h3>
-		
+
 		<p class="task"><b>a.</b> RGB ist der gebräuchlichste Farbraum bei der Aufzeichnung und Darstellung von Bildern. Hier wird das Lichtspektrum in seine Rot-, Grün- und Blauanteile aufgespalten. Der YCbCr Farbraum hingegen besteht aus der Luminanz Y (Helligkeit) und den Farbanteilen (Chrominanz) Cb und Cr. Die RGB Farben eines Bildes lassen sich also in den YCbCr Farbraum transformieren. Für viele Anwendungen, z.B. die Bildkompression, ist es günstig, Helligkeits- und Farbinformation getrennt zu verarbeiten. Nenne den physiologischen Grund dafür!</p>
 
-		
+
 		<p class="task"><b>b.</b> Erstelle aus deinem eigenen Bild Versionen, die nur jeweils den Rot- , Grün- und Blauanteil zeigen. (Hinweis: Dazu müssen einfach die jeweils anderen Farbwerte auf null gesetzt werden).</p>
 
-		
+
 		<p class="task"><b>c.</b> Nun erzeuge jeweils ein Bild für Y, Cb und Cr. Lese dafür jedes Pixel ein und berechne die Helligkeit Y (Luminanzformel!) sowie die Chrominanzen Cb und Cr (Chrominanzformeln!) aus den RGB Werten.</p>
 
-		
+
 		<p class="task"><b>d.</b> Wandle zur Rekonstruktion deines Bildes die YCbCr Werte zurück in RGB.<br>
 
 		<i>Ins Übungsprotokoll: Sourcecode, Bilder R, G, B bzw. Y, Cb und Cr, Rekonstruiertes Bild (YCbCr -> RGB)</i></p>
@@ -60,7 +60,7 @@
 		über die Helligkeit (Luminanz, Y) als über Farben(Chrominanz, Cb und Cr)des Bildes ist. Somit kann das menschliche Auge kleine Helligkeitsunterschiede besser als Farbunterschiede wahrnehmen.<br> Diese Eigenschaft hat einen großen Vorteil in der Farbunterabtastung. Dabei wird die Abtastrate und damit die Datenmenge der Chrominanz-Kanäle Cb und Cr gegenüber der Abtastrate des Luminanz-Kanals Y reduziert, ohne dass es zu einer spürbaren Qualitätsverringerung kommt. So kann man z. B. mit der JPEG-Komprimierung 50 % der Datenmenge einsparen.
 
 
-		<!-- Deshalb sind die Daten über Iluminanz in hoher Auflösung aufbewahrt oder versandt und die Chrominanzdaten(Cb, Cr) sind kompressiert und können versandt werden mit niedriger Bandbegrenzung. --> 
+		<!-- Deshalb sind die Daten über Iluminanz in hoher Auflösung aufbewahrt oder versandt und die Chrominanzdaten(Cb, Cr) sind kompressiert und können versandt werden mit niedriger Bandbegrenzung. -->
 
 		</p>
 
@@ -103,9 +103,9 @@
 	    out.close();
 	  }
 	}
-		
+
 		</pre>
-		
+
 		<h5>Bilder der isolierten Farbkanäle</h5>
 
 <table>
@@ -116,7 +116,7 @@
   			</tr>
 
 			<tr>
-				<td><p><img src="./pics/ue4/Details_Atom_Red-Channel.bmp" alt="Details_Atom_Red-Channel" width="380" height="250"></td>      
+				<td><p><img src="./pics/ue4/Details_Atom_Red-Channel.bmp" alt="Details_Atom_Red-Channel" width="380" height="250"></td>
 				<td><p>
 					<img src="./pics/ue4/Details_Atom_Green-Channel.bmp" alt="Details_Atom_Green-Channel" width="380" height="250">
 				</p></td>
@@ -132,69 +132,93 @@
 		<h4>c.</h4>
 		<h5>Sourcecode:</h5>
 		<pre class="code_form">
-	private static List&lt;List&lt;Double&gt;&gt; singleYCbCrChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
-		InputStream in = new FileInputStream(inFilename);
-		BmpImage bmpNewImage = BmpReader.read_bmp(in);
-		OutputStream out = new FileOutputStream(outputFileName);
-		List&lt;List&lt;Double&gt;&gt; YCbCrValuesOfEveryPixel = new ArrayList&lt;&gt;();
+		private static List<List<Double>> singleYCbCrChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
+		 InputStream in = new FileInputStream(inFilename);
+		 BmpImage bmpNewImage = BmpReader.read_bmp(in);
+		 OutputStream out = new FileOutputStream(outputFileName);
+		 List<List<Double>> YCbCrValuesOfEveryPixel = new ArrayList<>();
 
-		for (int y = 0; y &lt; bmpNewImage.image.getHeight(); y++) {
-			for (int x = 0; x &lt; bmpNewImage.image.getWidth(); x++) {
-				PixelColor color = null;
+		 for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
+				for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
+					 PixelColor color = null;
 
-				int red = bmpNewImage.image.getRgbPixel(x, y).r;
-				int green = bmpNewImage.image.getRgbPixel(x, y).g;
-				int blue = bmpNewImage.image.getRgbPixel(x, y).b;
-				List&lt;Integer&gt; rgb = new ArrayList&lt;&gt;(Arrays.asList(red, green, blue));
-				List&lt;Double&gt; YCbCr = rgbToYCbCr(rgb);
-				YCbCrValuesOfEveryPixel.add(YCbCr);
-				int Y = (int)roundValue(YCbCr.get(0), 0);
-				int Cb = (int)roundValue(YCbCr.get(1), 0);
-				int Cr = (int)roundValue(YCbCr.get(2), 0);
+					 int red = bmpNewImage.image.getRgbPixel(x, y).r;
+					 int green = bmpNewImage.image.getRgbPixel(x, y).g;
+					 int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+					 List<Integer> rgb = new ArrayList<>(Arrays.asList(red, green, blue));
 
-					switch(channel) {
-					   case &quot;Y&quot;:
-						  color = new PixelColor(Y, 0, 0);
-						  break;
-					   case &quot;Cb&quot;:
-						  color = new PixelColor(0, Cb, 0);
-						  break;
-					   case &quot;Cr&quot;:
-						  color = new PixelColor(0, 0, Cr);
-						  break;
-					   default:
-						  color = new PixelColor(Y, Cb, Cr);
-						  break;
-					}
+					 YCbCrValuesOfEveryPixel.add(rgbToYCbCr(rgb)); // To reconstruc timage later
 
-					bmpNewImage.image.setRgbPixel(x, y, color);
-				 }
-			  }
+					 Map<String, List<Integer>> YCbCr = rgbToYCbCrWithDividedChannelsForRGB(rgb);
+					 int Y_R = YCbCr.get("Y").get(0);
+					 int Y_G =YCbCr.get("Y").get(1);
+					 int Y_B = YCbCr.get("Y").get(2);
 
-			  try {
-				 BmpWriter.write_bmp(out, bmpNewImage);
-			  } finally {
-				 out.close();
-			  }
+					 int Cb_R = YCbCr.get("Cb").get(0);
+					 int Cb_G = YCbCr.get("Cb").get(1);
+					 int Cb_B = YCbCr.get("Cb").get(2);
 
-			  return YCbCrValuesOfEveryPixel;
-		   }
+					 int Cr_R = YCbCr.get("Cr").get(0);
+					 int Cr_G = YCbCr.get("Cr").get(1);
+					 int Cr_B = YCbCr.get("Cr").get(2);
 
-	private static List&lt;Double&gt; rgbToYCbCr(List&lt;Integer&gt; rgb) {
-		int red = rgb.get(0);
-		int green = rgb.get(1);
-		int blue = rgb.get(2);
+					 switch(channel) {
+							case "Y":
+								 color = new PixelColor(Y_B, Y_G, Y_R);
+								 break;
+							case "Cb":
+								 color = new PixelColor(Cb_B, Cb_G, Cb_R); // ((-0.169*red)+128) + ((-0.331*green)+128) + ((0.5*blue)+128)
+								 break;
+							case "Cr":
+								 color = new PixelColor(Cr_B, Cr_G, Cr_R);
+								 break;
+							default:
+								 color = new PixelColor(Y_B, Y_G, Y_R);
+								 break;
+					 }
 
-		double Y = ((0.299*red) + (0.587*green) + (0.114*blue)) + 0;
-		double Cb = ((-0.169*red) + (-0.331*green) + (0.5*blue)) + 128;
-		double Cr = ((0.5*red) + (-0.419*green) + (-0.081*blue)) + 128;
+					 bmpNewImage.image.setRgbPixel(x, y, color);
+				}
+		 }
 
-			  Y = roundValue(Y, 2);
-			  Cb = roundValue(Cb, 2);
-			  Cr = roundValue(Cr, 2);
+		 try {
+				BmpWriter.write_bmp(out, bmpNewImage);
+		 } finally {
+				out.close();
+		 }
 
-			  return new ArrayList&lt;&gt;(Arrays.asList(Y, Cb, Cr));
-    	}
+		 return YCbCrValuesOfEveryPixel;
+	}
+
+	private static Map<String, List<Integer>> rgbToYCbCrWithDividedChannelsForRGB(List<Integer> rgb) {
+		 int red = rgb.get(0);
+		 int green = rgb.get(1);
+		 int blue = rgb.get(2);
+
+		 Map<String, List<Integer>> YCbCrChannels = new HashMap<>();
+
+		 double Y = ((0.299*red) + (0.587*green) + (0.114*blue)) + 0;
+		 int Y_R = (int)roundValue(Y, 0);
+		 int Y_G = (int)roundValue(Y, 0);
+		 int Y_B = (int)roundValue(Y, 0);
+		 List<Integer> Y_RGB = new ArrayList<>(Arrays.asList(Y_R, Y_G, Y_B));
+		 YCbCrChannels.put("Y", Y_RGB);
+
+
+		 int Cb_R = (int)roundValue((-0.169*red)+128, 0);
+		 int Cb_G = (int)roundValue((-0.331*green)+128, 0);
+		 int Cb_B = (int)roundValue((0.5*blue)+128, 0);
+		 List<Integer> Cb_RGB = new ArrayList<>(Arrays.asList(Cb_R, Cb_G, Cb_B));
+		 YCbCrChannels.put("Cb", Cb_RGB);
+
+		 int Cr_R = (int)roundValue((0.5*red)+128, 0);
+		 int Cr_G = (int)roundValue((-0.419*green)+128, 0);
+		 int Cr_B = (int)roundValue((-0.081*blue)+128, 0);
+		 List<Integer> Cr_RGB = new ArrayList<>(Arrays.asList(Cr_R, Cr_G, Cr_B));
+		 YCbCrChannels.put("Cr", Cr_RGB);
+
+		 return YCbCrChannels;
+	}
 
 	private static double roundValue(double value, int decimals) {
 			  return Math.round(value * Math.pow(10, decimals))/ Math.pow(10, decimals);
@@ -211,19 +235,19 @@
 		<img src="./pics/ue4/Details_Atom_Cr-Channel.bmp" alt="Details_Atom_Cr-Channel" width="380" height="250">
  -->
 <table class="cont_pics">
- 
+
 		<tr>
-			<td><p><img src="./pics/ue4/Details_Atom_Reconstructed-From-YCbCr.bmp" alt="Details_Atom_Reconstructed-From-YCbCr" width="380" height="250"></p></td>      
+			<td><p><img src="./pics/ue4/Details_Atom_Reconstructed-From-YCbCr.bmp" alt="Details_Atom_Reconstructed-From-YCbCr" width="380" height="250"></p></td>
 			<td><p><img src="./pics/ue4/Details_Atom_Y-Channel.bmp" alt="Details_Atom_Y-Channel" width="380" height="250"></p></td>
 		</tr>
-	
+
 		<tr>
     	<th><h6>YCbCr</h6></th>
     	<th><h6>Y</h6></th>
   		</tr>
 
 		<tr>
-			<td><p><img src="./pics/ue4/Details_Atom_Cb-Channel.bmp" alt="Details_Atom_Cb-Channel" width="380" height="250"></p></td>      
+			<td><p><img src="./pics/ue4/Details_Atom_Cb-Channel.bmp" alt="Details_Atom_Cb-Channel" width="380" height="250"></p></td>
 			<td><p><img src="./pics/ue4/Details_Atom_Cr-Channel.bmp" alt="Details_Atom_Cr-Channel" width="380" height="250"></p></td>
 		</tr>
 		<tr>
@@ -338,7 +362,7 @@
 
 	</div>
 <br>
-<h3>Aufgabe 3: Helligkeit und Kontrast</h3>	
+<h3>Aufgabe 3: Helligkeit und Kontrast</h3>
 	<p class = "task"><b>a.</b> Berechne die mittlere Helligkeit des monochromen Detailbildes aus Aufgabe 1 (Y - Bild). Lese dafür den
 Helligkeitswert der Pixel ein. Die mittlere Helligkeit ist die Summe aller Helligkeitswerte geteilt durch die
 Anzahl der Bildpunkte. Berechne auch den Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit.<br>
@@ -359,7 +383,7 @@ Minimum/Maximum für Helligkeit und Kontrast mit dazugehörigen Histogrammen, Al
 <br>
 
 <h3>Lösung:</h3>
-	
+
 <h4>a.</h4>
 <p>mittlere Helligkeit des monochromen Detailsbildes(Y - Bild):
 54.34
@@ -372,7 +396,7 @@ Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit:
 
 
 <h6>minimale Helligkeit(dunkel) erzielt durch -50</h6>
- <img src="./pics/ue4/Details_Atom_Y-Histogramm-b-50.bmp" alt="Details_Y-Histogramm-b-50" width="380" height="250"> 
+ <img src="./pics/ue4/Details_Atom_Y-Histogramm-b-50.bmp" alt="Details_Y-Histogramm-b-50" width="380" height="250">
 
  <br> <br>
 <img src="./pics/ue4/Y-Histogramm-50.png" alt="Details_Y-Histogramm-b-50" width="680" height="400">
@@ -386,40 +410,40 @@ Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit:
 <h5>Sourcecode:</h5>
 <pre class="code_form">
 private static void histogramm_2(String inFilename, String outputTextFileName, String outputImageFileName, int step) throws IOException {
-	   	  int diff = step;  
+	   	  int diff = step;
 	   	  InputStream in = new FileInputStream(inFilename);
 	      BmpImage bmpNewImage = BmpReader.read_bmp(in);
 	      String name = outputImageFileName.substring(0, outputImageFileName.length()-4);
 	      PrintWriter outText = new PrintWriter(outputTextFileName + diff);
 	      OutputStream outImage = new FileOutputStream(name + diff + ".bmp");
 	      List<Integer> histogramm = new ArrayList<>();
-	      
+
 	      // Initialise Histogramm
 	      for (int i = 0; i < 256; i++) {
 	         histogramm.add(0);
 	      }
-	      
+
 	      int min = 0, max = 0;
 	      for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
 	         for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
 	        	 int red = bmpNewImage.image.getRgbPixel(x, y).r;
 		         int green = bmpNewImage.image.getRgbPixel(x, y).g;
 		         int blue = bmpNewImage.image.getRgbPixel(x, y).b;
-		         
+
 	        	 int curr_y = (red+green+blue)/3;
-	        	 
+
 	        	 if (curr_y < min) {
 	        		 min = curr_y;
 	        	 }
-	        	 
+
 	        	 if (curr_y > max) {
 	        		 max = curr_y;
 	        	 }
 	         }
 	      }
-	      
+
 	      System.out.println("max: " + max + ", min: " + min);
-	      
+
 	      for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
 	         for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
 	            int red = bmpNewImage.image.getRgbPixel(x, y).r;
@@ -427,16 +451,16 @@ private static void histogramm_2(String inFilename, String outputTextFileName, S
 	            int blue = bmpNewImage.image.getRgbPixel(x, y).b;
 
 	            int averageValue = (red+green+blue)/3;
-	               
+
 	            int Y = averageValue + diff;
-	            
+
 	            // to 1 byte limits
 	            if (Y < 0) Y = 0;
 	            if (Y > 255) Y = 255;
-	            histogramm.set(Y, histogramm.get(Y)+1);            
+	            histogramm.set(Y, histogramm.get(Y)+1);
 	            // B/W
 	            // PixelColor color = new PixelColor(Y, Y, Y);
-	            
+
 	            PixelColor color = new PixelColor(Y, 0, 0);
 	            bmpNewImage.image.setRgbPixel(x, y, color);
 	         }
@@ -459,7 +483,7 @@ private static void histogramm_2(String inFilename, String outputTextFileName, S
 
 
 
-<br>	
+<br>
 </body>
 
 </html>
