@@ -315,7 +315,7 @@
 		<h3>Lösung:</h3>
 		<h5>Sourcecode:</h5>
 		<pre class="code_form">
-	private static void histogramm(String inFilename, String outputTextFileName, String outputImageFileName) throws IOException {
+private static void histogramm(String inFilename, String outputTextFileName, String outputImageFileName) throws IOException {
 		InputStream in = new FileInputStream(inFilename);
 		BmpImage bmpNewImage = BmpReader.read_bmp(in);
 		PrintWriter outText = new PrintWriter(outputTextFileName);
@@ -412,8 +412,8 @@ Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit:
 <h5>Sourcecode:</h5>
 <pre class="code_form">
 private static void histogramm_2(String inFilename, String outputTextFileName, String outputImageFileName, int step) throws IOException {
-	   	  int diff = step;
-	   	  InputStream in = new FileInputStream(inFilename);
+	      int diff = step;
+	      InputStream in = new FileInputStream(inFilename);
 	      BmpImage bmpNewImage = BmpReader.read_bmp(in);
 	      String name = outputImageFileName.substring(0, outputImageFileName.length()-4);
 	      PrintWriter outText = new PrintWriter(outputTextFileName + diff);
@@ -475,8 +475,7 @@ private static void histogramm_2(String inFilename, String outputTextFileName, S
 	         outText.close();
 	         outImage.close();
 	      }
-	   }
-</pre>
+	   }</pre>
 
 
 
