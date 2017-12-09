@@ -387,9 +387,12 @@ Minimum/Maximum für Helligkeit und Kontrast mit dazugehörigen Histogrammen, Al
 <h4>a.</h4>
 <p>mittlere Helligkeit des monochromen Detailsbildes(Y - Bild):
 162.01
+</p>
+
 <img src="./pics/ue4/image-formel.png" alt="formel" width="170" height="70"> 
 
 <br>
+<p>
 Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit:
 42.92 </p>
  <img src="./pics/ue4/kontrast_image.jpg" alt="formel" width="190" height="50"> 
@@ -397,55 +400,125 @@ Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit:
 <p></p>
 
 
-<h6>minimale Helligkeit(dunkel) erzielt durch -50</h6>
- <img src="./pics/ue4/Details_Atom_Y-Histogramm-b-50.bmp" alt="Details_Y-Histogramm-b-50" width="380" height="250">
+<h6>minimale Helligkeit(dunkel) erzielt durch -160</h6>
+ <img src="./pics/ue4/Details_Atom_Y-Histogramm-b-160.bmp" alt="Details_Y-Histogramm-b-50" width="380" height="250">
 
  <br> <br>
-<img src="./pics/ue4/Y-Histogramm-50.png" alt="Details_Y-Histogramm-b-50" width="680" height="400">
+<img src="./pics/ue4/chart.png" alt="Details_Y-Histogramm-b-50" width="680" height="400">
 
-<h6>maximale Helligkeit(hell) erzielt durch +210</h6>
-<img src="./pics/ue4/Details_Atom_Y-Histogramm-b210.bmp" alt="Details_Y-Histogramm-b210.bmp" width="380" height="250">
+<h6>maximale Helligkeit(hell) erzielt durch +140</h6>
+<img src="./pics/ue4/Details_Atom_Y-Histogramm-b140.bmp" alt="Details_Y-Histogramm-b210.bmp" width="380" height="250">
  <br> <br>
-<img src="./pics/ue4/Helligkeit210.png" alt="Details_Y-Histogramm-b210.bmp" width="680" height="400">
+<img src="./pics/ue4/chart1.png" alt="Details_Y-Histogramm-b210.bmp" width="680" height="400">
 <br>
 
 <h5>Sourcecode:</h5>
 <pre class="code_form">
-private static void histogramm_2(String inFilename, String outputTextFileName, String outputImageFileName, int step) throws IOException {
-	      int diff = step;
+private static void histogramm_2(String inFilename, String outputTextFileName, String outputImageFileName, int step)
+			throws IOException {
+		int diff = step;
+		InputStream in = new FileInputStream(inFilename);
+		BmpImage bmpNewImage = BmpReader.read_bmp(in);
+		String name = outputImageFileName.substring(0, outputImageFileName.length() - 4);
+		PrintWriter outText = new PrintWriter(outputTextFileName + diff);
+		OutputStream outImage = new FileOutputStream(name + diff + ".bmp");
+		List<Integer> histogramm = new ArrayList<>();
+
+		// Initialise Histogramm
+		for (int i = 0; i < 256; i++) {
+			histogramm.add(0);
+		}
+
+		int min = 0, max = 0;
+		for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
+			for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
+				int red = bmpNewImage.image.getRgbPixel(x, y).r;
+				int green = bmpNewImage.image.getRgbPixel(x, y).g;
+				int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+
+				int curr_y = (red + green + blue) / 3;
+
+				if (curr_y < min) {
+					min = curr_y;
+				}
+				if (curr_y > max) {
+					max = curr_y;
+				}
+			}
+		}
+
+		System.out.println("max: " + max + ", min: " + min);
+
+		for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
+			for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
+				int red = bmpNewImage.image.getRgbPixel(x, y).r;
+				int green = bmpNewImage.image.getRgbPixel(x, y).g;
+				int blue = bmpNewImage.image.getRgbPixel(x, y).b;
+
+				int averageValue = (red + green + blue) / 3;
+
+				int Y = averageValue + diff;
+
+				// to 1 byte limits
+				if (Y < 0)
+					Y = 0;
+				if (Y > 255)
+					Y = 255;
+				histogramm.set(Y, histogramm.get(Y) + 1);
+				// B/W
+
+				PixelColor color = new PixelColor(Y, Y, Y);
+				bmpNewImage.image.setRgbPixel(x, y, color);
+			}
+		}
+
+		try {
+			for (int value : histogramm)
+				outText.println(value + ",");
+			BmpWriter.write_bmp(outImage, bmpNewImage);
+		} finally {
+			outText.close();
+			outImage.close();
+		}
+	}
+</pre>
+
+
+
+<br>
+<h4>c.</h4>
+<h6>Das kontrastärmste Bild bei einer Multiplikation mit 0.2</h6>
+ <img src="./pics/ue4/Details_Atom_Y-Histogramm-b0.2-c.bmp" alt="bild-kontrast" width="380" height="250">
+
+ <br> <br>
+<img src="./pics/ue4/chart3.png" alt="Details_Y-Histogramm-b-50" width="680" height="400">
+<br>
+<br>
+
+<h6>Das kontrastreichste Bild bei einer Multiplikation mit 5.0</h6>
+<img src="./pics/ue4/Details_Atom_Y-Histogramm-b5.0-c.bmp" alt="bild-kontrast" width="380" height="250">
+ <br> <br>
+<img src="./pics/ue4/chart4.png" alt="Details_Y-Histogramm-b210.bmp" width="680" height="400">
+<br>
+<h5>Sourcecode:</h5>
+<pre class="code_form">
+	private static void histogramm_3(String inFilename, String outputTextFileName, String outputImageFileName, double step) throws IOException {
+	 	 double diff = step;  
 	      InputStream in = new FileInputStream(inFilename);
 	      BmpImage bmpNewImage = BmpReader.read_bmp(in);
 	      String name = outputImageFileName.substring(0, outputImageFileName.length()-4);
-	      PrintWriter outText = new PrintWriter(outputTextFileName + diff);
-	      OutputStream outImage = new FileOutputStream(name + diff + ".bmp");
+	      PrintWriter outText = new PrintWriter(outputTextFileName + "c" + diff);
+	      OutputStream outImage = new FileOutputStream(name + diff + "-c.bmp");
 	      List<Integer> histogramm = new ArrayList<>();
-
+	      
+	      
+	      
 	      // Initialise Histogramm
 	      for (int i = 0; i < 256; i++) {
 	         histogramm.add(0);
 	      }
-
-	      int min = 0, max = 0;
-	      for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
-	         for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
-	        	 int red = bmpNewImage.image.getRgbPixel(x, y).r;
-		         int green = bmpNewImage.image.getRgbPixel(x, y).g;
-		         int blue = bmpNewImage.image.getRgbPixel(x, y).b;
-
-	        	 int curr_y = (red+green+blue)/3;
-
-	        	 if (curr_y < min) {
-	        		 min = curr_y;
-	        	 }
-
-	        	 if (curr_y > max) {
-	        		 max = curr_y;
-	        	 }
-	         }
-	      }
-
-	      System.out.println("max: " + max + ", min: " + min);
-
+	      
+	      
 	      for (int y = 0; y < bmpNewImage.image.getHeight(); y++) {
 	         for (int x = 0; x < bmpNewImage.image.getWidth(); x++) {
 	            int red = bmpNewImage.image.getRgbPixel(x, y).r;
@@ -454,16 +527,15 @@ private static void histogramm_2(String inFilename, String outputTextFileName, S
 
 	            int averageValue = (red+green+blue)/3;
 
-	            int Y = averageValue + diff;
-
-	            // to 1 byte limits
+	         // int Y = (int) ((int) averageValue * diff);
+	            int Y = (int) (diff * (averageValue - 128) + 128 + diff);
+	            
 	            if (Y < 0) Y = 0;
 	            if (Y > 255) Y = 255;
 	            histogramm.set(Y, histogramm.get(Y)+1);
-	            // B/W
-	            // PixelColor color = new PixelColor(Y, Y, Y);
-
-	            PixelColor color = new PixelColor(Y, 0, 0);
+	                   
+	         // PixelColor color = new PixelColor(Y, 0, 0);
+	            PixelColor color = new PixelColor(Y, Y, Y);
 	            bmpNewImage.image.setRgbPixel(x, y, color);
 	         }
 	      }
@@ -475,15 +547,11 @@ private static void histogramm_2(String inFilename, String outputTextFileName, S
 	         outText.close();
 	         outImage.close();
 	      }
-	   }</pre>
+	   }
 
 
 
-<br>
-<h4>c.</h4>
-
-
-
+</pre>
 <br>
 </body>
 
