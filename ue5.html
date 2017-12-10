@@ -1,0 +1,125 @@
+<html>
+
+<head lang="de">
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="format.css">
+	<style type="text/css">
+		<!-- a:link {
+			font-family: Arial;
+			font-size: 10pt;
+			text-decoration: none;
+		}
+
+		a:visited {
+			font-family: Arial;
+			font-size: 10pt;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: #FF3333;
+			text-decoration: none;
+			font-weight: normal;
+			font-size: 10pt;
+		} //-->
+
+	</style>
+<!--  -->
+</head>
+
+<body>
+
+	<iframe src="oben.html" width="800" height="120" name="IFrame3" id="IFrame3" scrolling="no" frameborder="0">
+         <p>Ihr Browser kann leider keine eingebe5tteten Frames anzeigen:Sie k&ouml;nnen die eingebettete Seite &uuml;ber den
+         folgenden.</p>
+	</iframe>
+	<br>
+	<h3>Übung 5: Diskrete Systeme, Clipping, Echo, Filter</h3>
+	<br>
+	<p class="task">Einleitung: Die Manipulation von digitalisierten Signalen, wie wir sie z.B. in Reaktor antreffen (Mixing, Filterung, Effekte, etc.), kann man allgemein darstellen als die Funktion sog. Diskreter
+Systeme, die eine Eingangsfolge von Abtastwerten x(k) in eine Ausgangsfolge y(k) überführen:</p>
+<img src="./pics/ue5/image1.png" alt="Details_Atom_Green-Channel" width="200" height="50">
+<br>	<p class="task">Das heißt, D[x(k)] = y(k). Diskrete Systeme können sowohl hardwaremäßig als auch
+softwaremäßig realisiert werden. Wir wollen uns im Rahmen der Übung mit relativ einfachen
+diskreten Systemen beschäftigen. Dabei beschränken wir uns auf Systeme, die die Elemente
+Addierer, Multiplizierer und Verzögerung enthalten. Diese bezeichnet man auch als lineare
+zeitinvariante Systeme, da die resultierenden Folgen stets lineare Kombinationen von
+Eingangsfolgen sind und sich das Verhalten der Systeme in Abhängigkeit von der Zeit nicht
+ändert.</p>
+<p class="task"><b>1. Addierer:</b> Es gilt: y(k) = x1(k) + x2(k). Zwei Abtastwertefolgen x1(k) und x2(k) werden
+addiert und ergeben eine Ausgangsfolge y(k). Einem Mixing liegt immer eine Addition
+zugrunde.</p>
+<p class="task"><b>2. Multiplizierer:</b> Es gilt: y(k) = a * x(k). Eine Abtastwertfolge wird mit einem konstanten
+reellen Faktor a multipliziert.</p>
+<p class="task"><b>3. Verzögerung:</b> Es gilt: y(k) = x(k-1). Ein Abtastwert wird für eine Abtastperiode zwischen-
+gespeichert und dann ausgegeben.
+Nutze für die Aufgaben die euch schon bekannte wave_io. Für die Übung benötigt ihr außerdem
+eure Musik- und Sprachaufnahme, sowie eine 1kHz Sinusfunktion und Weißes Rauschen
+(moodle).</p>
+
+<h3>1. Aufgabe: Klirrfaktor</h3>
+
+<p class="task">Ein Maß für die Verzerrung ist der sogenannte Klirrfaktor k, der für eine periodische
+Schwingung folgendermaßen definiert ist:
+	<img src="./pics/ue5/image3.png" alt="Details_Atom_Green-Channel" width="250" height="50"><br><br>
+Den Effektivwert mit und ohne Grundton Effektivwert gesamt einer harmonischen Schwingung
+berechnet man, indem man die auf den Grundton bezogenen Amplituden der Obertöne
+quadriert, addiert und aus dem Resultat die Wurzel zieht:
+<img src="./pics/ue5/image4.png" alt="Details_Atom_Green-Channel" width="250" height="70">
+</p>
+<p class="task">
+<b>a.</b> Zunächst sollt ihr eure Musikdatei um 3, 6 und 9 dB verstärken. Dies realisiert ihr durch
+Multiplikation der Abtastwerte mit dem entsprechenden konstanten Verstärkungsfaktor, den ihr
+aus der dB-Angabe berechnen müsst. Dabei wird es bei hoher Verstärkung zwangsläufig zu
+einem sogenannten Clipping kommen, d.h. das Produkt aus der Originalamplitude und dem
+Verstärkungsfaktor ist betragsmäßig größer als der maximal darstellbare Amplitudenwert (bei
+16 bit < -32768 bzw. > 32767). In diesem Fall muss dafür gesorgt werden, dass der resultierende
+Wert auf genau -32768, bzw. 32767 gesetzt wird. Clipping ist akustisch als immer stärker
+werdende nichtlineare Verzerrung wahrnehmbar.<br><br>
+<b>b.</b> Bei welcher Verstärkung wird eine Verzerrung wahrnehmbar? Falls +9 dB nicht reichen, in 3
+dB-Schritten die Verstärkung erhöhen!<br><br>
+<b>c.</b> Ihr sollt nun die 1kHz-Sinusschwingung um 6, 9 und 12 dB verstärken und den
+resultierenden Klirrfaktor k berechnen. Der Klirrfaktor lässt sich aus dem Frequenzspektrum
+berechnen (GRAM: FFT 512, alle sichtbaren Obertöne für die Berechnung berücksichtigen!).
+ Beachte: Die dB-Angaben müssen aus GRAM in lineare Angaben zurückgerechnet werden.<br><br>
+<i>Ins Übungsprotokoll: Sourcecode, wavs Musik und Sinus, Ausschnitte vom Clipping
+(Samplitude), Frequenzspektrum der verstärkten Sinussignale (GRAM), Berechnungen
+Klirrfaktor k.</i>
+</p>
+
+
+<h3>2. Aufgabe: Echo</h3>
+<p class="task">Ein wichtiger Effekt in der Studiotechnik ist das Echo. Dabei wird zu einem Signal eine
+zeitverzögerte und in der Amplitude gedämpfte Überlagerung hinzugemischt:<br>
+y(k) = x(k) + a * x(k-T), wobei T eine ganze Zahl zwischen 1 und N ist<br><br>
+<b>a.</b> Implementiert ein Echo mit einer Verzögerung von 10, 100 und 200ms und dem
+Verstärkungsfaktor a = 0.6. Wendet das Echo auf eure Sprach- und Musiksignal an. Es kann sein,
+dass die 10ms nur bei einem recht trockenen Soundfile wie der Sprachaufnahme hörbar werden.
+Hinweis: Bei Stereodateien muss berücksichtigt werden, dass linker und rechter Kanal getrennt
+verzögert werden müssen. Die Samples für links und rechts liegen im Samplearray jeweils
+hintereinander. Es muss für den Ergebnissound ein neues Objekt kreiert werden!<br><br>
+<b>b.</b> Um wieviel Abtastwerte müssen wir verzögern, wenn wir mit einer Abtastrate von 44.1 kHz
+arbeiten?<br>
+<i>Ins Übungsprotokoll: Sourcecode, wavs Sprache und Musik</i></p>
+<h3>3. Aufgabe: Einfaches Filter</h3>
+<p class="task"><b>a.</b> Ein sehr einfaches Filter kann man z.B. mit der Zuordnungsvorschrift:<br>
+y(k) = 0.5 * x(k) + 0.45 * x(k-1)<br>
+realisieren. Programmiert das Filter und vergleicht die Musikdatei vor und nach der Filterung.
+Tut dasselbe mit der Zuordnungsvorschrift:<br>
+y(k) = 0.5 * x(k) - 0.45 * x(k-1)<br><br>
+<b>b. </b>Zum Testen der Filter verwendet Weißes Rauschen, das alle Frequenzen enthält. Wenn wir
+nun den Frequenzverlauf des Originalaudios mit dem gefilterten vergleichen, muss sich ein
+Verlauf wie in der unteren Darstellung ergeben. Um eine Glättung des Spektrums zu erzielen, bei
+GRAM 'Spectrum Average' auf 100 setzen. Um was für eine Art Filter handelt es sich jeweils?<br><br>
+<i>Ins Übungsprotokoll: Sourcecode, wavs Musik und Rauschen, Frequenzverlauf GRAM</i>
+</p>
+
+
+
+
+
+
+</body>
+
+</html>
