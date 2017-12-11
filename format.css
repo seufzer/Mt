@@ -58,33 +58,33 @@
   }
   #Navigation a:visited {
     font: normal 100% 'Roboto', sans-serif;
-    color:#F5F6CE;
+    color:white;
   }
   #Navigation a:hover {
     font: normal 100% 'Roboto', sans-serif;
-    color:#888888;
+    color:white;
   }
   #Navigation a:active {
     font: normal 100% 'Roboto', sans-serif;
-    color:#ffffff;
+    color:white;
   }
 
   a:link {
     text-decoration: none;
     font: normal 100% 'Roboto', sans-serif;
-    color:#7A501B;
+    color:white;
   }
   a:visited {
     font: normal 100% 'Roboto', sans-serif;
-    color:#7A501B;
+    color:white;
   }
   a:hover {
     font: normal 100% 'Roboto', sans-serif;
-    color:#CC8B3C;
+    color:white;
   }
   a:active {text-decoration: none;
     font: normal 100% 'Roboto', sans-serif;
-    color:#ffff00;
+    color:white;
   }
 
 

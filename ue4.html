@@ -409,7 +409,7 @@ Kontrast des Bildes, d.h. die Standardabweichung der Helligkeit:
 <h6>maximale Helligkeit(hell) erzielt durch +140</h6>
 <img src="./pics/ue4/Details_Atom_Y-Histogramm-b140.bmp" alt="Details_Y-Histogramm-b210.bmp" width="380" height="250">
  <br> <br>
-<img src="./pics/ue4/chart1.png" alt="Details_Y-Histogramm-b210.bmp" width="680" height="400">
+<img src="./pics/ue4/chart5.png" alt="Details_Y-Histogramm-b210.bmp" width="680" height="400">
 <br>
 
 <h5>Sourcecode:</h5>
@@ -487,10 +487,17 @@ private static void histogramm_2(String inFilename, String outputTextFileName, S
 
 <br>
 <h4>c.</h4>
+ <p>Beim maximal hellen Bild konzentrieren sich die Pixel auf der linken Seite des Histogramms, beim maximal dunklen Bild ist die Verteilung umgekehrt d.h auf der rechten Seite des Histogramms.<br> Das kontrastarme Bild weist das Histogramm auf, das in der Mitte zu einer Spitze gebündelt ist. Das kontrastreiche Bild enthält gleichzeitig helle Bereiche und dunkle Bereiche, die an beiden Enden der Skala kammartige Strukturen aufweisen.</p>
+
+  <p>Die Helligkeitsänderung durch Subtrahieren bzw. Addieren eines konstanten Werts bewirkt eine Änderung der mittleren Helligkeit eines Histogramms. Die Kontaständerung (Multiplikation) ändert die Standardabweichung der Helligkeit</p>
+
+
+
 <h6>Das kontrastärmste Bild bei einer Multiplikation mit 0.2</h6>
  <img src="./pics/ue4/Details_Atom_Y-Histogramm-b0.2-c.bmp" alt="bild-kontrast" width="380" height="250">
 
  <br> <br>
+
 <img src="./pics/ue4/chart3.png" alt="Details_Y-Histogramm-b-50" width="680" height="400">
 <br>
 <br>
@@ -507,7 +514,6 @@ private static void histogramm_2(String inFilename, String outputTextFileName, S
 	      InputStream in = new FileInputStream(inFilename);
 	      BmpImage bmpNewImage = BmpReader.read_bmp(in);
 	      String name = outputImageFileName.substring(0, outputImageFileName.length()-4);
-	      PrintWriter outText = new PrintWriter(outputTextFileName + "c" + diff);
 	      OutputStream outImage = new FileOutputStream(name + diff + "-c.bmp");
 	      List<Integer> histogramm = new ArrayList<>();
 	      
