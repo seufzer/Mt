@@ -74,34 +74,40 @@ Klirrfaktor k.</i>
 	<h5>1a</h5>
 	<h6>Sourcecode</h6>
 	<pre class="code_form">
-		private static void writeReinforceSamples(String input, String output, int decibel) throws IOException, WavFileException {
+		private static void reinforceWAVFile(String input, String output, int decibel) throws IOException, WavFileException {
 			WavFile wavFile = WavFile.read_wav(input);
-			int samples = (int)(wavFile.getNumFrames() * wavFile.getNumChannels());
+
+			int validBits=wavFile.getValidBits();
+			long sampleRate=wavFile.getSampleRate();
+			long numFrames=wavFile.getNumFrames();
+			int numChannels=wavFile.getNumChannels();
+			int samples=(int)numFrames*numChannels;
+
 			short short_max = 32767;
 			short short_min = -32768;
 
-			PrintWriter writer = new PrintWriter(output, "UTF-8");
 			for (int i=0; i < samples;i++) {
-				short sample = wavFile.sound[i];
-				short reinforcedSample = 0;
-				double linearfactor = linearfactorFromDecibel(decibel);
-				double reinforcement = sample * linearfactor;
+				 short sample = wavFile.sound[i];
+				 short reinforcedSample = 0;
+				 double linearfactor = linearfactorFromDecibel(decibel);
+				 double reinforcement = sample * linearfactor;
 
-				if (reinforcement>short_max) System.out.println(i);
+				 if (reinforcement > short_max) reinforcedSample = short_max;
+				 else if (reinforcement < short_min) reinforcedSample = short_min;
+				 else reinforcedSample = (short)reinforcement;
 
-				if (reinforcement > short_max) reinforcedSample = short_max;
-				else if (reinforcement < short_min) reinforcedSample = short_min;
-				else reinforcedSample = (short)reinforcement;
+				 wavFile.sound[i] = reinforcedSample;
+			}
 
-				writer.println(reinforcedSample);
-		}
+			WavFile.write_wav(output, numChannels, numFrames, validBits, sampleRate, wavFile.sound);
+	 }
 
 		private static double linearfactorFromDecibel(int decibel) {
 			 return Math.pow(10, ((double)decibel/20));
 		}
 	</pre>
 	<h5>1b</h5>
-	<p>Eine Verzerrung wird bereits bei einer Verstärkung um 6 dB wahrnehmbar.</p>
+	<p>Eine Verzerrung wird bereits bei einer Verstärkung um 6 dB wahrnehmbar und bei 9 db deutlich hörbar.</p>
 
 	<h3>2. Aufgabe: Echo</h3>
 	<p class="task">Ein wichtiger Effekt in der Studiotechnik ist das Echo. Dabei wird zu einem Signal eine zeitverzögerte und in der Amplitude gedämpfte Überlagerung hinzugemischt:<br> y(k) = x(k) + a * x(k-T), wobei T eine ganze Zahl zwischen 1 und N ist<br><br>
