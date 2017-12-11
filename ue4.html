@@ -131,8 +131,7 @@
 
 		<h4>c.</h4>
 		<h5>Sourcecode:</h5>
-		<pre class="code_form">
-		private static List<List<Double>> singleYCbCrChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
+		<pre class="code_form">private static List<List<Double>> singleYCbCrChannelImage(String inFilename, String channel, String outputFileName) throws IOException {
 		 InputStream in = new FileInputStream(inFilename);
 		 BmpImage bmpNewImage = BmpReader.read_bmp(in);
 		 OutputStream out = new FileOutputStream(outputFileName);
