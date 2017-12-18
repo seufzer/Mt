@@ -126,7 +126,51 @@ Klirrfaktor k.</i>
 	<h4>Lösung:</h4>
 	<h5>2a</h5>
 	<h6>Sourcecode</h6>
-	<pre class="code_form"></pre>
+	<pre class="code_form">   private static void echo_mono(String input, String output, double delay) throws IOException, WavFileException {
+      WavFile wavFile = WavFile.read_wav(input);
+
+      int validBits=wavFile.getValidBits();
+      long sampleRate=wavFile.getSampleRate();
+      long numFrames=wavFile.getNumFrames();
+      int numChannels=wavFile.getNumChannels();
+      int samples=(int)numFrames*numChannels;
+
+      int N = (int)((delay/1000) * sampleRate); // delay = delta t
+      short[] echo_sounds = new short[wavFile.sound.length];
+
+      for (int k=0; k < samples;k++) {
+         if (k >= N) echo_sounds[k] = (short) ((wavFile.sound[k] * 0.5) + (0.5 * 0.6 * wavFile.sound[k - N]));
+         else echo_sounds[k] = (short)(wavFile.sound[k] * 0.5);
+      }
+
+      WavFile.write_wav(output, numChannels, numFrames, validBits, sampleRate, echo_sounds);
+   }
+
+   private static void echo_stereo(String input, String output, double delay) throws IOException, WavFileException {
+      WavFile wavFile = WavFile.read_wav(input);
+
+      int validBits=wavFile.getValidBits();
+      long sampleRate=wavFile.getSampleRate();
+      long numFrames=wavFile.getNumFrames();
+      int numChannels=wavFile.getNumChannels();
+      int samples=(int)numFrames*numChannels;
+
+      int N = (int)((delay/1000) * sampleRate); // delay = delta t
+      N *= 2; // Für Stereo
+
+      short[] echo_sounds = new short[wavFile.sound.length];
+
+      for (int k=0; k < samples;k++) {
+         if (k >= N) {
+            echo_sounds[k] = (short) ((wavFile.sound[k] * 0.5) + (0.5 * 0.6 * wavFile.sound[k - N]));
+         }
+         else echo_sounds[k] = (short)(wavFile.sound[k] * 0.5);
+      }
+
+      WavFile.write_wav(output, numChannels, numFrames, validBits, sampleRate, echo_sounds);
+   }
+
+	</pre>
 	<h6>Sprache 10 ms</h6>
 	<audio controls><source src="./audio/uebung5/Sprache_Atom_echo_mono10.wav" type="audio/wav"></audio>
 	<h6>Sprache 100 ms</h6>
@@ -139,13 +183,13 @@ Klirrfaktor k.</i>
 	<audio controls><source src="./audio/uebung5/Musik_Atom_echo_stereo100.wav" type="audio/wav"></audio>
 	<h6>Musik 200 ms</h6>
 	<audio controls><source src="./audio/uebung5/Musik_Atom_echo_stereo200.wav" type="audio/wav"></audio>
-	
+
 	<h5>2b</h5>
 	<p>N = Verzögerung * Abtastfrequenz</p>
 	<p>N = 10 ms * 44.1 kHz = 441 Abtastwerte</p>
 	<p>N = 100 ms * 44.1 kHz = 4410 Abtastwerte</p>
 	<p>N = 200 ms * 44.1 kHz = 8820 Abtastwerte</p>
-	
+
 	<h3>3. Aufgabe: Einfaches Filter</h3>
 	<p class="task"><b>a.</b> Ein sehr einfaches Filter kann man z.B. mit der Zuordnungsvorschrift:<br>
 		<b>y(k) = 0.5 * x(k) + 0.45 * x(k-1)</b><br> realisieren. Programmiert das Filter und vergleicht die Musikdatei vor und nach der Filterung. Tut dasselbe mit der Zuordnungsvorschrift:<br>
