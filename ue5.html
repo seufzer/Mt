@@ -266,18 +266,45 @@ Klirrfaktor k.</i>
    }
 
 	</pre>
-	<h6>Sprache 10 ms</h6>
-	<audio controls><source src="./audio/uebung5/Sprache_Atom_echo_mono10.wav" type="audio/wav"></audio>
-	<h6>Sprache 100 ms</h6>
-	<audio controls><source src="./audio/uebung5/Sprache_Atom_echo_mono100.wav" type="audio/wav"></audio>
-	<h6>Sprache 200 ms</h6>
-	<audio controls><source src="./audio/uebung5/Sprache_Atom_echo_mono200.wav" type="audio/wav"></audio>
-	<h6>Musik 10 ms</h6>
-	<audio controls><source src="./audio/uebung5/Musik_Atom_echo_stereo10.wav" type="audio/wav"></audio>
-	<h6>Musik 100 ms</h6>
-	<audio controls><source src="./audio/uebung5/Musik_Atom_echo_stereo100.wav" type="audio/wav"></audio>
-	<h6>Musik 200 ms</h6>
-	<audio controls><source src="./audio/uebung5/Musik_Atom_echo_stereo200.wav" type="audio/wav"></audio>
+
+		<table>
+  			<tr>
+    			<th><h6>Sprache 10 ms</h6></th>
+    			<th><h6>Sprache 100 ms</h6></th>
+    			<th><h6>Sprache 200 ms</h6></th>
+  			</tr>
+
+			<tr>
+				<td>
+					<audio controls><source src="./audio/uebung5/Sprache_Atom_echo_mono10.wav" type="audio/wav"></audio></td>
+				<td>
+				<audio controls><source src="./audio/uebung5/Sprache_Atom_echo_mono100.wav" type="audio/wav"></audio></td>
+				<td>
+					<audio controls><source src="./audio/uebung5/Sprache_Atom_echo_mono200.wav" type="audio/wav"></audio>
+				</td>
+			</tr>
+
+		<br>
+		<br>
+		<tr>
+    			<th><h6>Musik 10 ms</h6></th>
+    			<th><h6>Musik 100 ms</h6></th>
+    			<th><h6>Musik 200 ms</h6></th>
+  			</tr>
+
+			<tr>
+				<td>
+					<audio controls><source src="./audio/uebung5/Musik_Atom_echo_stereo10.wav" type="audio/wav"></audio></td>
+				<td>
+				<audio controls><source src="./audio/uebung5/Musik_Atom_echo_stereo100.wav" type="audio/wav"></audio></td>
+				<td>
+					<audio controls><source src="./audio/uebung5/Musik_Atom_echo_stereo200.wav" type="audio/wav"></audio>
+				</td>
+			</tr>
+
+
+
+	</table>
 
 	<h5>2b</h5>
 	<p>N = Verzögerung * Abtastfrequenz</p>
@@ -295,12 +322,60 @@ Klirrfaktor k.</i>
 		<i>Ins Übungsprotokoll: Sourcecode, wavs Musik und Rauschen, Frequenzverlauf GRAM</i>
 	</p><br>
 
+<h5>3a</h5>
+<pre class="code_form">
+	   private static void filter_plus(String input, String output) throws IOException, WavFileException {
+		      WavFile wavFile = WavFile.read_wav(input);
 
+		      int validBits=wavFile.getValidBits();
+		      long sampleRate=wavFile.getSampleRate();
+		      long numFrames=wavFile.getNumFrames();
+		      int numChannels=wavFile.getNumChannels();
+		      int samples=(int)numFrames*numChannels;
 
+		     // y(k) = 0.5 * x(k) + 0.45 * x(k-1)
+		     // y(k) = 0.5 * x(k) - 0.45 * x(k-1)
+		      short [] src = wavFile.sound;
+		      short [] filtered = new short[wavFile.sound.length];
+		      
+		  	for (int i = 1; i < src.length; i++) {
+		  		if (i%2 ==0){
+		    	  	filtered[i] = (short) (src[i] * 0.5 + 0.45 * src[i-2]);
+		  		}else {
+		  			filtered[i] = (short) (src[i] * 0.5 + 0.45 * src[i-2]);
+		  		}
+		      }
+		      WavFile.write_wav(output, numChannels, numFrames, validBits, sampleRate, filtered);
+		   }
+	   
+	   
+	   
+	   private static void filter_minus(String input, String output) throws IOException, WavFileException {
+		      WavFile wavFile = WavFile.read_wav(input);
 
+		      int validBits=wavFile.getValidBits();
+		      long sampleRate=wavFile.getSampleRate();
+		      long numFrames=wavFile.getNumFrames();
+		      int numChannels=wavFile.getNumChannels();
+		      int samples=(int)numFrames*numChannels;
 
+		     // y(k) = 0.5 * x(k) + 0.45 * x(k-1)
+		     // y(k) = 0.5 * x(k) - 0.45 * x(k-1)
+		      short [] src = wavFile.sound;
+		      short [] filtered = new short[wavFile.sound.length];
+		      
+		  	for (int i = 1; i < src.length; i++) {
+		    	  	filtered[i] = (short) (src[i] * 0.5 - 0.45 * src[i-1]);
+		    	  
+		      }
+		      WavFile.write_wav(output, numChannels, numFrames, validBits, sampleRate, filtered);
+		   }
+   
+}
+</pre>
 <br>
+<h5>3b</h5>
+
 <br>
 </body>
-
 </html>
