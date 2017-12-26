@@ -110,10 +110,10 @@
     left:5em;
   }
 
-  h
+  h4
   {
     font: normal 100% 'Roboto', sans-serif;
-    color:#F5F6CE;
+    color:black;
   }
 
   ol
@@ -137,7 +137,7 @@
 
 p {
   font-size: 92%;
-  color: #424242;
+  color: #08183C;
 }
 
 
