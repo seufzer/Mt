@@ -108,13 +108,107 @@ Klirrfaktor k.</i>
 	</pre>
 	<h5>1b</h5>
 	<p>Eine Verzerrung wird bereits bei einer Verstärkung um 6 dB wahrnehmbar und bei 9 db deutlich hörbar.</p>
-	<h6>3 dB</h6>
-	<audio controls><source src="./audio/uebung5/Musik_Atom_reinforced_3dB.wav" type="audio/wav"></audio>
-	<h6>6 dB</h6>
-	<audio controls><source src="./audio/uebung5/Musik_Atom_reinforced_6dB.wav" type="audio/wav"></audio>
-	<h6>9 dB</h6>
-	<audio controls><source src="./audio/uebung5/Musik_Atom_reinforced_9dB.wav" type="audio/wav"></audio>
+		<table>
+  			<tr>
+    			<th><h6>3 dB</h6></th>
+    			<th><h6>6 dB</h6></th>
+    			<th><h6>9 dB</h6></th>
+  			</tr>
 
+			<tr>
+				<td>
+					<audio controls><source src="./audio/uebung5/Musik_Atom_reinforced_3dB.wav" type="audio/wav"></audio></td>
+				<td>
+					<audio controls><source src="./audio/uebung5/Musik_Atom_reinforced_6dB.wav" type="audio/wav"></audio></td>
+				<td>
+					<audio controls><source src="./audio/uebung5/Musik_Atom_reinforced_9dB.wav" type="audio/wav"></audio>
+				</td>
+			</tr>
+
+	</table>
+
+	<br>
+	<br>
+	<br>
+	<h5>1c</h5>
+
+	<table class="cont_pics">
+    <tr>
+        <th>Frequenz</th>
+        <th>quell</th>
+        <th>6 dB</th>
+        <th>9 dB</th>
+        <th>12 dB</th>
+    </tr>
+    <tr>
+        <td>1000</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>3000</td>
+        <td>n/a</td>
+        <td>-92</td>
+        <td>-16</td>
+        <td>-11</td>
+    </tr>
+    <tr>
+        <td>5000</td>
+        <td>n/a</td>
+        <td>-89</td>
+        <td>-33</td>
+        <td>-26</td>
+    </tr>
+    <tr>
+        <td>7000</td>
+        <td>n/a</td>
+        <td>-112</td>
+        <td>-39</td>
+        <td>-26</td>
+    </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+      <tr>
+        <td><b>Klirrfaktor</b></td>
+        <td></td>
+        <td>1.408</td>
+        <td>0.025</td>
+        <td>0.079</td>
+    </tr>
+
+</table>
+
+<br>
+<br>
+	<table>
+  			<tr>
+    			<th>6 dB</th>
+    			<th>9 dB</th>
+    			<th>12 dB</th>
+  			</tr>
+
+			<tr>
+				<td>
+					<img src="./pics/ue5/gram6.png" alt="gram6" width="450" height="350"></td>
+				<td>
+					<img src="./pics/ue5/gram9.png" alt="gram9" width="450" height="350"></td>
+				<td>
+					<img src="./pics/ue5/gram12.png" alt="gram12" width="450" height="350">
+				</td>
+			</tr>
+
+	</table>
+
+	<br>
+	<br>
 	<h3>2. Aufgabe: Echo</h3>
 	<p class="task">Ein wichtiger Effekt in der Studiotechnik ist das Echo. Dabei wird zu einem Signal eine zeitverzögerte und in der Amplitude gedämpfte Überlagerung hinzugemischt:<br> y(k) = x(k) + a * x(k-T), wobei T eine ganze Zahl zwischen 1 und N ist<br><br>
 		<b>a.</b> Implementiert ein Echo mit einer Verzögerung von 10, 100 und 200ms und dem Verstärkungsfaktor a = 0.6. Wendet das Echo auf eure Sprach- und Musiksignal an. Es kann sein, dass die 10ms nur bei einem recht trockenen Soundfile wie der Sprachaufnahme
@@ -190,7 +284,8 @@ Klirrfaktor k.</i>
 	<p>N = 10 ms * 44.1 kHz = 441 Abtastwerte</p>
 	<p>N = 100 ms * 44.1 kHz = 4410 Abtastwerte</p>
 	<p>N = 200 ms * 44.1 kHz = 8820 Abtastwerte</p>
-
+<br>
+<br>
 	<h3>3. Aufgabe: Einfaches Filter</h3>
 	<p class="task"><b>a.</b> Ein sehr einfaches Filter kann man z.B. mit der Zuordnungsvorschrift:<br>
 		<b>y(k) = 0.5 * x(k) + 0.45 * x(k-1)</b><br> realisieren. Programmiert das Filter und vergleicht die Musikdatei vor und nach der Filterung. Tut dasselbe mit der Zuordnungsvorschrift:<br>
@@ -198,13 +293,14 @@ Klirrfaktor k.</i>
 		<b>b. </b>Zum Testen der Filter verwendet Weißes Rauschen, das alle Frequenzen enthält. Wenn wir nun den Frequenzverlauf des Originalaudios mit dem gefilterten vergleichen, muss sich ein Verlauf wie in der unteren Darstellung ergeben. Um eine Glättung
 		des Spektrums zu erzielen, bei GRAM 'Spectrum Average' auf 100 setzen. Um was für eine Art Filter handelt es sich jeweils?<br><br>
 		<i>Ins Übungsprotokoll: Sourcecode, wavs Musik und Rauschen, Frequenzverlauf GRAM</i>
-	</p>
+	</p><br>
 
 
 
 
 
-
+<br>
+<br>
 </body>
 
 </html>

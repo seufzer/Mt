@@ -140,11 +140,9 @@ p {
   color: #424242;
 }
 
-.cont_pics {
 
-  border: 1px solid #C6C6C6;
+
+th, td{
+  padding: 3px;
+
 }
-
-/*th {
-  border: 1px solid #4DB6AC;
-}*/
