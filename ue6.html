@@ -3,7 +3,7 @@
 <head lang="de">
 	<meta charset="utf-8">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet"> 
-	<title></title>
+	<title>U6</title>
 	<link rel="stylesheet" type="text/css" href="format.css">
 	<style type="text/css">
 		<!-- a:link {
@@ -34,16 +34,48 @@
 	</iframe>
 	<br>
 	<h3>Übung 6:</h3>
-	<br>
-	
-	<br>
-	
+
+	<p class="task">Einleitung: Nutze für die Aufgaben die neue Java bmp_io_ue6_vStud.java. Für die Übung benötigt ihr
+außerdem eure eigenen Bildaufnahmen (Detail und Fläche), und zwar die Graustufenversionen nach
+der Formel Y=0.3 x R + 0,6 x G + 0,1 x B.</p>
 
 
+<h3>Aufgabe 1: Mittelwertfilter (Tiefpass)</h3>
+<p class="task"><b>a.</b> Erweitere bmp_io so, dass ein Filter mit einem Kernel von 3x3 Pixeln angewandt werden kann.
+Beim Mittelwertfilter wird ein Zielpixel aus dem Mittelwert aller Pixel im Kernel im Originalbild
+berechnet. Beschreibe die Wirkung des Filters auf deine Bilder!
+<br><br><b>b.</b> Wie verfährt man bei der Berechnung des Filters mit den Randpixeln?
+<br><br><b>c.</b> Erweitere bmp_io so, dass das Differenzbild zwischen dem gefilterten und dem Originalbild
+berechnet werden kann (analog zu Übung 2, Aufgabenpunkt 3.3)! Dieses muss offensichtlich die
+Information zeigen, die das Filter entfernt hat. Beachte dabei, dass du das Differenzbild
+möglicherweise im Kontrast verstärken musst (siehe Übung 4).</p>
 
 
+<h3>Aufgabe 2: Gradientenfilter</h3>
+<p class="task"><b>a.</b> Wende nun den folgenden 3*3 Kernel auf deine Bilder an! Beachte dabei, dass bei der direkten
+Anwendung der Vorschrift Werte > 255 entstehen können. Durch welchen Wert muss also die
+Intensität des Zielpixels geteilt werden, damit man wieder in den erlaubten Bereich 0...255 kommt?
+Beschreibe die Wirkung des Filters auf deine Bilder!
+<br><br><b>b.</b> Berechne wiederum das Differenzbild zwischen dem gefilterten und dem Originalbild! Beachte
+dabei ebenfalls, dass du das Differenzbild möglicherweise im Kontrast verstärken musst.</p>
 
 
+<h3>Aufgabe 3: Medianfilter</h3>
+<p class="task">Das Medianfilter reiht alle Pixelintensitäten im Filterkernel der Größe nach auf und gibt den
+Intensitätswert aus, der an der mittleren Position steht. Es wird oft zur Beseitigung von Kratzern oder
+punktförmigen Bildfehlern verwendet. Füge zunächst mit Paint deinem Flächenbild zehn „Fehler“
+hinzu, wie es in dem folgenden Beispiel zu sehen ist. Benutze dazu einen weißen Stift mit der
+Strichstärke 2 Pixel. Programmiere das Medianfilter für deine 3x3-Pixelmatrix und berechne das
+Ergebnisbild.</p>
+
+
+<h3>Aufgabe 4: Sobel-Filter</h3>
+<p class="task">Das Sobel-Filter dient der Detektion von Kanten im Bild. Programmiere ein Sobel-Filter für die x- und
+ein Sobel-Filter für die y-Richtung und wende sie auf deine Bilder an! Die Matrizen für das Sobel-
+Filter finden sich im pdf zur Bildfilterung.</p>
+
+
+<br>
 </body>
 
 </html>
