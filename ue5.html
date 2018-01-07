@@ -132,7 +132,7 @@ Klirrfaktor k.</i>
 	<br>
 	<br>
 	<h5>1c</h5>
-
+<p>Berechnungen Klirrfaktor k: </p>
 	<table class="cont_pics">
     <tr>
         <th>Frequenz</th>
@@ -189,6 +189,8 @@ Klirrfaktor k.</i>
 
 <br>
 <br>
+
+<p>Frequenzspektrum der verstärkten Sinussignale:</p>
 	<table>
   			<tr>
     			<th>6 dB</th>
@@ -207,6 +209,28 @@ Klirrfaktor k.</i>
 			</tr>
 
 	</table>
+
+<p>Sinus Wavs:</p>
+<table>
+  			<tr>
+    			<th><h6>6 dB</h6></th>
+    			<th><h6>9 dB</h6></th>
+    			<th><h6>12 dB</h6></th>
+  			</tr>
+
+			<tr>
+				<td>
+					<audio controls><source src="./audio/uebung5/sine_1000_reinforced_6dB.wav" type="audio/wav"></audio></td>
+				<td>
+					<audio controls><source src="./audio/uebung5/sine_1000_reinforced_9dB.wav" type="audio/wav"></audio></td>
+				<td>
+					<audio controls><source src="./audio/uebung5/sine_1000_reinforced_12dB.wav" type="audio/wav"></audio>
+				</td>
+			</tr>
+
+</table>
+
+
 
 	<br>
 	<br>
@@ -324,8 +348,10 @@ Klirrfaktor k.</i>
 	</p><br>
 
 <h5>3a</h5>
+
+<p>Filterimplementierung Sourcecode:</p>
 <pre class="code_form">
-	   private static void filter_plus(String input, String output) throws IOException, WavFileException {
+   private static void filter_plus(String input, String output) throws IOException, WavFileException {
 		      WavFile wavFile = WavFile.read_wav(input);
 
 		      int validBits=wavFile.getValidBits();
@@ -334,24 +360,22 @@ Klirrfaktor k.</i>
 		      int numChannels=wavFile.getNumChannels();
 		      int samples=(int)numFrames*numChannels;
 
-		     // y(k) = 0.5 * x(k) + 0.45 * x(k-1)
-		     
+		     //<b> y(k) = 0.5 * x(k) + 0.45 * x(k-1)</b>
+
 		      short [] src = wavFile.sound;
-		      short [] filtered = new short[wavFile.sound.length];
+		      short [] filtered = new short[wavFile.sound.length]; 
 		      
-		  	for (int i = 1; i < src.length; i++) {
-		  		if (i%2 ==0){
+		  	for (int i = 2; i < src.length; i++) {
 		    	  	filtered[i] = (short) (src[i] * 0.5 + 0.45 * src[i-2]);
-		  		}else {
-		  			filtered[i] = (short) (src[i] * 0.5 + 0.45 * src[i-2]);
-		  		}
+		  	
 		      }
 		      WavFile.write_wav(output, numChannels, numFrames, validBits, sampleRate, filtered);
 		   }
 	   
 	   
 	   
-	   private static void filter_minus(String input, String output) throws IOException, WavFileException {
+	   
+   private static void filter_minus(String input, String output) throws IOException, WavFileException {
 		      WavFile wavFile = WavFile.read_wav(input);
 
 		      int validBits=wavFile.getValidBits();
@@ -359,14 +383,13 @@ Klirrfaktor k.</i>
 		      long numFrames=wavFile.getNumFrames();
 		      int numChannels=wavFile.getNumChannels();
 		      int samples=(int)numFrames*numChannels;
-
-		     // y(k) = 0.5 * x(k) + 0.45 * x(k-1)
-		     // y(k) = 0.5 * x(k) - 0.45 * x(k-1)
+		      
+		     //<b>y(k) = 0.5 * x(k) - 0.45 * x(k-1)</b>
 		      short [] src = wavFile.sound;
 		      short [] filtered = new short[wavFile.sound.length];
 		      
-		  	for (int i = 1; i < src.length; i++) {
-		    	  	filtered[i] = (short) (src[i] * 0.5 - 0.45 * src[i-1]);
+		  	for (int i = 2; i < src.length; i++) {
+		    	  	filtered[i] = (short) (src[i] * 0.5 - 0.45 * src[i-2]);
 		    	  
 		      }
 		      WavFile.write_wav(output, numChannels, numFrames, validBits, sampleRate, filtered);
