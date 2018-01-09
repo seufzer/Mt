@@ -2,18 +2,18 @@
 
 <head lang="de">
 	<meta charset="utf-8">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
 	<title>U6</title>
 	<link rel="stylesheet" type="text/css" href="format.css">
 	<style type="text/css">
 		<!-- a:link {
-			font-family:'Roboto', sans-serif; 
+			font-family: 'Roboto', sans-serif;
 			font-size: 10pt;
 			text-decoration: none;
 		}
 
 		a:visited {
-			font-family:'Roboto', sans-serif; 
+			font-family: 'Roboto', sans-serif;
 			font-size: 10pt;
 			text-decoration: none;
 		}
@@ -26,59 +26,131 @@
 		} //-->
 	</style>
 
-<body>
+	<body>
 
-	<iframe src="oben.html" width="800" height="120" name="IFrame3" id="IFrame3" scrolling="no" frameborder="0">
+		<iframe src="oben.html" width="800" height="120" name="IFrame3" id="IFrame3" scrolling="no" frameborder="0">
          <p>Ihr Browser kann leider keine eingebe5tteten Frames anzeigen:Sie k&ouml;nnen die eingebettete Seite &uuml;ber den
          folgenden.</p>
 	</iframe>
-	<br>
-	<h3>Übung 6:</h3>
+		<br>
+		<h3>Übung 6:</h3>
+		<p class="task">Einleitung: Nutze für die Aufgaben die neue Java bmp_io_ue6_vStud.java. Für die Übung benötigt ihr außerdem eure eigenen Bildaufnahmen (Detail und Fläche), und zwar die Graustufenversionen nach der Formel Y=0.3 x R + 0,6 x G + 0,1 x B.</p>
+		<h3>Aufgabe 1: Mittelwertfilter (Tiefpass)</h3>
+		<p class="task"><b>a.</b> Erweitere bmp_io so, dass ein Filter mit einem Kernel von 3x3 Pixeln angewandt werden kann. Beim Mittelwertfilter wird ein Zielpixel aus dem Mittelwert aller Pixel im Kernel im Originalbild berechnet. Beschreibe die Wirkung des Filters auf
+			deine Bilder!
+			<br><br><b>b.</b> Wie verfährt man bei der Berechnung des Filters mit den Randpixeln?
+			<br><br><b>c.</b> Erweitere bmp_io so, dass das Differenzbild zwischen dem gefilterten und dem Originalbild berechnet werden kann (analog zu Übung 2, Aufgabenpunkt 3.3)! Dieses muss offensichtlich die Information zeigen, die das Filter entfernt hat.
+			Beachte dabei, dass du das Differenzbild möglicherweise im Kontrast verstärken musst (siehe Übung 4).</p>
 
-	<p class="task">Einleitung: Nutze für die Aufgaben die neue Java bmp_io_ue6_vStud.java. Für die Übung benötigt ihr
-außerdem eure eigenen Bildaufnahmen (Detail und Fläche), und zwar die Graustufenversionen nach
-der Formel Y=0.3 x R + 0,6 x G + 0,1 x B.</p>
+		<h3>Lösung:</h3>
+		<h4>6.1.a</h4>
+		<h5>Sourcecode</h5>
+		<pre class="code_form">
+			private static void mittelwertfilter(String inFilename, String outputFileName) throws IOException {
+			  BmpImage bmpImageOriginal = BmpReader.read_bmp(new FileInputStream(inFilename));
+			  BmpImage bmpImageFiltered = BmpReader.read_bmp(new FileInputStream(inFilename));
+			  OutputStream out = new FileOutputStream(outputFileName);
+
+			  int height = bmpImageOriginal.image.getHeight();
+			  int width = bmpImageOriginal.image.getWidth();
+
+			  for (int y = 0; y < height; y++) {
+			     for (int x = 0; x < width; x++) {
+			        // Kernel[x][y]
+			        int[][] kernel = new int[3][3];
+
+			        for(int i = 0; i < 3; i++) { // x
+			           for(int j = 0; j < 3; j++) { // y
+			              int xKernel = x + (j-1);
+			              int yKernel = y + (i-1);
+
+			              if (pixelIsInPicture(xKernel, yKernel, width, height)) {
+			                 kernel[i][j] = bmpImageOriginal.image.getRgbPixel(xKernel, yKernel).r;
+			              } else {
+			                 kernel[i][j] = 0;
+			              }
+			           }
+			        }
+
+			        int average = average(kernel);
+
+			        PixelColor color = new PixelColor(average, average, average);
+			        bmpImageFiltered.image.setRgbPixel(x, y, color);
+			     }
+			  }
+
+			  try {
+			     BmpWriter.write_bmp(out, bmpImageFiltered);
+			  } finally {
+			     out.close();
+			  }
+			}
+
+		 	private static boolean pixelIsInPicture(int x, int y, int width, int height) {
+				 return (x >= 0 && y >= 0 && x < width && y < height);
+			}
+
+			private static int average(int[][] kernel) {
+				 double average = 0;
+				 for(int x = 0; x < kernel.length; x++) { // x
+						for(int y = 0; y < kernel.length; y++) { // y
+							 average += kernel[x][y];
+						}
+				 }
+				 return (int) (roundValue(average / (kernel.length * kernel.length), 0));
+			}
+
+			private static double roundValue(double value, int decimals) {
+				 return Math.round(value * Math.pow(10, decimals))/ Math.pow(10, decimals);
+			}
+		</pre>
+
+		<h5>Bilder</h5>
+		<table>
+			<tr>
+				<th>Original</th>
+				<th>Mittelwertfilter</th>
+			</tr>
+			<tr>
+				<td>
+					<img src="./pics/ue6/TODO" alt="TODO" width="380">
+				</td>
+				<td>
+					<img src="./pics/ue6/TODO" alt="TODO" width="380">
+				</td>
+				<td>
+					<img src="./pics/ue6/TODO" alt="TODO" width="380">
+				</td>
+				<td>
+					<img src="./pics/ue6/TODO" alt="TODO" width="380">
+				</td>
+			</tr>
+		</table>
+		<p>Die Bilder werden durch den Filter unscharf.</p>
+
+		<h4>6.1.b</h4>
+		<p>Pixel die außerhalb des Bildes liegen bekommen für die Mittelwertberechnung den Wert 0.</p>
+
+		<h3>Aufgabe 2: Gradientenfilter</h3>
+		<p class="task"><b>a.</b> Wende nun den folgenden 3*3 Kernel auf deine Bilder an! Beachte dabei, dass bei der direkten Anwendung der Vorschrift Werte > 255 entstehen können. Durch welchen Wert muss also die Intensität des Zielpixels geteilt werden, damit man wieder
+			in den erlaubten Bereich 0...255 kommt? Beschreibe die Wirkung des Filters auf deine Bilder!
+			<br><br>
+			<img src="./pics/u6/task2.png" alt="phototask" width="200" height="80">
+			<br>
+			<b>b.</b> Berechne wiederum das Differenzbild zwischen dem gefilterten und dem Originalbild! Beachte dabei ebenfalls, dass du das Differenzbild möglicherweise im Kontrast verstärken musst.</p>
 
 
-<h3>Aufgabe 1: Mittelwertfilter (Tiefpass)</h3>
-<p class="task"><b>a.</b> Erweitere bmp_io so, dass ein Filter mit einem Kernel von 3x3 Pixeln angewandt werden kann.
-Beim Mittelwertfilter wird ein Zielpixel aus dem Mittelwert aller Pixel im Kernel im Originalbild
-berechnet. Beschreibe die Wirkung des Filters auf deine Bilder!
-<br><br><b>b.</b> Wie verfährt man bei der Berechnung des Filters mit den Randpixeln?
-<br><br><b>c.</b> Erweitere bmp_io so, dass das Differenzbild zwischen dem gefilterten und dem Originalbild
-berechnet werden kann (analog zu Übung 2, Aufgabenpunkt 3.3)! Dieses muss offensichtlich die
-Information zeigen, die das Filter entfernt hat. Beachte dabei, dass du das Differenzbild
-möglicherweise im Kontrast verstärken musst (siehe Übung 4).</p>
+		<h3>Aufgabe 3: Medianfilter</h3>
+		<p class="task">Das Medianfilter reiht alle Pixelintensitäten im Filterkernel der Größe nach auf und gibt den Intensitätswert aus, der an der mittleren Position steht. Es wird oft zur Beseitigung von Kratzern oder punktförmigen Bildfehlern verwendet. Füge zunächst
+			mit Paint deinem Flächenbild zehn „Fehler“ hinzu, wie es in dem folgenden Beispiel zu sehen ist. Benutze dazu einen weißen Stift mit der Strichstärke 2 Pixel. Programmiere das Medianfilter für deine 3x3-Pixelmatrix und berechne das Ergebnisbild.
+		</p>
 
 
-<h3>Aufgabe 2: Gradientenfilter</h3>
-<p class="task"><b>a.</b> Wende nun den folgenden 3*3 Kernel auf deine Bilder an! Beachte dabei, dass bei der direkten
-Anwendung der Vorschrift Werte > 255 entstehen können. Durch welchen Wert muss also die
-Intensität des Zielpixels geteilt werden, damit man wieder in den erlaubten Bereich 0...255 kommt?
-Beschreibe die Wirkung des Filters auf deine Bilder!
-<br><br>
-<img src="./pics/u6/task2.png" alt="phototask" width="200" height="80">
-<br>
-<b>b.</b> Berechne wiederum das Differenzbild zwischen dem gefilterten und dem Originalbild! Beachte
-dabei ebenfalls, dass du das Differenzbild möglicherweise im Kontrast verstärken musst.</p>
+		<h3>Aufgabe 4: Sobel-Filter</h3>
+		<p class="task">Das Sobel-Filter dient der Detektion von Kanten im Bild. Programmiere ein Sobel-Filter für die x- und ein Sobel-Filter für die y-Richtung und wende sie auf deine Bilder an! Die Matrizen für das Sobel- Filter finden sich im pdf zur Bildfilterung.</p>
 
 
-<h3>Aufgabe 3: Medianfilter</h3>
-<p class="task">Das Medianfilter reiht alle Pixelintensitäten im Filterkernel der Größe nach auf und gibt den
-Intensitätswert aus, der an der mittleren Position steht. Es wird oft zur Beseitigung von Kratzern oder
-punktförmigen Bildfehlern verwendet. Füge zunächst mit Paint deinem Flächenbild zehn „Fehler“
-hinzu, wie es in dem folgenden Beispiel zu sehen ist. Benutze dazu einen weißen Stift mit der
-Strichstärke 2 Pixel. Programmiere das Medianfilter für deine 3x3-Pixelmatrix und berechne das
-Ergebnisbild.</p>
-
-
-<h3>Aufgabe 4: Sobel-Filter</h3>
-<p class="task">Das Sobel-Filter dient der Detektion von Kanten im Bild. Programmiere ein Sobel-Filter für die x- und
-ein Sobel-Filter für die y-Richtung und wende sie auf deine Bilder an! Die Matrizen für das Sobel-
-Filter finden sich im pdf zur Bildfilterung.</p>
-
-
-<br>
-</body>
+		<br>
+	</body>
 
 </html>
