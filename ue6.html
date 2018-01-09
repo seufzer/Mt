@@ -183,6 +183,91 @@
 			<br>
 			<b>b.</b> Berechne wiederum das Differenzbild zwischen dem gefilterten und dem Originalbild! Beachte dabei ebenfalls, dass du das Differenzbild möglicherweise im Kontrast verstärken musst.</p>
 
+			<h3>Lösung:</h3>
+			<h4>6.2</h4>
+			<h5>Sourcecode</h5>
+			<pre class="code_form">
+				private static void gradientenfilter(String inFilename, String outputFileName) throws IOException {
+					 BmpImage bmpImageOriginal = BmpReader.read_bmp(new FileInputStream(inFilename));
+					 BmpImage bmpImageFiltered = BmpReader.read_bmp(new FileInputStream(inFilename));
+					 OutputStream out = new FileOutputStream(outputFileName);
+
+					 int height = bmpImageOriginal.image.getHeight();
+					 int width = bmpImageOriginal.image.getWidth();
+
+					 for (int y = 0; y < height; y++) {
+							for (int x = 0; x < width; x++) {
+								 // Kernel[x][y]
+								 int[][] pixelkernel = new int[3][3];
+								 int[][] filterkernel = {{0, -2, 0},{-2, 12 ,-2},{0, -2, 0}};
+
+								 // Build Kernel for pixel
+								 for(int i = 0; i < 3; i++) { // x
+										for(int j = 0; j < 3; j++) { // y
+											 int xKernel = x + (j-1);
+											 int yKernel = y + (i-1);
+
+											 if (pixelIsInPicture(xKernel, yKernel, width, height)) {
+													pixelkernel[i][j] = bmpImageOriginal.image.getRgbPixel(xKernel, yKernel).r;
+											 } else {
+													pixelkernel[i][j] = 0;
+											 }
+										}
+								 }
+
+								 pixelkernel = matrizenmultiplikation(pixelkernel, filterkernel);
+								 int average = average(pixelkernel);
+
+								 PixelColor color = new PixelColor(average, average, average);
+								 bmpImageFiltered.image.setRgbPixel(x, y, color);
+							}
+					 }
+
+					 try {
+							BmpWriter.write_bmp(out, bmpImageFiltered);
+					 } finally {
+							out.close();
+					 }
+				}
+
+				private static int[][] matrizenmultiplikation(int[][] matrix_A, int[][] matrix_B) {
+					 int[][] matrix_C = new int[3][3];
+
+					 for (int row = 0; row < 3; row++){
+							for(int column = 0; column < 3; column++){
+								 matrix_C[column][row] = (matrix_A[column][row]*matrix_B[column][row])/4;
+							}
+					 }
+
+					 return matrix_C;
+				}
+			</pre>
+
+			<h5>Bilder</h5>
+			<table>
+				<tr>
+					<th>Gradientenfilter</th>
+					<th>Differenz</th>
+				</tr>
+				<tr>
+					<td>
+						<img src="./pics/u6/Details_Atom-gradientenfilter.bmp" alt="Details_Atom-gradientenfilter" width="380">
+					</td>
+					<td>
+						<img src="./pics/u6/Flaechen_Atom-gradientenfilter.bmp" alt="Flaechen_Atom-gradientenfilter" width="380">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<img src="./pics/u6/Details_Atom-differenz-gradientenfilter.bmp" alt="Details_Atom-differenz-gradientenfilter" width="380">
+					</td>
+					<td>
+						<img src="./pics/u6/Flaechen_Atom-differenz-gradientenfilter.bmp" alt="Flaechen_Atom-differenz-gradientenfilter" width="380">
+					</td>
+				</tr>
+			</table>
+			<p>Die Bilder werden durch den Filter...TODO.</p>
+
 
 		<h3>Aufgabe 3: Medianfilter</h3>
 		<p class="task">Das Medianfilter reiht alle Pixelintensitäten im Filterkernel der Größe nach auf und gibt den Intensitätswert aus, der an der mittleren Position steht. Es wird oft zur Beseitigung von Kratzern oder punktförmigen Bildfehlern verwendet. Füge zunächst
