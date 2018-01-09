@@ -118,6 +118,8 @@
 				<td>
 					<img src="./pics/ue6/TODO" alt="TODO" width="380">
 				</td>
+			</tr>
+			<tr>
 				<td>
 					<img src="./pics/ue6/TODO" alt="TODO" width="380">
 				</td>
@@ -130,6 +132,48 @@
 
 		<h4>6.1.b</h4>
 		<p>Pixel die außerhalb des Bildes liegen bekommen für die Mittelwertberechnung den Wert 0.</p>
+
+		<h4>6.1.c</h4>
+		<h5>Sourcecode</h5>
+		<pre class="code_form">
+			private static void differenzbild(String original, String filtered, String outputFileName) throws IOException {
+			   BmpImage originalimage = BmpReader.read_bmp(new FileInputStream(original));
+			   BmpImage filteredimage = BmpReader.read_bmp(new FileInputStream(filtered));
+			   BmpImage difference = BmpReader.read_bmp(new FileInputStream(filtered));
+			   OutputStream out = new FileOutputStream(outputFileName);
+
+			   for (int y = 0; y < originalimage.image.getHeight(); y++) {
+			      for (int x = 0; x < originalimage.image.getWidth(); x++) {
+			         int originalValue = originalimage.image.getRgbPixel(x, y).r;
+			         int filteredValue = filteredimage.image.getRgbPixel(x, y).r;
+
+			         int differenceValue = Math.abs(originalValue - filteredValue);
+
+			         PixelColor color = new PixelColor(differenceValue, differenceValue, differenceValue);
+			         difference.image.setRgbPixel(x, y, color);
+			      }
+			   }
+
+			   try {
+			      BmpWriter.write_bmp(out, difference);
+			   } finally {
+			      out.close();
+			   }
+			}
+		</pre>
+
+		<h5>Bilder</h5>
+		<table>
+			<tr>
+				<td>
+					<img src="./pics/ue6/TODO" alt="TODO" width="380">
+				</td>
+				<td>
+					<img src="./pics/ue6/TODO" alt="TODO" width="380">
+				</td>
+			</tr>
+		</table>
+
 
 		<h3>Aufgabe 2: Gradientenfilter</h3>
 		<p class="task"><b>a.</b> Wende nun den folgenden 3*3 Kernel auf deine Bilder an! Beachte dabei, dass bei der direkten Anwendung der Vorschrift Werte > 255 entstehen können. Durch welchen Wert muss also die Intensität des Zielpixels geteilt werden, damit man wieder
