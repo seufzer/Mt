@@ -302,10 +302,10 @@
 		</p>
 
 		<h3>Lösung:</h3>
-		<h4>6.2</h4>
+		<h4>6.3</h4>
 		<h5>Sourcecode</h5>
 		<pre class="code_form">
-			private static void medianfilter(String inFilename, String outputFileName) throws IOException {
+			private static void sobelfilterHorizontal(String inFilename, String outputFileName) throws IOException {
 	       BmpImage bmpImageOriginal = BmpReader.read_bmp(new FileInputStream(inFilename));
 	       BmpImage bmpImageFiltered = BmpReader.read_bmp(new FileInputStream(inFilename));
 	       OutputStream out = new FileOutputStream(outputFileName);
@@ -317,26 +317,16 @@
 	       for (int y = 0; y < height; y++) {
 	          for (int x = 0; x < width; x++) {
 	             // Kernel[x][y]
-	             int[][] pixelkernel = new int[3][3];
+	             int[][] pixelkernel = buildPixelkernel(bmpImageOriginal, y, x);
+	             int[][] filterkernel = {{1, 2, 1},{0, 0 ,0},{-1, -2, -1}};
 
-	             // Build Kernel for pixel
-	             for(int i = 0; i < 3; i++) { // x
-	                for(int j = 0; j < 3; j++) { // y
-	                   int xKernel = x + (j-1);
-	                   int yKernel = y + (i-1);
+	             pixelkernel = matrizenmultiplikation(pixelkernel, filterkernel);
+	             int sum = sumOfAllMatrixValues(pixelkernel);
 
-	                   if (pixelIsInPicture(xKernel, yKernel, width, height)) {
-	                      pixelkernel[i][j] = bmpImageOriginal.image.getRgbPixel(xKernel, yKernel).r;
-	                   } else {
-	                      pixelkernel[i][j] = 0;
-	                   }
-	                }
-	             }
+	             if(sum < 0) sum = 0;
+	             else if (sum > 255) sum = 255;
 
-	             int[] pixelvalues = makeOneDimensionalArrayOutOfTwoDimensionalArray(pixelkernel);
-	             int median = medianOfUnevenArray(pixelvalues);
-
-	             PixelColor color = new PixelColor(median, median, median);
+	             PixelColor color = new PixelColor(sum, sum, sum);
 	             bmpImageFiltered.image.setRgbPixel(x, y, color);
 	          }
 	       }
@@ -348,24 +338,73 @@
 	       }
 	    }
 
-	    private static int[] makeOneDimensionalArrayOutOfTwoDimensionalArray(int[][] kernel) {
-	       int[] array = new int[9];
+	    private static void sobelfilterVertical(String inFilename, String outputFileName) throws IOException {
+	       BmpImage bmpImageOriginal = BmpReader.read_bmp(new FileInputStream(inFilename));
+	       BmpImage bmpImageFiltered = BmpReader.read_bmp(new FileInputStream(inFilename));
+	       OutputStream out = new FileOutputStream(outputFileName);
 
-	       int index = 0;
-	       for (int row = 0; row < 3; row++){
-	          for(int column = 0; column < 3; column++){
-	             array[index] = kernel[column][row];
-	             index++;
+	       int height = bmpImageOriginal.image.getHeight();
+	       int width = bmpImageOriginal.image.getWidth();
+
+	       // Iterate over every pixel in picture
+	       for (int y = 0; y < height; y++) {
+	          for (int x = 0; x < width; x++) {
+	             // Kernel[x][y]
+	             int[][] pixelkernel = buildPixelkernel(bmpImageOriginal, y, x);
+	             int[][] filterkernel = {{1, 0, -1},{2, 0 ,-2},{1, 0, -1}};
+
+	             pixelkernel = matrizenmultiplikation(pixelkernel, filterkernel);
+	             int sum = sumOfAllMatrixValues(pixelkernel);
+
+	             if(sum < 0) sum = 0;
+	             else if (sum > 255) sum = 255;
+
+	             PixelColor color = new PixelColor(sum, sum, sum);
+	             bmpImageFiltered.image.setRgbPixel(x, y, color);
 	          }
 	       }
 
-	       return array;
+	       try {
+	          BmpWriter.write_bmp(out, bmpImageFiltered);
+	       } finally {
+	          out.close();
+	       }
 	    }
+		</pre>
 
-	    private static int medianOfUnevenArray(int[] array) {
-	       Arrays.sort(array);
-	       return array[array.length/2];
-	    }
+		<h5>Bilder</h5>
+		<table>
+			<tr>
+				<th>Horizontal</th>
+				<th>Vertikal</th>
+			</tr>
+			<tr>
+				<td>
+					<img src="./pics/u6/Details_Atom-sobelfilter-horizontal.bmp" alt="Details_Atom-sobelfilter-horizontal" width="380">
+				</td>
+				<td>
+					<img src="./pics/u6/Details_Atom-sobelfilter-vertical.bmp" alt="Details_Atom-sobelfilter-vertical" width="380">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="./pics/u6/Flaechen_Atom-sobelfilter-horizontal.bmp" alt="Flaechen_Atom-sobelfilter-horizontal" width="380">
+				</td>
+				<td>
+					<img src="./pics/u6/Flaechen_Atom-sobelfilter-vertical.bmp" alt="Flaechen_Atom-sobelfilter-vertical" width="380">
+				</td>
+			</tr>
+		</table>
+
+
+		<h3>Aufgabe 4: Sobel-Filter</h3>
+		<p class="task">Das Sobel-Filter dient der Detektion von Kanten im Bild. Programmiere ein Sobel-Filter für die x- und ein Sobel-Filter für die y-Richtung und wende sie auf deine Bilder an! Die Matrizen für das Sobel- Filter finden sich im pdf zur Bildfilterung.</p>
+
+		<h3>Lösung:</h3>
+		<h4>6.4</h4>
+		<h5>Sourcecode</h5>
+		<pre class="code_form">
+
 		</pre>
 
 		<h5>Bilder</h5>
@@ -391,11 +430,6 @@
 				</td>
 			</tr>
 		</table>
-
-
-		<h3>Aufgabe 4: Sobel-Filter</h3>
-		<p class="task">Das Sobel-Filter dient der Detektion von Kanten im Bild. Programmiere ein Sobel-Filter für die x- und ein Sobel-Filter für die y-Richtung und wende sie auf deine Bilder an! Die Matrizen für das Sobel- Filter finden sich im pdf zur Bildfilterung.</p>
-
 
 		<br>
 	</body>
