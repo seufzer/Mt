@@ -188,54 +188,70 @@
 			<h5>Sourcecode</h5>
 			<pre class="code_form">
 				private static void gradientenfilter(String inFilename, String outputFileName) throws IOException {
-					 BmpImage bmpImageOriginal = BmpReader.read_bmp(new FileInputStream(inFilename));
-					 BmpImage bmpImageFiltered = BmpReader.read_bmp(new FileInputStream(inFilename));
-					 OutputStream out = new FileOutputStream(outputFileName);
+		       BmpImage bmpImageOriginal = BmpReader.read_bmp(new FileInputStream(inFilename));
+		       BmpImage bmpImageFiltered = BmpReader.read_bmp(new FileInputStream(inFilename));
+		       OutputStream out = new FileOutputStream(outputFileName);
 
-					 int height = bmpImageOriginal.image.getHeight();
-					 int width = bmpImageOriginal.image.getWidth();
+		       int height = bmpImageOriginal.image.getHeight();
+		       int width = bmpImageOriginal.image.getWidth();
 
-					 for (int y = 0; y < height; y++) {
-							for (int x = 0; x < width; x++) {
-								 // Kernel[x][y]
-								 int[][] pixelkernel = new int[3][3];
-								 int[][] filterkernel = {{0, -2, 0},{-2, 12 ,-2},{0, -2, 0}};
+		       // Iterate over every pixel in picture
+		       for (int y = 0; y < height; y++) {
+		          for (int x = 0; x < width; x++) {
+		             // Kernel[x][y]
+		             int[][] pixelkernel = new int[3][3];
+		             int[][] filterkernel = {{0, -2, 0},{-2, 12 ,-2},{0, -2, 0}};
 
-								 // Build Kernel for pixel
-								 for(int i = 0; i < 3; i++) { // x
-										for(int j = 0; j < 3; j++) { // y
-											 int xKernel = x + (j-1);
-											 int yKernel = y + (i-1);
+		             // Build Kernel for pixel
+		             for(int i = 0; i < 3; i++) { // x
+		                for(int j = 0; j < 3; j++) { // y
+		                   int xKernel = x + (j-1);
+		                   int yKernel = y + (i-1);
 
-											 if (pixelIsInPicture(xKernel, yKernel, width, height)) {
-													pixelkernel[i][j] = bmpImageOriginal.image.getRgbPixel(xKernel, yKernel).r;
-											 } else {
-													pixelkernel[i][j] = 0;
-											 }
-										}
-								 }
+		                   if (pixelIsInPicture(xKernel, yKernel, width, height)) {
+		                      pixelkernel[i][j] = bmpImageOriginal.image.getRgbPixel(xKernel, yKernel).r;
+		                   } else {
+		                      pixelkernel[i][j] = 0;
+		                   }
+		                }
+		             }
 
-								 pixelkernel = matrizenmultiplikation(pixelkernel, filterkernel);
-								 int average = average(pixelkernel);
+		             pixelkernel = matrizenmultiplikation(pixelkernel, filterkernel);
+		             int sum = sumOfAllMatrixValues(pixelkernel)/4;
 
-								 PixelColor color = new PixelColor(average, average, average);
-								 bmpImageFiltered.image.setRgbPixel(x, y, color);
-							}
-					 }
+		             if(sum < 0) sum = 0;
+		             else if (sum > 255) sum = 255;
 
-					 try {
-							BmpWriter.write_bmp(out, bmpImageFiltered);
-					 } finally {
-							out.close();
-					 }
-				}
+		             PixelColor color = new PixelColor(sum, sum, sum);
+		             bmpImageFiltered.image.setRgbPixel(x, y, color);
+		          }
+		       }
+
+		       try {
+		          BmpWriter.write_bmp(out, bmpImageFiltered);
+		       } finally {
+		          out.close();
+		       }
+		    }
+
+		    private static int sumOfAllMatrixValues(int[][] matrix) {
+		       int sum = 0;
+
+		       for (int row = 0; row < 3; row++){
+		          for(int column = 0; column < 3; column++){
+		             sum += matrix[column][row];
+		          }
+		       }
+
+		       return sum;
+		    }
 
 				private static int[][] matrizenmultiplikation(int[][] matrix_A, int[][] matrix_B) {
 					 int[][] matrix_C = new int[3][3];
 
 					 for (int row = 0; row < 3; row++){
 							for(int column = 0; column < 3; column++){
-								 matrix_C[column][row] = (matrix_A[column][row]*matrix_B[column][row])/4;
+								 matrix_C[column][row] = (matrix_A[column][row]*matrix_B[column][row]);
 							}
 					 }
 
